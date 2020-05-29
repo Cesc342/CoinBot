@@ -1,10 +1,12 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
+
+
 const fs = require("fs");
 
-const Comando = require("./comandos");
-const dataBase = require("./database");
+const Comando = require("./bot/comandos");
+const dataBase = require("./database/database");
 
 const txtCridat = "bot!";
 
@@ -55,5 +57,19 @@ client.on('message', async (msg) => {
     }
 });
 
+async function agafarToken(){
+    const data = await fs.readFileSync("../CoinBot.json");
+    console.log(data);
+    const dataJson = data.toString();
+    console.log(dataJson);
+    const token = JSON.parse( dataJson );
+    console.table(token)
+    return token;
+}
 
-client.login("NzE0Nzk1MTI1MTYyNzcwNTEz.XtFvtg.2smC3LnneKyFqb9LllF4K3ACHqY");
+const token = agafarToken().then((res)=>{
+    console.table(res)
+    client.login(res.token);
+});
+
+//Lol

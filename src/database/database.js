@@ -15,14 +15,14 @@ class DataBase{
     }
 
     async iniciar(){
-        let data = await fs.readFileSync("./data.json");
+        let data = await fs.readFileSync("././data/data.json");
         let dataJson = data.toString();
         this.json = JSON.parse(dataJson);
     }
 
     //Agafar -->
     async agafar(id) {
-        let data = await fs.readFileSync("./data.json");
+        let data = await fs.readFileSync("././data/data.json");
         console.log("data: " + data);
         let dataJson = data.toString();
         console.log("dataJson: " + dataJson);
@@ -40,7 +40,7 @@ class DataBase{
             };
         }
         console.table(this.json);
-        await fs.writeFileSync("./data.json", JSON.stringify(this.json));
+        await fs.writeFileSync("././data/data.json", JSON.stringify(this.json));
     }
 
 }
