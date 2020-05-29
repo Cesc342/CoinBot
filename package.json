@@ -2,13 +2,14 @@
   "name": "coinbot",
   "version": "0.0.1",
   "description": "",
-  "main": "build/main.js",
+  "main": "src/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node src/main.js"
   },
   "author": "Cesc342",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^12.2.0"
+    "discord.js": "^12.2.0",
+    "fs": "0.0.1-security"
   }
 }
