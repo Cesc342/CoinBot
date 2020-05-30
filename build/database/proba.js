@@ -25,8 +25,8 @@ function probaUi() {
         diners: 50,
         banc: 10
     });
-    u.sumarDiners(10);
-    console.log(u.treuraBanc(5));
+    u.sumarDiners(15);
+    console.log(u.treuraBanc(-5));
     console.table(u);
 }
 probaUi();
