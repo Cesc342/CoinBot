@@ -1,27 +1,26 @@
-const Discord = require("discord.js");
-const client = new Discord.Client();
+import {Client} from "discord.js";
+const client: Client = new Client();
 
+/*
 
-
-const fs = require("fs");
-
-const Comando = require("./bot/comandos");
-const dataBase = require("./database/database");
+import fs = require("fs");
+import {Comandos} from "./bot/comandos";
+import {dataBase} from "./database/DataBase";
 
 const txtCridat = "bot!";
 
 
 client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
+    console.log(`Logged in as ${client.user}!`);
 });
 
 client.on('message', async (msg) => {
-    const bot = new Comando(txtCridat, msg.content);
+    const bot = new Comandos(txtCridat, msg.content);
     console.log(`${msg.author}:  ${msg.content}`);
 
-    if(bot.activar(msg.content))
+    if(bot.activar())
     {
-        missatge = bot.agafarComando(msg.content);
+        const missatge: string = bot.agafarComando();
         console.log(missatge);
         console.table(bot.comando);
 
@@ -33,10 +32,10 @@ client.on('message', async (msg) => {
         }
 
         if(missatge == "agafar"){
-            await dataBase.agafar(msg.author);
+            await dataBase.agafar(msg.author.tag);
             console.table(dataBase.json);
             try{
-                msg.reply("Diners: " + dataBase.json[msg.author].diners + "$");
+                msg.reply("Diners: " + dataBase.json[msg.author.tag].diners + "$");
             }catch(erro){
                 msg.reply("No tens cap conta creada: " + erro);
                 console.table(dataBase.json);
@@ -44,11 +43,11 @@ client.on('message', async (msg) => {
         }
 
         if(missatge == "donar"){
-            diners = bot.comando[1];
-            id = bot.comando[0];
-            await dataBase.agafar();
+            const diners = bot.comando[1];
+            const id = bot.comando[0];
+            await dataBase.agafar(id);
             try{
-                await dataBase.donar(id, parseInt(diners));
+                await dataBase.donar(id, parseInt(diners), msg.author.tag);
                 msg.reply("Fet");
             }catch(error){
                 msg.reply("No has ficat bé el comando. Segurament et falta una id o els diners");
@@ -67,9 +66,9 @@ async function agafarToken(){
     return token;
 }
 
-const token = agafarToken().then((res)=>{
+agafarToken().then((res)=>{
     console.table(res)
     client.login(res.token);
 });
-
+*/
 //Lol
