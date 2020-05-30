@@ -56,30 +56,29 @@ export interface Data{
 
 //Funciona
 
-export class BaseDades {
+export class BaseDades implements Data {
     private path: string
-    public data: Data;
+    public dataJson: string;
+    public json: any;
 
     constructor(nomArxiu: string)
     {
         this.path = `././data/${nomArxiu}.json`;
-        this.data = {
-            dataJson: "",
-            json: []
-        }
+        this.dataJson = "";
+        this.json = {};
     }
 
     public async agafar(): Promise<void>
     {
         const data: any = await fs.readFileSync(this.path);
-        this.data.dataJson = data.toString();
-        this.data.json = JSON.parse( this.data.dataJson );
-        console.table(this.data.json);
+        this.dataJson = data.toString();
+        this.json = JSON.parse( this.dataJson );
+        console.table(this.json);
     }
 
     public async guardar(): Promise<void>
     {
-        this.data.dataJson = JSON.stringify( this.data.json );
-        await fs.writeFileSync( this.path, this.data.dataJson );
+        this.dataJson = JSON.stringify( this.json );
+        await fs.writeFileSync( this.path, this.dataJson );
     }
 }

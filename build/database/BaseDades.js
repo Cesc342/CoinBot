@@ -17,23 +17,21 @@ const fs_1 = __importDefault(require("fs"));
 class BaseDades {
     constructor(nomArxiu) {
         this.path = `././data/${nomArxiu}.json`;
-        this.data = {
-            dataJson: "",
-            json: []
-        };
+        this.dataJson = "";
+        this.json = {};
     }
     agafar() {
         return __awaiter(this, void 0, void 0, function* () {
             const data = yield fs_1.default.readFileSync(this.path);
-            this.data.dataJson = data.toString();
-            this.data.json = JSON.parse(this.data.dataJson);
-            console.table(this.data.json);
+            this.dataJson = data.toString();
+            this.json = JSON.parse(this.dataJson);
+            console.table(this.json);
         });
     }
     guardar() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.data.dataJson = JSON.stringify(this.data.json);
-            yield fs_1.default.writeFileSync(this.path, this.data.dataJson);
+            this.dataJson = JSON.stringify(this.json);
+            yield fs_1.default.writeFileSync(this.path, this.dataJson);
         });
     }
 }

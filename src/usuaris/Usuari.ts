@@ -1,3 +1,5 @@
+import { Inventori } from "../objectes/Inventori";
+
 export interface DadesUsuari {
     id: string,
     diners: number,
@@ -10,6 +12,7 @@ export class Usuari implements DadesUsuari{
     public banc: number = 0;
 
     public impostos: number = 0.1; //Quant treu el banc cada vegada que guardes els diners
+
 
     constructor({id, diners, banc}: DadesUsuari)
     {

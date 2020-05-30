@@ -9,17 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const BaseDades_1 = require("./BaseDades");
+const BaseDades_1 = require("../database/BaseDades");
 const Usuari_1 = require("./Usuari");
 class Usuaris {
     constructor() {
         this.llista = new Map();
         this.baseDades = new BaseDades_1.BaseDades("data");
     }
-    cargarTot() {
+    cargarLlista() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.baseDades.agafar();
-            const data = this.baseDades.data.json;
+            const data = this.baseDades.json;
             for (let dataUsuari in data) {
                 let usuari = new Usuari_1.Usuari(data[dataUsuari]);
                 this.llista.set(usuari.id, usuari);
@@ -28,12 +28,18 @@ class Usuaris {
     }
     guardarUsuaris() {
         return __awaiter(this, void 0, void 0, function* () {
-            let json = this.baseDades.data.json;
+            let json = this.baseDades.json;
             this.llista.forEach((usuari, id) => {
                 json[id] = usuari.agafarDadesUsuari();
             });
-            console.log("JSON: ");
-            console.table(json);
+            this.baseDades.json = json;
+            yield this.baseDades.guardar();
+        });
+    }
+    nouUsuari(usuari) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.llista.set(usuari.id, usuari);
+            yield this.guardarUsuaris();
         });
     }
 }

@@ -1,13 +1,13 @@
-import { BaseDades } from "./BaseDades";
-import { Usuari } from "./Usuari";
-import { Usuaris } from "./Usuaris";
+import { BaseDades } from "./database/BaseDades";
+import { Usuari } from "./usuaris/Usuari";
+import { Usuaris } from "./usuaris/Usuaris";
 
 async function probaBD()
 {
     const d = new BaseDades("proba");
     await d.agafar();
 
-    d.data.json.hola = "si";
+    d.json.hola = "si";
 
     await d.guardar();
 }
@@ -31,8 +31,16 @@ function probaUi()
 async function probaUis()
 {
     let users = new Usuaris();
-    await users.cargarTot();
+    await users.cargarLlista();
     await users.guardarUsuaris();
+
+    console.table(users.llista.get("<@!409313183027953664>"));
 }
 
-probaUis();
+
+function proba1<T>(hola: T): T
+{
+    return hola;
+}
+
+console.log(proba1<number>(9));
