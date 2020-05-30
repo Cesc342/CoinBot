@@ -7,8 +7,8 @@ class Usuari {
         this.impostos = 0.1; //Quant treu el banc cada vegada que guardes els diners
         this.id = id;
         //Ho he fet aixi perque el valor diners no dongui negatiu
-        this.sumarDiners(diners + banc);
-        this.ficarBanc(banc);
+        this.sumarDiners(diners);
+        this.banc = banc;
     }
     //Es boolean perque comprova si s'ha pogut treure el diners o no
     //(De moment no vull donar la possibilitat de bancarrota)
@@ -58,6 +58,14 @@ class Usuari {
     }
     impostBanc(diners) {
         return Math.round(diners * this.impostos);
+    }
+    agafarDadesUsuari() {
+        const dadesUsuari = {
+            id: this.id,
+            diners: this.diners,
+            banc: this.banc
+        };
+        return dadesUsuari;
     }
     esPositiu(num) {
         return num >= 0;

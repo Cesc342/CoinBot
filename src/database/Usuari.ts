@@ -1,17 +1,17 @@
-export interface DataUsuari {
+export interface DadesUsuari {
     id: string,
     diners: number,
     banc:number
 }
 
-export class Usuari implements DataUsuari{
+export class Usuari implements DadesUsuari{
     public id: string;
     public diners: number = 0;
     public banc: number = 0;
 
     public impostos: number = 0.1; //Quant treu el banc cada vegada que guardes els diners
 
-    constructor({id, diners, banc}: DataUsuari)
+    constructor({id, diners, banc}: DadesUsuari)
     {
         this.id = id;
 
@@ -79,9 +79,21 @@ export class Usuari implements DataUsuari{
         return false;
     }
 
-    private impostBanc(diners: number)
+    private impostBanc(diners: number): number
     {
         return Math.round( diners * this.impostos );
+    }
+
+
+    public agafarDadesUsuari(): DadesUsuari
+    {
+        const dadesUsuari: DadesUsuari = {
+            id: this.id,
+            diners: this.diners,
+            banc: this.banc
+        };
+
+        return dadesUsuari;
     }
 
 

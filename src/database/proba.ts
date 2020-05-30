@@ -1,7 +1,9 @@
 import { BaseDades } from "./BaseDades";
 import { Usuari } from "./Usuari";
+import { Usuaris } from "./Usuaris";
 
-async function probaBD(){
+async function probaBD()
+{
     const d = new BaseDades("proba");
     await d.agafar();
 
@@ -10,7 +12,9 @@ async function probaBD(){
     await d.guardar();
 }
 
-function probaUi(){
+
+function probaUi()
+{
     const u:Usuari = new Usuari({
         id:"Cesc",
         diners:50,
@@ -23,4 +27,12 @@ function probaUi(){
     console.table(u);
 }
 
-probaUi();
+
+async function probaUis()
+{
+    let users = new Usuaris();
+    await users.cargarTot();
+    await users.guardarUsuaris();
+}
+
+probaUis();

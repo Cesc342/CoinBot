@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const BaseDades_1 = require("./BaseDades");
 const Usuari_1 = require("./Usuari");
+const Usuaris_1 = require("./Usuaris");
 function probaBD() {
     return __awaiter(this, void 0, void 0, function* () {
         const d = new BaseDades_1.BaseDades("proba");
@@ -29,4 +30,11 @@ function probaUi() {
     console.log(u.treuraBanc(-5));
     console.table(u);
 }
-probaUi();
+function probaUis() {
+    return __awaiter(this, void 0, void 0, function* () {
+        let users = new Usuaris_1.Usuaris();
+        yield users.cargarTot();
+        yield users.guardarUsuaris();
+    });
+}
+probaUis();
