@@ -67,6 +67,6 @@ async function probaUsu() {
 async function probaUsus() {
     let usuaris = new Usuaris_1.Usuaris();
     await usuaris.agafar();
-    console.table(usuaris.llista.get("<@!409313183027953664>"));
+    console.table(usuaris.llista);
 }
 probaUsus();

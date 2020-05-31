@@ -4,7 +4,7 @@
   "description": "",
   "main": "build/main.js",
   "scripts": {
-    "proba_database":"tsc && node build/proba.js",
+    "proba_database": "tsc && node build/proba.js",
     "prestart": "tsc",
     "start": "node build/main.js",
     "dev": "nodemon .e ts --exec \"npm run build && npm start\""
@@ -17,6 +17,7 @@
     "fs": "0.0.1-security"
   },
   "devDependencies": {
-    "@types/node": "^14.0.6"
+    "@types/node": "^14.0.6",
+    "colors": "^1.4.0"
   }
 }

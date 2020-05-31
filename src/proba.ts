@@ -99,7 +99,7 @@ async function probaUsus()
     let usuaris: Usuaris = new Usuaris();
     await usuaris.agafar();
 
-    console.table(usuaris.llista.get("<@!409313183027953664>"))
+    console.table(usuaris.llista);
 }
 
 probaUsus();
