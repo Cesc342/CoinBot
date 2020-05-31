@@ -5,9 +5,9 @@ export interface DataObjecta{
 }
 
 export class Objecta implements DataObjecta{
-    nom: string;
-    num: number = 1;
-    detalls: string = "";
+    public nom: string;
+    public num: number = 1;
+    public detalls: string = "";
 
 
     constructor(nom: string, num?: number, detalls?: string)
@@ -34,7 +34,7 @@ export class Objecta implements DataObjecta{
 
     private hiHaSuficients(num: number): boolean
     {
-        return this.num <= num;
+        return this.num >= num;
     }
 
 

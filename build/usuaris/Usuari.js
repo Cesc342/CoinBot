@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const Inventori_1 = require("../objectes/Inventori");
 class Usuari {
-    constructor({ id, diners, banc }) {
+    constructor({ id, diners, banc }, dadesInv) {
         this.diners = 0;
         this.banc = 0;
         this.impostos = 0.1; //Quant treu el banc cada vegada que guardes els diners
         this.id = id;
+        this.inventori = new Inventori_1.Inventori(dadesInv);
         //Ho he fet aixi perque el valor diners no dongui negatiu
         this.sumarDiners(diners);
         this.banc = banc;

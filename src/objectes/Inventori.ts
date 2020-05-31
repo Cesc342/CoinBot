@@ -1,32 +1,28 @@
 import { Objecta, DataObjecta } from "./Objecta";
 
-interface DataInventari {
+export interface DadesInventari {
     id: string,
     objectes: any
 }
 
 export class Inventori {
-    public objectes: Map<string, Objecta> = new Map();
+    public objectes: any;
     public id: string;
 
-    constructor({id, objectes}: DataInventari)
+    constructor({id, objectes}: DadesInventari)
     {
         this.id = id;
-
-        for(let id in objectes){ //Potser Funciona??? Nose ho he fet a lo rapid
-            this.objectes.set(id, objectes[id]);
-        }
+        this.objectes = objectes;
     }
 
-    public agafarInventori(): DataInventari
+    public agafarInventori(): DadesInventari
     {
         let dadesObjectes: any = {};
-        this.objectes.forEach((objecta, nom)=>{
-            let dadesObjecta: DataObjecta = objecta.agafarDades();
-            dadesObjectes[nom] = objecta;
-        })
+        for(let nom of this.objectes){
+            dadesObjectes[nom] = this.objectes[nom].agafarDades();
+        }
 
-        let data: DataInventari = {
+        let data: DadesInventari = {
             id: this.id,
             objectes: dadesObjectes
         }

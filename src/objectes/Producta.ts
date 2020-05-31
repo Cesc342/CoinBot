@@ -35,4 +35,9 @@ export class Producta implements DadesProducta{
         comprador.restarDiners(this.cost);
         this.venedor.sumarDiners(this.cost);
     }
+
+    public afegir(num: number): void
+    {
+        
+    }
 }

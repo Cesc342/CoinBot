@@ -5,27 +5,34 @@ const Usuari_1 = require("./Usuari");
 class Usuaris {
     constructor() {
         this.llista = new Map();
-        this.baseDades = new BaseDades_1.BaseDades("data");
+        this.dataUsuaris = new BaseDades_1.BaseDades("data");
+        this.dataInventoris = new BaseDades_1.BaseDades("inventoris");
     }
-    async cargarLlista() {
-        await this.baseDades.agafar();
-        const data = this.baseDades.json;
-        for (let dataUsuari in data) {
-            let usuari = new Usuari_1.Usuari(data[dataUsuari]);
+    async agafar() {
+        await this.dataUsuaris.agafar();
+        await this.dataInventoris.agafar();
+        const dataUsu = this.dataUsuaris.json;
+        const dataInv = this.dataInventoris.json;
+        for (let id in dataUsu) {
+            let usuari = new Usuari_1.Usuari(dataUsu[id], dataInv[id]);
             this.llista.set(usuari.id, usuari);
         }
     }
-    async guardarUsuaris() {
-        let json = this.baseDades.json;
+    async guardar() {
+        let jsonUsu = this.dataUsuaris.json;
+        let jsonInv = this.dataInventoris.json;
         this.llista.forEach((usuari, id) => {
-            json[id] = usuari.agafarDadesUsuari();
+            jsonUsu[id] = usuari.agafarDadesUsuari();
+            jsonInv[id] = usuari.inventori.agafarInventori();
         });
-        this.baseDades.json = json;
-        await this.baseDades.guardar();
+        this.dataUsuaris.json = jsonUsu;
+        this.dataInventoris.json = jsonInv;
+        await this.dataUsuaris.guardar();
+        await this.dataInventoris.guardar();
     }
     async nouUsuari(usuari) {
         this.llista.set(usuari.id, usuari);
-        await this.guardarUsuaris();
+        await this.guardar();
     }
 }
 exports.Usuaris = Usuaris;

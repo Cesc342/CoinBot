@@ -18,5 +18,7 @@ class Producta {
         comprador.restarDiners(this.cost);
         this.venedor.sumarDiners(this.cost);
     }
+    afegir(num) {
+    }
 }
 exports.Producta = Producta;

@@ -3,37 +3,46 @@ import { Usuari, DadesUsuari } from "./Usuari";
 
 export class Usuaris{
     public llista: Map<string,Usuari> = new Map();
-    private baseDades: BaseDades = new BaseDades("data");
+    private dataUsuaris: BaseDades = new BaseDades("data");
+    private dataInventoris: BaseDades = new BaseDades("inventoris");
 
 
-    public async cargarLlista(): Promise<void>
+    public async agafar(): Promise<void>
     {
-        await this.baseDades.agafar();
-        const data: any = this.baseDades.json;
+        await this.dataUsuaris.agafar();
+        await this.dataInventoris.agafar();
 
-        for(let dataUsuari in data){
-            let usuari = new Usuari( data[dataUsuari] );
+        const dataUsu: any = this.dataUsuaris.json;
+        const dataInv: any = this.dataInventoris.json;
+
+        for(let id in dataUsu){
+            let usuari = new Usuari( dataUsu[id], dataInv[id]);
             this.llista.set(usuari.id, usuari);
         }
     }
 
 
-    public async guardarUsuaris(): Promise<void>
+    public async guardar(): Promise<void>
     {
-        let json = this.baseDades.json;
+        let jsonUsu = this.dataUsuaris.json;
+        let jsonInv = this.dataInventoris.json;
 
         this.llista.forEach((usuari, id)=>{
-            json[id] = usuari.agafarDadesUsuari();
+            jsonUsu[id] = usuari.agafarDadesUsuari();
+            jsonInv[id] = usuari.inventori.agafarInventori();
         });
 
-        this.baseDades.json = json;
-        await this.baseDades.guardar();
+        this.dataUsuaris.json = jsonUsu;
+        this.dataInventoris.json = jsonInv;
+
+        await this.dataUsuaris.guardar();
+        await this.dataInventoris.guardar();
     }
 
 
     public async nouUsuari(usuari: Usuari): Promise<void>
     {
         this.llista.set(usuari.id, usuari);
-        await this.guardarUsuaris();
+        await this.guardar();
     }
 }

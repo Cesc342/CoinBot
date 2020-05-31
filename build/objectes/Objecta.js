@@ -20,7 +20,7 @@ class Objecta {
         return false;
     }
     hiHaSuficients(num) {
-        return this.num <= num;
+        return this.num >= num;
     }
     obtenir(num) {
         this.num += num;
