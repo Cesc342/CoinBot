@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Inventari {
+class Inventori {
     constructor({ id, objectes }) {
         this.objectes = new Map();
         this.id = id;
@@ -8,9 +8,17 @@ class Inventari {
             this.objectes.set(id, objectes[id]);
         }
     }
-    agafarInventari() {
-    }
-    guardarInventari() {
+    agafarInventori() {
+        let dadesObjectes = {};
+        this.objectes.forEach((objecta, nom) => {
+            let dadesObjecta = objecta.agafarDades();
+            dadesObjectes[nom] = objecta;
+        });
+        let data = {
+            id: this.id,
+            objectes: dadesObjectes
+        };
+        return data;
     }
 }
-exports.Inventari = Inventari;
+exports.Inventori = Inventori;
