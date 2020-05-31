@@ -1,17 +1,1 @@
-{
-    "<@!409313183027953664>":{
-        "id":"<@!409313183027953664>",
-        "objectes":{
-            "Algo":{
-                "nom":"Algo",
-                "num":100,
-                "detalls":"No fa res i punto."
-            },
-            "Altre Algo":{
-                "nom":"Altre Algo",
-                "num":10,
-                "detalls":"No fa res i punto. Només hi ha menys i ja"
-            }
-        }
-    }
-}
+{"cesc":{"id":"cesc","objectes":{"AAAA":{"nom":"AAAA","num":100,"detalls":"CRIDA!!! AAAAAAA!!!!!"},"MES ALT":{"nom":"MES ALT","num":10,"detalls":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!"}}}}

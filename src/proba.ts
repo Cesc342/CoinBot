@@ -102,4 +102,35 @@ async function probaUsus()
     console.table(usuaris.llista);
 }
 
-probaUsus();
+async function sandbox1()
+{
+    let obj1: Objecta = new Objecta("AAAA",100,"CRIDA!!! AAAAAAA!!!!!");
+    let obj2: Objecta = new Objecta("MES ALT",10,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!");
+
+    const usuaris: Usuaris = new Usuaris();
+    await usuaris.agafar();
+
+    let dataUsu = {
+        id:"cesc",
+        diners: 20,
+        banc: 30
+    };
+    let dataInv = {
+        id:"cesc",
+        objectes:{
+            "AAAA":obj1,
+            "MES ALT":obj2
+        }
+    }
+    let nouUsuari: Usuari = new Usuari(dataUsu, dataInv);
+
+    console.table(nouUsuari);
+
+    await usuaris.nouUsuari(nouUsuari);
+
+    let usuari: Usuari = usuaris.llista["cesc"];
+
+    console.table(usuari.inventori.objectes.AAAA);
+}
+
+sandbox1();

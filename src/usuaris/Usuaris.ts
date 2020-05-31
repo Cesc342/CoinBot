@@ -2,7 +2,7 @@ import { BaseDades } from "../database/BaseDades";
 import { Usuari, DadesUsuari } from "./Usuari";
 
 export class Usuaris{
-    public llista: Map<string,Usuari> = new Map();
+    public llista: any | Usuari;
     private dataUsuaris: BaseDades = new BaseDades("data");
     private dataInventoris: BaseDades = new BaseDades("inventoris");
 
@@ -15,10 +15,13 @@ export class Usuaris{
         const dataUsu: any = this.dataUsuaris.json;
         const dataInv: any = this.dataInventoris.json;
 
+        let llista: any = {}
+
         for(let id in dataUsu){
             let usuari = new Usuari( dataUsu[id], dataInv[id]);
-            this.llista.set(usuari.id, usuari);
+            llista[usuari.id] = usuari;
         }
+        this.llista = llista;
     }
 
 
@@ -27,10 +30,11 @@ export class Usuaris{
         let jsonUsu = this.dataUsuaris.json;
         let jsonInv = this.dataInventoris.json;
 
-        this.llista.forEach((usuari, id)=>{
+        for(let id in this.llista){
+            let usuari: Usuari = this.llista[id];
             jsonUsu[id] = usuari.agafarDadesUsuari();
             jsonInv[id] = usuari.inventori.agafarInventori();
-        });
+        }
 
         this.dataUsuaris.json = jsonUsu;
         this.dataInventoris.json = jsonInv;
@@ -42,7 +46,7 @@ export class Usuaris{
 
     public async nouUsuari(usuari: Usuari): Promise<void>
     {
-        this.llista.set(usuari.id, usuari);
+        this.llista[usuari.id] = usuari;
         await this.guardar();
     }
 }

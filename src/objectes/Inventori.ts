@@ -2,7 +2,7 @@ import { Objecta, DataObjecta } from "./Objecta";
 
 export interface DadesInventari {
     id: string,
-    objectes: any
+    objectes: any;
 }
 
 export class Inventori {
@@ -12,13 +12,17 @@ export class Inventori {
     constructor({id, objectes}: DadesInventari)
     {
         this.id = id;
-        this.objectes = objectes;
+        let objectesDespres: any = {};
+        for(let idObj in objectes){
+            objectesDespres[idObj] = objectes[idObj];
+        }
+        this.objectes = objectesDespres;
     }
 
     public agafarInventori(): DadesInventari
     {
         let dadesObjectes: any = {};
-        for(let nom of this.objectes){
+        for(let nom in this.objectes){
             dadesObjectes[nom] = this.objectes[nom].agafarDades();
         }
 

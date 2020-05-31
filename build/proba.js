@@ -69,4 +69,27 @@ async function probaUsus() {
     await usuaris.agafar();
     console.table(usuaris.llista);
 }
-probaUsus();
+async function sandbox1() {
+    let obj1 = new Objecta_1.Objecta("AAAA", 100, "CRIDA!!! AAAAAAA!!!!!");
+    let obj2 = new Objecta_1.Objecta("MES ALT", 10, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!");
+    const usuaris = new Usuaris_1.Usuaris();
+    await usuaris.agafar();
+    let dataUsu = {
+        id: "cesc",
+        diners: 20,
+        banc: 30
+    };
+    let dataInv = {
+        id: "cesc",
+        objectes: {
+            "AAAA": obj1,
+            "MES ALT": obj2
+        }
+    };
+    let nouUsuari = new Usuari_1.Usuari(dataUsu, dataInv);
+    console.table(nouUsuari);
+    await usuaris.nouUsuari(nouUsuari);
+    let usuari = usuaris.llista["cesc"];
+    console.table(usuari.inventori.objectes.AAAA);
+}
+sandbox1();

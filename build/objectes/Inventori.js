@@ -3,11 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class Inventori {
     constructor({ id, objectes }) {
         this.id = id;
-        this.objectes = objectes;
+        let objectesDespres = {};
+        for (let idObj in objectes) {
+            objectesDespres[idObj] = objectes[idObj];
+        }
+        this.objectes = objectesDespres;
     }
     agafarInventori() {
         let dadesObjectes = {};
-        for (let nom of this.objectes) {
+        for (let nom in this.objectes) {
             dadesObjectes[nom] = this.objectes[nom].agafarDades();
         }
         let data = {
