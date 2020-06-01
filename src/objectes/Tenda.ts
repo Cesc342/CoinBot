@@ -1,6 +1,6 @@
 import { BaseDades } from "../database/BaseDades";
 
-interface Productes{
+type DadesProducta = {
     cost: number,
     id: string,
     venedor: string,

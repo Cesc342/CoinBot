@@ -1,13 +1,14 @@
 import { Objecta, DataObjecta } from "./Objecta";
 
-export interface DadesInventari {
+export type DadesInventari = {
     id: string,
     objectes: any;
 }
 
-export class Inventori {
+export class Inventori implements DadesInventari{
     public objectes: any;
     public id: string;
+
 
     constructor({id, objectes}: DadesInventari)
     {

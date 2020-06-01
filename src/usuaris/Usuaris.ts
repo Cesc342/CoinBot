@@ -1,6 +1,7 @@
 import { BaseDades } from "../database/BaseDades";
 import { Usuari, DadesUsuari } from "./Usuari";
 
+
 export class Usuaris{
     public llista: any | Usuari;
     private dataUsuaris: BaseDades = new BaseDades("data");

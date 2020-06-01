@@ -1,7 +1,7 @@
 import fs from "fs";
 import {red, bold} from "colors";
 
-export interface Data{
+export type Data = {
     dataJson: string,
     json: any
 }

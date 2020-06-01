@@ -1,6 +1,6 @@
 import { Inventori, DadesInventari } from "../objectes/Inventori";
 
-export interface DadesUsuari {
+export type DadesUsuari = {
     id: string,
     diners: number,
     banc:number

@@ -1,4 +1,4 @@
-export interface DataObjecta{
+export type DataObjecta = {
     nom: string,
     num: number,
     detalls: string,

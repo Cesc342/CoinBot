@@ -1,6 +1,6 @@
 import { Usuari } from "../usuaris/Usuari";
 
-interface DadesProducta{
+export type DadesProducta = {
     cost: number,
     venedor: Usuari,
     nom: string,
