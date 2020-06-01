@@ -1,13 +1,12 @@
 {
   "name": "coinbot",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
   "main": "build/main.js",
   "scripts": {
-    "proba_database": "tsc && node build/proba.js",
+    "proba": "tsc && node build/proba.js",
     "prestart": "tsc",
-    "start": "node build/main.js",
-    "dev": "nodemon .e ts --exec \"npm run build && npm start\""
+    "start": "node build/main.js"
   },
   "author": "Cesc342",
   "license": "ISC",

@@ -1,5 +1,5 @@
-import { BaseDades } from "../database/BaseDades";
-import { Usuari, DadesUsuari } from "./Usuari";
+import { BaseDades } from "./database/BaseDades";
+import { Usuari, DadesUsuari } from "./usuaris/Usuari";
 
 
 export class Usuaris{

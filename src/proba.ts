@@ -1,10 +1,15 @@
 import { BaseDades } from "./database/BaseDades";
 
 import { Usuari } from "./usuaris/Usuari";
-import { Usuaris } from "./usuaris/Usuaris";
+import { Usuaris } from "./Usuaris";
 
 import { Objecta } from "./objectes/Objecta";
 import { Inventori } from "./objectes/Inventori";
+
+import { Separador } from "./bot/Separador";
+import { Command } from "./bot/Command";
+import { Message, Client } from "discord.js";
+
 
 
 async function probaBD()
@@ -133,4 +138,24 @@ async function sandbox1()
     console.table(usuari.inventori.objectes.AAAA);
 }
 
-sandbox1();
+
+async function probaSep()
+{
+    let separador: Separador = new Separador("bot!");
+    await separador.separarMissatge("bot!a tot no le");
+
+    console.table(separador);
+}
+
+async function probaCom()
+{
+    let command: Command = new Command("a", async (contingut, msg)=>{
+        console.log(contingut[0]);
+        console.log(msg);
+    });
+
+    // command.on(["hola"],"aa");   // No es pot probar almenys que canviis unes coses del arxiu
+                                    // Això es perque on fica "aa" tindria de haver una variable de type :Message de discord
+}
+
+probaCom();

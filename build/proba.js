@@ -2,9 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const BaseDades_1 = require("./database/BaseDades");
 const Usuari_1 = require("./usuaris/Usuari");
-const Usuaris_1 = require("./usuaris/Usuaris");
+const Usuaris_1 = require("./Usuaris");
 const Objecta_1 = require("./objectes/Objecta");
 const Inventori_1 = require("./objectes/Inventori");
+const Separador_1 = require("./bot/Separador");
+const Command_1 = require("./bot/Command");
 async function probaBD() {
     const d = new BaseDades_1.BaseDades("proba");
     await d.agafar();
@@ -92,4 +94,17 @@ async function sandbox1() {
     let usuari = usuaris.llista["cesc"];
     console.table(usuari.inventori.objectes.AAAA);
 }
-sandbox1();
+async function probaSep() {
+    let separador = new Separador_1.Separador("bot!");
+    await separador.separarMissatge("bot!a tot no le");
+    console.table(separador);
+}
+async function probaCom() {
+    let command = new Command_1.Command("a", async (contingut, msg) => {
+        console.log(contingut[0]);
+        console.log(msg);
+    });
+    // command.on(["hola"],"aa");   // No es pot probar almenys que canviis unes coses del arxiu
+    // Això es perque on fica "aa" tindria de haver una variable de type :Message de discord
+}
+probaCom();
