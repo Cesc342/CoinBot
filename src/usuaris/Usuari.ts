@@ -1,4 +1,4 @@
-import { Inventori, DadesInventari } from "../objectes/Inventori";
+import { Inventori, DadesInventari } from "./objectes/Inventori";
 
 export type DadesUsuari = {
     tag: string,

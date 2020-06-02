@@ -1,7 +1,7 @@
-import { Usuaris } from "./Usuaris";
+import { Usuaris } from "./usuaris/Usuaris";
 const usuaris = new Usuaris();
 
-import { Bot } from "./Bot";
+import { Bot } from "./bot/Bot";
 const bot: Bot = new Bot("bot!");
 
 import { green } from "colors";

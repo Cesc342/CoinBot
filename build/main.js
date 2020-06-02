@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Usuaris_1 = require("./Usuaris");
+const Usuaris_1 = require("./usuaris/Usuaris");
 const usuaris = new Usuaris_1.Usuaris();
-const Bot_1 = require("./Bot");
+const Bot_1 = require("./bot/Bot");
 const bot = new Bot_1.Bot("bot!");
 const colors_1 = require("colors");
 async function __main() {

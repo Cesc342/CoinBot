@@ -1,10 +1,10 @@
 import { BaseDades } from "./database/BaseDades";
 
 import { Usuari } from "./usuaris/Usuari";
-import { Usuaris } from "./Usuaris";
+import { Usuaris } from "./usuaris/Usuaris";
 
-import { Objecta } from "./objectes/Objecta";
-import { Inventori } from "./objectes/Inventori";
+import { Objecta } from "./usuaris/objectes/Objecta";
+import { Inventori } from "./usuaris/objectes/Inventori";
 
 import { Separador } from "./bot/Separador";
 import { Command } from "./bot/Command";

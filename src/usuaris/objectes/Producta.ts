@@ -1,4 +1,4 @@
-import { Usuari } from "../usuaris/Usuari";
+import { Usuari } from "../Usuari";
 
 export type DadesProducta = {
     cost: number,

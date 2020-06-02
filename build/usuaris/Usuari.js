@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Inventori_1 = require("../objectes/Inventori");
+const Inventori_1 = require("./objectes/Inventori");
 class Usuari {
     constructor({ tag: id, diners, banc }, dadesInv) {
         this.diners = 0;

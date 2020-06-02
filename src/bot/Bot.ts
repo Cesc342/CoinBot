@@ -1,5 +1,5 @@
-import { Command, Esdeveniment } from "./bot/Command"
-import { Separador } from "./bot/Separador";
+import { Command, Esdeveniment } from "./Command"
+import { Separador } from "./Separador";
 
 import { Client, Message, User } from "discord.js";
 
