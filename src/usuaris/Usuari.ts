@@ -1,13 +1,13 @@
 import { Inventori, DadesInventari } from "../objectes/Inventori";
 
 export type DadesUsuari = {
-    id: string,
+    tag: string,
     diners: number,
     banc:number
 }
 
 export class Usuari implements DadesUsuari{
-    public id: string;
+    public tag: string;
     public diners: number = 0;
     public banc: number = 0;
 
@@ -16,9 +16,9 @@ export class Usuari implements DadesUsuari{
     public impostos: number = 0.1; //Quant treu el banc cada vegada que guardes els diners
 
 
-    constructor({id, diners, banc}: DadesUsuari, dadesInv: DadesInventari)
+    constructor({tag: id, diners, banc}: DadesUsuari, dadesInv: DadesInventari)
     {
-        this.id = id;
+        this.tag = id;
         this.inventori = new Inventori(dadesInv);
 
         //Ho he fet aixi perque el valor diners no dongui negatiu
@@ -94,7 +94,7 @@ export class Usuari implements DadesUsuari{
     public agafarDadesUsuari(): DadesUsuari
     {
         const dadesUsuari: DadesUsuari = {
-            id: this.id,
+            tag: this.tag,
             diners: this.diners,
             banc: this.banc
         };

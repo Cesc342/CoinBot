@@ -15,7 +15,7 @@ class Usuaris {
         let llista = {};
         for (let id in dataUsu) {
             let usuari = new Usuari_1.Usuari(dataUsu[id], dataInv[id]);
-            llista[usuari.id] = usuari;
+            llista[usuari.tag] = usuari;
         }
         this.llista = llista;
     }
@@ -33,7 +33,7 @@ class Usuaris {
         await this.dataInventoris.guardar();
     }
     async nouUsuari(usuari) {
-        this.llista[usuari.id] = usuari;
+        this.llista[usuari.tag] = usuari;
         await this.guardar();
     }
 }

@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Inventori_1 = require("../objectes/Inventori");
 class Usuari {
-    constructor({ id, diners, banc }, dadesInv) {
+    constructor({ tag: id, diners, banc }, dadesInv) {
         this.diners = 0;
         this.banc = 0;
         this.impostos = 0.1; //Quant treu el banc cada vegada que guardes els diners
-        this.id = id;
+        this.tag = id;
         this.inventori = new Inventori_1.Inventori(dadesInv);
         //Ho he fet aixi perque el valor diners no dongui negatiu
         this.sumarDiners(diners);
@@ -63,7 +63,7 @@ class Usuari {
     }
     agafarDadesUsuari() {
         const dadesUsuari = {
-            id: this.id,
+            tag: this.tag,
             diners: this.diners,
             banc: this.banc
         };

@@ -55,7 +55,7 @@ function probaInv(): void
     let obj2: Objecta = new Objecta("Nose Algo",10,"Nose, potser aquest fa algo. Tiu, no ho se tot.");
 
     let inventori: Inventori = new Inventori({
-        id:"Jugador2",
+        tag:"Jugador2",
         objectes: {
             "Nose": obj1,
             "Nose Algo": obj2
@@ -80,12 +80,12 @@ async function probaUsu()
     let obj2: Objecta = new Objecta("Nose Algo",10,"Nose, potser aquest fa algo. Tiu, no ho se tot.");
 
     let dataUsu = {
-        id:"cesc",
+        tag:"cesc",
         diners: 20,
         banc: 30
     };
     let dataInv = {
-        id:"cesc",
+        tag:"cesc",
         objectes:{
             Nose:obj1,
             "Nose Algo":obj2
@@ -116,12 +116,12 @@ async function sandbox1()
     await usuaris.agafar();
 
     let dataUsu = {
-        id:"cesc",
+        tag:"cesc",
         diners: 20,
         banc: 30
     };
     let dataInv = {
-        id:"cesc",
+        tag:"cesc",
         objectes:{
             "AAAA":obj1,
             "MES ALT":obj2

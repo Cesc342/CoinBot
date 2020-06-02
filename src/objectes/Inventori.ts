@@ -1,18 +1,18 @@
 import { Objecta, DataObjecta } from "./Objecta";
 
 export type DadesInventari = {
-    id: string,
+    tag: string,
     objectes: any;
 }
 
 export class Inventori implements DadesInventari{
     public objectes: any;
-    public id: string;
+    public tag: string;
 
 
-    constructor({id, objectes}: DadesInventari)
+    constructor({tag: tag, objectes}: DadesInventari)
     {
-        this.id = id;
+        this.tag = tag;
         let objectesDespres: any = {};
         for(let idObj in objectes){
             objectesDespres[idObj] = objectes[idObj];
@@ -28,7 +28,7 @@ export class Inventori implements DadesInventari{
         }
 
         let data: DadesInventari = {
-            id: this.id,
+            tag: this.tag,
             objectes: dadesObjectes
         }
 

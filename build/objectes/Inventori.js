@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Inventori {
-    constructor({ id, objectes }) {
-        this.id = id;
+    constructor({ tag: tag, objectes }) {
+        this.tag = tag;
         let objectesDespres = {};
         for (let idObj in objectes) {
             objectesDespres[idObj] = objectes[idObj];
@@ -15,7 +15,7 @@ class Inventori {
             dadesObjectes[nom] = this.objectes[nom].agafarDades();
         }
         let data = {
-            id: this.id,
+            tag: this.tag,
             objectes: dadesObjectes
         };
         return data;

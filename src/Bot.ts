@@ -1,13 +1,15 @@
 import { Command, Esdeveniment } from "./bot/Command"
 import { Separador } from "./bot/Separador";
 
-import { Client } from "discord.js";
+import { Client, Message, User } from "discord.js";
 
-import { magenta } from "colors";
+import { magenta, red } from "colors";
 
 export class Bot extends Client
 {
     public cridat: string;
+    public usuari: User = new User(new Client(), {}); // Carga un usuari que no existeix per despres agafar el seu
+    private jaActivat: boolean = false;
 
     public separador: Separador;
     private commands: Map<string, Command> = new Map();
@@ -25,21 +27,37 @@ export class Bot extends Client
     public async prepararBot(): Promise<void>
     {
         await this.prepararMissatges();
+        await this.agafarUsuari();
     }
 
     private prepararMissatges()
     {
         this.on("message", async (msg)=>{
-            await this.separador.separarMissatge(msg.content);
-            let commandStr: string = this.separador.command;
-            let command: Command | undefined = this.commands.get(commandStr);
+            if(!(this.usuari.tag == msg.author.tag || this.jaActivat)){
+                this.jaActivat = true;
 
-            if(command){
-                command.on(this.separador.contingut, msg);
-            }else{
-                console.error(magenta(`El command ${ commandStr } no funciona`));
+                await this.separador.separarMissatge(msg.content);
+                let commandStr: string = this.separador.command;
+                let command: Command | undefined = this.commands.get(commandStr);
+
+                if(command){
+                    await command.on(this.separador.contingut, msg);
+                }else{
+                    console.error(magenta(`El command ${ commandStr } no funciona`));
+                }
+
+                this.jaActivat = false;
             }
         })
+    }
+
+    private async agafarUsuari(): Promise<void>
+    {
+        if(this.user){
+            this.usuari = this.user;
+        }else{
+            console.log(red("NO ES POT CARRAGAR L'USUARI DEL BOT"));
+        }
     }
 
 
