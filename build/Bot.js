@@ -18,7 +18,7 @@ exports.bot.afegirEvent("message", "donarme", async (cont, msg) => {
 });
 exports.bot.afegirEvent("message", "nou", async (cont, msg) => {
     await usuaris.agafar();
-    usuaris.nouUsuari(msg.author.tag);
+    usuaris.nouUsuari(msg.author.id);
     console.table(usuaris.llista[msg.author.tag]);
     await usuaris.guardar();
     msg.channel.send(`${msg.author.tag} s'ha creac una contap `);
@@ -38,4 +38,14 @@ exports.bot.afegirEvent("message", "conta", async (cont, msg) => {
     else {
         msg.channel.send(`El usuari`);
     }
+});
+exports.bot.afegirEvent("message", "adeu", async (cont, msg) => {
+    let channelDm = await msg.author.createDM();
+    channelDm.send("NO");
+    channelDm.send("Sé on vius i mai podras escapar de mi");
+    channelDm.send("I si ho fas mai et podras escapar de facebook");
+});
+exports.bot.afegirEvent("message", "proba", async (cont, msg) => {
+    console.log(cont[0]);
+    msg.channel.send(cont[0]);
 });

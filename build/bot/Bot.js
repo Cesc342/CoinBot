@@ -1,16 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Command_1 = require("./Esdeveniments/Command");
-const Separador_1 = require("./Esdeveniments/Separador");
+const Command_1 = require("./esdeveniments/Command");
+const Separador_1 = require("./compilador/Separador");
 const discord_js_1 = require("discord.js");
 const colors_1 = require("colors");
-const Handler_1 = require("./Esdeveniments/Handler");
+const Handler_1 = require("./esdeveniments/Handler");
+const Compilador_1 = require("./compilador/Compilador");
 class Bot extends discord_js_1.Client {
     constructor(cridat, cargar) {
         super();
         this.usuari = new discord_js_1.User(new discord_js_1.Client(), {}); // Carga un usuari que no existeix per despres agafar el seu
         this.jaActivat = false;
         this.handler = new Map();
+        this.compilador = new Compilador_1.Compilador();
         this.cridat = cridat;
         this.separador = new Separador_1.Separador(this.cridat);
         if (cargar) {

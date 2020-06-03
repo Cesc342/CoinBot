@@ -1,11 +1,12 @@
-import { Command, Esdeveniment } from "./Esdeveniments/Command"
-import { Separador } from "./Esdeveniments/Separador";
+import { Command, Esdeveniment } from "./esdeveniments/Command"
+import { Separador } from "./compilador/Separador";
 
 import { Client, Message, User, ClientEvents } from "discord.js";
 
 import { magenta, red, green } from "colors";
-import { Handler } from "./Esdeveniments/Handler";
+import { Handler } from "./esdeveniments/Handler";
 import { bot } from "../Bot";
+import { Compilador } from "./compilador/Compilador";
 
 type EventDiscord = 'collect' | 'dispose' | 'end' | 'collect' | 'dispose' | 'remove' | 'spawn' | 'death' | 'disconnect' | 'ready' | 'reconnecting' | 'error' | 'message' | 'shardCreate' | 'close' | 'drain' | 'finish' | 'start' | 'debug' | 'error' | 'pipe' | 'unpipe' | 'speaking' | 'volumeChange' | 'end' | 'subscribe' | 'unsubscribe' | 'authenticated' | 'closing' | 'newSession' | 'ready' | 'reconnecting' | 'debug' | 'error' | 'failed' | 'disconnect' | 'speaking' | 'warn' | 'debug' | 'volumeChange' | 'ready' | 'resumed' | 'invalidSession' | 'close' | 'allReady';
 
@@ -17,6 +18,7 @@ export class Bot extends Client
 
     public separador: Separador;
     private handler: Map<string, Handler> = new Map();
+    public compilador: Compilador = new Compilador();
 
     constructor(cridat: string, cargar?: ()=>void)
     {

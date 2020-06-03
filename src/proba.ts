@@ -6,8 +6,8 @@ import { Usuaris } from "./usuaris/Usuaris";
 import { Objecta } from "./usuaris/objectes/Objecta";
 import { Inventori } from "./usuaris/objectes/Inventori";
 
-import { Separador } from "./bot/Esdeveniments/Separador";
-import { Command } from "./bot/Esdeveniments/Command";
+import { Separador } from "./bot/compilador/Separador";
+import { Command } from "./bot/esdeveniments/Command";
 import { Message, Client } from "discord.js";
 
 
