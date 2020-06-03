@@ -24,15 +24,25 @@ class Usuaris {
         let jsonInv = this.dataInventoris.json;
         for (let id in this.llista) {
             let usuari = this.llista[id];
-            jsonUsu[id] = usuari.agafarDadesUsuari();
-            jsonInv[id] = usuari.inventori.agafarInventori();
+            jsonUsu[id] = await usuari.agafarDadesUsuari();
+            jsonInv[id] = await usuari.inventori.agafarInventori();
         }
         this.dataUsuaris.json = jsonUsu;
         this.dataInventoris.json = jsonInv;
         await this.dataUsuaris.guardar();
         await this.dataInventoris.guardar();
     }
-    async nouUsuari(usuari) {
+    async nouUsuari(tag) {
+        const dadUsu = {
+            tag: tag,
+            diners: 10,
+            banc: 0
+        };
+        const dadInv = {
+            tag: tag,
+            objectes: {}
+        };
+        let usuari = new Usuari_1.Usuari(dadUsu, dadInv);
         this.llista[usuari.tag] = usuari;
         await this.guardar();
     }

@@ -12,7 +12,14 @@ class Separador {
             await this.agafarContingut(msg);
             return true;
         }
+        else {
+            await this.reiniciar();
+        }
         return false;
+    }
+    async reiniciar() {
+        this.command = "";
+        this.contingut = [];
     }
     async shaCridat(msg) {
         if (msg.length > this.cridat.length) {

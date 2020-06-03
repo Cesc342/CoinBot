@@ -25,13 +25,5 @@ class Objecta {
     obtenir(num) {
         this.num += num;
     }
-    agafarDades() {
-        const data = {
-            nom: this.nom,
-            num: this.num,
-            detalls: this.detalls
-        };
-        return data;
-    }
 }
 exports.Objecta = Objecta;

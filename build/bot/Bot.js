@@ -4,27 +4,46 @@ const Command_1 = require("./Command");
 const Separador_1 = require("./Separador");
 const discord_js_1 = require("discord.js");
 const colors_1 = require("colors");
+const Handler_1 = require("./Handler");
 class Bot extends discord_js_1.Client {
-    constructor(cridat) {
+    constructor(cridat, cargar) {
         super();
         this.usuari = new discord_js_1.User(new discord_js_1.Client(), {}); // Carga un usuari que no existeix per despres agafar el seu
         this.jaActivat = false;
-        this.commands = new Map();
+        this.handler = new Map();
         this.cridat = cridat;
         this.separador = new Separador_1.Separador(this.cridat);
-        this.prepararMissatges();
+        if (cargar) {
+            this.on("ready", cargar);
+        }
     }
-    async prepararBot() {
-        await this.prepararMissatges();
+    async prepararBot(token) {
+        console.log(colors_1.green(`--> Ha iniciat la sessio`));
+        await this.prepararEvents();
+        console.log(colors_1.green("--> Bot Preparat"));
+        await this.login(token);
+        console.log(colors_1.green(`--> Ha iniciat la sessio`));
         await this.agafarUsuari();
+        console.log(colors_1.green(`--> Bot Cargat`));
+        console.log("");
     }
-    prepararMissatges() {
-        this.on("message", async (msg) => {
+    async prepararEvents() {
+        this.handler.forEach(async (handler, event) => {
+            try {
+                await this.nouEvent(handler, event);
+            }
+            catch (error) {
+                console.log(`El evento ${event} no funciona`);
+            }
+        });
+    }
+    async nouEvent(handler, event) {
+        this.on(event, async (msg) => {
             if (!(this.usuari.tag == msg.author.tag || this.jaActivat)) {
                 this.jaActivat = true;
                 await this.separador.separarMissatge(msg.content);
                 let commandStr = this.separador.command;
-                let command = this.commands.get(commandStr);
+                let command = handler.get(commandStr);
                 if (command) {
                     await command.on(this.separador.contingut, msg);
                 }
@@ -43,9 +62,14 @@ class Bot extends discord_js_1.Client {
             console.log(colors_1.red("NO ES POT CARRAGAR L'USUARI DEL BOT"));
         }
     }
-    onMissatge(commandStr, esdeveniment) {
+    afegirEvent(event, commandStr, esdeveniment) {
         let command = new Command_1.Command(commandStr, esdeveniment);
-        this.commands.set(commandStr, command);
+        let handler = this.handler.get(event);
+        if (!handler) {
+            handler = new Handler_1.Handler();
+            this.handler.set(event, handler);
+        }
+        handler.afegirEsdeveniment(command);
     }
 }
 exports.Bot = Bot;

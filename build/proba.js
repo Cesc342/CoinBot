@@ -25,7 +25,7 @@ function proba1(hola) {
 function probaObj() {
     let obj = new Objecta_1.Objecta("Algo", 100, "No fa res i punto.");
     console.log(obj.gastar(50));
-    console.log(obj.agafarDades());
+    console.log(obj);
     console.table(obj);
 }
 function probaInv() {
@@ -90,7 +90,7 @@ async function sandbox1() {
     };
     let nouUsuari = new Usuari_1.Usuari(dataUsu, dataInv);
     console.table(nouUsuari);
-    await usuaris.nouUsuari(nouUsuari);
+    await usuaris.nouUsuari("TAG");
     let usuari = usuaris.llista["cesc"];
     console.table(usuari.inventori.objectes.AAAA);
 }

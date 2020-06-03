@@ -61,7 +61,7 @@ class Usuari {
     impostBanc(diners) {
         return Math.round(diners * this.impostos);
     }
-    agafarDadesUsuari() {
+    async agafarDadesUsuari() {
         const dadesUsuari = {
             tag: this.tag,
             diners: this.diners,

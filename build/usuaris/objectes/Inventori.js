@@ -9,10 +9,12 @@ class Inventori {
         }
         this.objectes = objectesDespres;
     }
-    agafarInventori() {
+    async agafarInventori() {
         let dadesObjectes = {};
         for (let nom in this.objectes) {
-            dadesObjectes[nom] = this.objectes[nom].agafarDades();
+            let obj = this.objectes[nom];
+            console.table(obj);
+            dadesObjectes[nom] = obj;
         }
         let data = {
             tag: this.tag,
