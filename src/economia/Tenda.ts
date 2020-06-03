@@ -1,4 +1,4 @@
-import { BaseDades } from "../../database/BaseDades";
+import { BaseDades } from "../database/BaseDades";
 
 type DadesProducta = {
     cost: number,

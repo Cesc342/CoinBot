@@ -1,9 +1,13 @@
 import { Command, Esdeveniment } from "./Command"
 import { Separador } from "./Separador";
 
-import { Client, Message, User } from "discord.js";
+import { Client, Message, User, ClientEvents } from "discord.js";
 
-import { magenta, red } from "colors";
+import { magenta, red, green } from "colors";
+import { Handler } from "./Handler";
+import { bot } from "../Bot";
+
+type EventDiscord = 'collect' | 'dispose' | 'end' | 'collect' | 'dispose' | 'remove' | 'spawn' | 'death' | 'disconnect' | 'ready' | 'reconnecting' | 'error' | 'message' | 'shardCreate' | 'close' | 'drain' | 'finish' | 'start' | 'debug' | 'error' | 'pipe' | 'unpipe' | 'speaking' | 'volumeChange' | 'end' | 'subscribe' | 'unsubscribe' | 'authenticated' | 'closing' | 'newSession' | 'ready' | 'reconnecting' | 'debug' | 'error' | 'failed' | 'disconnect' | 'speaking' | 'warn' | 'debug' | 'volumeChange' | 'ready' | 'resumed' | 'invalidSession' | 'close' | 'allReady';
 
 export class Bot extends Client
 {
@@ -12,33 +16,52 @@ export class Bot extends Client
     private jaActivat: boolean = false;
 
     public separador: Separador;
-    private commands: Map<string, Command> = new Map();
+    private handler: Map<string, Handler> = new Map();
 
-    constructor(cridat: string)
+    constructor(cridat: string, cargar?: ()=>void)
     {
         super();
         this.cridat = cridat;
         this.separador = new Separador( this.cridat );
 
-        this.prepararMissatges();
+        if(cargar){
+            this.on("ready", cargar);
+        }
     }
 
 
-    public async prepararBot(): Promise<void>
+    public async prepararBot(token: string): Promise<void>
     {
-        await this.prepararMissatges();
+        console.log(green(`--> Ha iniciat la sessio`));
+        await this.prepararEvents();
+        console.log(green("--> Bot Preparat"));
+        await this.login(token);
+        console.log(green(`--> Ha iniciat la sessio`));
         await this.agafarUsuari();
+        console.log(green(`--> Bot Cargat`));
+        console.log("");
     }
 
-    private prepararMissatges()
+    private async prepararEvents(): Promise<void>
     {
-        this.on("message", async (msg)=>{
+        this.handler.forEach(async (handler, event: any | string)=>{
+            try{
+                await this.nouEvent(handler, event);
+            }catch (error){
+                console.log(`El evento ${event} no funciona`);
+            }
+        })
+    }
+
+    private async nouEvent(handler: Handler, event: any | string): Promise<void>
+    {
+        this.on(event, async (msg: Message)=>{
             if(!(this.usuari.tag == msg.author.tag || this.jaActivat)){
                 this.jaActivat = true;
 
                 await this.separador.separarMissatge(msg.content);
                 let commandStr: string = this.separador.command;
-                let command: Command | undefined = this.commands.get(commandStr);
+                let command: Command | undefined = handler.get(commandStr);
 
                 if(command){
                     await command.on(this.separador.contingut, msg);
@@ -61,9 +84,16 @@ export class Bot extends Client
     }
 
 
-    public onMissatge(commandStr: string, esdeveniment: Esdeveniment): void
+    public afegirEvent(event: EventDiscord, commandStr: string, esdeveniment: Esdeveniment): void
     {
         let command: Command = new Command(commandStr, esdeveniment);
-        this.commands.set(commandStr, command);
+        let handler: Handler | undefined = this.handler.get(event);
+
+        if(!handler){
+            handler = new Handler();
+            this.handler.set(event, handler);
+        }
+
+        handler.afegirEsdeveniment(command);
     }
 }

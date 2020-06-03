@@ -20,11 +20,13 @@ export class Inventori implements DadesInventari{
         this.objectes = objectesDespres;
     }
 
-    public agafarInventori(): DadesInventari
+    public async agafarInventori(): Promise<DadesInventari>
     {
         let dadesObjectes: any = {};
         for(let nom in this.objectes){
-            dadesObjectes[nom] = this.objectes[nom].agafarDades();
+            let obj: Objecta = this.objectes[nom];
+            console.table(obj);
+            dadesObjectes[nom] = obj;
         }
 
         let data: DadesInventari = {

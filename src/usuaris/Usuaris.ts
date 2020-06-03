@@ -1,5 +1,6 @@
 import { BaseDades } from "../database/BaseDades";
 import { Usuari, DadesUsuari } from "./Usuari";
+import { DadesInventari } from "./objectes/Inventori";
 
 
 export class Usuaris{
@@ -33,8 +34,8 @@ export class Usuaris{
 
         for(let id in this.llista){
             let usuari: Usuari = this.llista[id];
-            jsonUsu[id] = usuari.agafarDadesUsuari();
-            jsonInv[id] = usuari.inventori.agafarInventori();
+            jsonUsu[id] = await usuari.agafarDadesUsuari();
+            jsonInv[id] = await usuari.inventori.agafarInventori();
         }
 
         this.dataUsuaris.json = jsonUsu;
@@ -45,8 +46,19 @@ export class Usuaris{
     }
 
 
-    public async nouUsuari(usuari: Usuari): Promise<void>
+    public async nouUsuari(tag: string): Promise<void>
     {
+        const dadUsu: DadesUsuari = {
+            tag: tag,
+            diners: 10,
+            banc: 0
+        }
+        const dadInv: DadesInventari = {
+            tag: tag,
+            objectes: {}
+        }
+
+        let usuari = new Usuari(dadUsu, dadInv);
         this.llista[usuari.tag] = usuari;
         await this.guardar();
     }

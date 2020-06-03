@@ -6,7 +6,6 @@ export type Esdeveniment = ( contingut: string[], missatge: Message ) => Promise
 export class Command
 {
     public command: string;
-
     private esdeveniment: Esdeveniment;
 
 

@@ -44,7 +44,7 @@ function probaObj(): void
     let obj: Objecta = new Objecta("Algo",100,"No fa res i punto.");
 
     console.log(obj.gastar(50));
-    console.log(obj.agafarDades());
+    console.log(obj);
 
     console.table(obj);
 }
@@ -131,7 +131,7 @@ async function sandbox1()
 
     console.table(nouUsuari);
 
-    await usuaris.nouUsuari(nouUsuari);
+    await usuaris.nouUsuari("TAG");
 
     let usuari: Usuari = usuaris.llista["cesc"];
 

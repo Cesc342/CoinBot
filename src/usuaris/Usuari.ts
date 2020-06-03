@@ -91,7 +91,7 @@ export class Usuari implements DadesUsuari{
     }
 
 
-    public agafarDadesUsuari(): DadesUsuari
+    public async agafarDadesUsuari(): Promise<DadesUsuari>
     {
         const dadesUsuari: DadesUsuari = {
             tag: this.tag,

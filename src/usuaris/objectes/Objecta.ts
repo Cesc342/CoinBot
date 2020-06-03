@@ -42,15 +42,4 @@ export class Objecta implements DataObjecta{
     {
         this.num += num;
     }
-
-    public agafarDades(): DataObjecta
-    {
-        const data: DataObjecta = {
-            nom: this.nom,
-            num: this.num,
-            detalls: this.detalls
-        };
-
-        return data;
-    }
 }

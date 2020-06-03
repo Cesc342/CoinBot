@@ -17,9 +17,17 @@ export class Separador
             await this.agafarComando(msg);
             await this.agafarContingut(msg);
             return true;
+        }else{
+            await this.reiniciar();
         }
 
         return false;
+    }
+
+    private async reiniciar(): Promise<void>
+    {
+        this.command = "";
+        this.contingut = [];
     }
 
     private async shaCridat(msg: string): Promise<boolean>
