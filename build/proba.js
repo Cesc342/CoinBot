@@ -5,8 +5,8 @@ const Usuari_1 = require("./usuaris/Usuari");
 const Usuaris_1 = require("./usuaris/Usuaris");
 const Objecta_1 = require("./usuaris/objectes/Objecta");
 const Inventori_1 = require("./usuaris/objectes/Inventori");
-const Separador_1 = require("./bot/Separador");
-const Command_1 = require("./bot/Command");
+const Separador_1 = require("./bot/Esdeveniments/Separador");
+const Command_1 = require("./bot/Esdeveniments/Command");
 async function probaBD() {
     const d = new BaseDades_1.BaseDades("proba");
     await d.agafar();

@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Command_1 = require("./Command");
-const Separador_1 = require("./Separador");
+const Command_1 = require("./Esdeveniments/Command");
+const Separador_1 = require("./Esdeveniments/Separador");
 const discord_js_1 = require("discord.js");
 const colors_1 = require("colors");
-const Handler_1 = require("./Handler");
+const Handler_1 = require("./Esdeveniments/Handler");
 class Bot extends discord_js_1.Client {
     constructor(cridat, cargar) {
         super();
