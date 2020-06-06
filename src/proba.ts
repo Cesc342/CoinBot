@@ -27,9 +27,13 @@ async function probaUis()
 {
     let users = new Usuaris();
     await users.agafar();
-    await users.guardar();
 
-    console.table(users.llista.get("<@!409313183027953664>"));
+    let usuari: Usuari | undefined = users.get("409313183027953664");
+    if(usuari){
+        usuari.sumarDiners(10)
+        console.table(await usuari.agafarDadesUsuari());
+        await users.guardar();
+    }
 }
 
 
@@ -104,7 +108,7 @@ async function probaUsus()
     let usuaris: Usuaris = new Usuaris();
     await usuaris.agafar();
 
-    console.table(usuaris.llista);
+    console.table(usuaris);
 }
 
 async function sandbox1()
@@ -133,9 +137,13 @@ async function sandbox1()
 
     await usuaris.nouUsuari("TAG");
 
-    let usuari: Usuari = usuaris.llista["cesc"];
+    let usuari: Usuari | undefined = usuaris.get("cesc");
 
-    console.table(usuari.inventori.objectes.AAAA);
+    if(usuari){
+        console.table(usuari.inventori.objectes.AAAA);
+    }else{
+        console.log("undefined");
+    }
 }
 
 
@@ -158,4 +166,17 @@ async function probaCom()
                                     // Això es perque on fica "aa" tindria de haver una variable de type :Message de discord
 }
 
-probaCom();
+async function probaUsus_2()
+{
+    let usuaris: Usuaris = new Usuaris();
+    await usuaris.agafar();
+
+    let usuari = usuaris.get("Cesc");
+
+    if(usuari){
+        usuari.sumarDiners(20);
+    }
+
+    await usuaris.guardar();
+}
+probaUsus_2();

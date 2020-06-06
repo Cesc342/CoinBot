@@ -10,16 +10,21 @@ exports.bot.afegirEvent("message", "hola", async (contingut, msg) => {
 exports.bot.afegirEvent("message", "donarme", async (cont, msg) => {
     let n = parseInt(cont[0]);
     await usuaris.agafar();
-    let usuari = usuaris.llista[msg.author.tag];
+    let usuari = usuaris.get(msg.author.tag);
     console.table(usuari);
-    usuari.sumarDiners(n);
-    msg.reply(`Diners Actuals: ${usuari.diners}`);
-    await usuaris.guardar();
+    if (usuari) {
+        usuari.sumarDiners(n);
+        msg.reply(`Diners Actuals: ${usuari.diners}`);
+        await usuaris.guardar();
+    }
+    else {
+        msg.reply(`Error en agafar usuari`);
+    }
 });
 exports.bot.afegirEvent("message", "nou", async (cont, msg) => {
     await usuaris.agafar();
     usuaris.nouUsuari(msg.author.id);
-    console.table(usuaris.llista[msg.author.tag]);
+    console.table(usuaris.get(msg.author.tag));
     await usuaris.guardar();
     msg.channel.send(`${msg.author.tag} s'ha creac una contap `);
 });
@@ -27,10 +32,10 @@ exports.bot.afegirEvent("message", "conta", async (cont, msg) => {
     await usuaris.agafar();
     let usuari;
     if (cont[0]) {
-        usuari = usuaris.llista[cont[0]];
+        usuari = usuaris.get(cont[0]);
     }
     else {
-        usuari = usuaris.llista[msg.author.tag];
+        usuari = usuaris.get(msg.author.tag);
     }
     if (usuari) {
         msg.channel.send(`${usuari.tag}`, { tts: true });

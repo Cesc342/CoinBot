@@ -72,5 +72,24 @@ class Usuari {
     esPositiu(num) {
         return num >= 0;
     }
+    treballar() {
+        let r = Math.random() * 500 + 50;
+        let diners = Math.round(r);
+        this.sumarDiners(diners);
+        return diners;
+    }
+    async robar(usuari) {
+        let r = Math.random() * 900 - 300;
+        let diners = Math.round(r);
+        let possible = usuari.restarDiners(diners);
+        if (possible) {
+            if (diners >= 0) { // Determina si l'han agafat o no
+                return diners;
+            }
+            else {
+                return 0;
+            }
+        }
+    }
 }
 exports.Usuari = Usuari;

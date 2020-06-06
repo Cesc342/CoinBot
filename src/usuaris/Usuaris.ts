@@ -1,10 +1,11 @@
 import { BaseDades } from "../database/BaseDades";
 import { Usuari, DadesUsuari } from "./Usuari";
 import { DadesInventari } from "./objectes/Inventori";
+import { throws } from "assert";
+import { callbackify } from "util";
 
 
-export class Usuaris{
-    public llista: any | Usuari;
+export class Usuaris extends Map<string, Usuari>{
     private dataUsuaris: BaseDades = new BaseDades("data");
     private dataInventoris: BaseDades = new BaseDades("inventoris");
 
@@ -17,13 +18,10 @@ export class Usuaris{
         const dataUsu: any = this.dataUsuaris.json;
         const dataInv: any = this.dataInventoris.json;
 
-        let llista: any = {}
-
         for(let id in dataUsu){
             let usuari = new Usuari( dataUsu[id], dataInv[id]);
-            llista[usuari.tag] = usuari;
+            this.set(usuari.tag, usuari);
         }
-        this.llista = llista;
     }
 
 
@@ -32,11 +30,15 @@ export class Usuaris{
         let jsonUsu = this.dataUsuaris.json;
         let jsonInv = this.dataInventoris.json;
 
-        for(let id in this.llista){
-            let usuari: Usuari = this.llista[id];
+        await this.forEachAsync(async (usuari, id)=>{
             jsonUsu[id] = await usuari.agafarDadesUsuari();
             jsonInv[id] = await usuari.inventori.agafarInventori();
-        }
+        })
+
+        console.table(jsonUsu);
+        console.table(jsonInv);
+
+        console.log("-----------------------------------------------")
 
         this.dataUsuaris.json = jsonUsu;
         this.dataInventoris.json = jsonInv;
@@ -46,7 +48,7 @@ export class Usuaris{
     }
 
 
-    public async nouUsuari(tag: string): Promise<void>
+    public async nouUsuari(tag: string): Promise<Usuari>
     {
         const dadUsu: DadesUsuari = {
             tag: tag,
@@ -59,7 +61,31 @@ export class Usuaris{
         }
 
         let usuari = new Usuari(dadUsu, dadInv);
-        this.llista[usuari.tag] = usuari;
+        this.set(usuari.tag, usuari);
         await this.guardar();
+
+        return usuari;
+    }
+
+    public async usuariRandom(): Promise<Usuari>
+    {
+        let r: number = Math.random() * this.size;
+        let numUsuari: number = Math.floor(r);
+        let usuariRand: Usuari | any;
+        let i = 0;
+
+        await this.forEachAsync(async (usuari, id)=>{
+            if(i == numUsuari){
+                usuariRand = usuari;
+            }
+            i++;
+        })
+
+        return usuariRand;
+    }
+
+    public async forEachAsync(event: (value: Usuari, id: string, map: Map<string, Usuari>)=>any): Promise<void>
+    {
+        this.forEach(event);
     }
 }

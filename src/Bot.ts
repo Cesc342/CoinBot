@@ -20,12 +20,16 @@ bot.afegirEvent("message","donarme", async (cont: string[], msg: Message)=>{
     let n: number = parseInt(cont[0]);
     await usuaris.agafar();
 
-    let usuari: Usuari = usuaris.llista[msg.author.tag];
+    let usuari: Usuari | undefined = usuaris.get(msg.author.tag);
     console.table(usuari);
 
-    usuari.sumarDiners(n);
-    msg.reply(`Diners Actuals: ${usuari.diners}`);
-    await usuaris.guardar();
+    if(usuari){
+        usuari.sumarDiners(n);
+        msg.reply(`Diners Actuals: ${usuari.diners}`);
+        await usuaris.guardar();
+    }else{
+        msg.reply(`Error en agafar usuari`)
+    }
 })
 
 
@@ -33,7 +37,7 @@ bot.afegirEvent("message","nou", async (cont: string[], msg: Message)=>{
     await usuaris.agafar();
     usuaris.nouUsuari(msg.author.id);
 
-    console.table(usuaris.llista[msg.author.tag]);
+    console.table(usuaris.get(msg.author.tag));
 
     await usuaris.guardar();
 
@@ -43,12 +47,12 @@ bot.afegirEvent("message","nou", async (cont: string[], msg: Message)=>{
 
 bot.afegirEvent("message","conta", async (cont: string[], msg: Message)=>{
     await usuaris.agafar();
-    let usuari: Usuari;
+    let usuari: Usuari | undefined;
 
     if(cont[0]){
-        usuari = usuaris.llista[cont[0]];
+        usuari = usuaris.get(cont[0]);
     }else{
-        usuari = usuaris.llista[msg.author.tag];
+        usuari = usuaris.get(msg.author.tag);
     }
 
     if(usuari){

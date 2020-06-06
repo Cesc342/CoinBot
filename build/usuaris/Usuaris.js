@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const BaseDades_1 = require("../database/BaseDades");
 const Usuari_1 = require("./Usuari");
-class Usuaris {
+class Usuaris extends Map {
     constructor() {
+        super(...arguments);
         this.dataUsuaris = new BaseDades_1.BaseDades("data");
         this.dataInventoris = new BaseDades_1.BaseDades("inventoris");
     }
@@ -12,21 +13,21 @@ class Usuaris {
         await this.dataInventoris.agafar();
         const dataUsu = this.dataUsuaris.json;
         const dataInv = this.dataInventoris.json;
-        let llista = {};
         for (let id in dataUsu) {
             let usuari = new Usuari_1.Usuari(dataUsu[id], dataInv[id]);
-            llista[usuari.tag] = usuari;
+            this.set(usuari.tag, usuari);
         }
-        this.llista = llista;
     }
     async guardar() {
         let jsonUsu = this.dataUsuaris.json;
         let jsonInv = this.dataInventoris.json;
-        for (let id in this.llista) {
-            let usuari = this.llista[id];
+        await this.forEachAsync(async (usuari, id) => {
             jsonUsu[id] = await usuari.agafarDadesUsuari();
             jsonInv[id] = await usuari.inventori.agafarInventori();
-        }
+        });
+        console.table(jsonUsu);
+        console.table(jsonInv);
+        console.log("-----------------------------------------------");
         this.dataUsuaris.json = jsonUsu;
         this.dataInventoris.json = jsonInv;
         await this.dataUsuaris.guardar();
@@ -43,8 +44,25 @@ class Usuaris {
             objectes: {}
         };
         let usuari = new Usuari_1.Usuari(dadUsu, dadInv);
-        this.llista[usuari.tag] = usuari;
+        this.set(usuari.tag, usuari);
         await this.guardar();
+        return usuari;
+    }
+    async usuariRandom() {
+        let r = Math.random() * this.size;
+        let numUsuari = Math.floor(r);
+        let usuariRand;
+        let i = 0;
+        await this.forEachAsync(async (usuari, id) => {
+            if (i == numUsuari) {
+                usuariRand = usuari;
+            }
+            i++;
+        });
+        return usuariRand;
+    }
+    async forEachAsync(event) {
+        this.forEach(event);
     }
 }
 exports.Usuaris = Usuaris;

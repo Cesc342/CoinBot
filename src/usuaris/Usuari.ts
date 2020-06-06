@@ -107,4 +107,31 @@ export class Usuari implements DadesUsuari{
     {
         return num >= 0;
     }
+
+
+    public treballar(): number
+    {
+        let r: number = Math.random() * 500 + 50;
+        let diners: number = Math.round(r);
+
+        this.sumarDiners(diners);
+        return diners;
+    }
+
+
+    public async robar(usuari: Usuari): Promise<undefined | number>
+    {
+        let r: number = Math.random() * 900 - 300;
+        let diners: number = Math.round(r);
+        let possible: boolean = usuari.restarDiners(diners);
+
+        if(possible){
+            if(diners >= 0){ // Determina si l'han agafat o no
+                return diners;
+            }else{
+                return 0;
+            }
+        }
+    }
+
 }

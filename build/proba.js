@@ -16,8 +16,12 @@ async function probaBD() {
 async function probaUis() {
     let users = new Usuaris_1.Usuaris();
     await users.agafar();
-    await users.guardar();
-    console.table(users.llista.get("<@!409313183027953664>"));
+    let usuari = users.get("409313183027953664");
+    if (usuari) {
+        usuari.sumarDiners(10);
+        console.table(await usuari.agafarDadesUsuari());
+        await users.guardar();
+    }
 }
 function proba1(hola) {
     return hola;
@@ -69,7 +73,7 @@ async function probaUsu() {
 async function probaUsus() {
     let usuaris = new Usuaris_1.Usuaris();
     await usuaris.agafar();
-    console.table(usuaris.llista);
+    console.table(usuaris);
 }
 async function sandbox1() {
     let obj1 = new Objecta_1.Objecta("AAAA", 100, "CRIDA!!! AAAAAAA!!!!!");
@@ -91,8 +95,13 @@ async function sandbox1() {
     let nouUsuari = new Usuari_1.Usuari(dataUsu, dataInv);
     console.table(nouUsuari);
     await usuaris.nouUsuari("TAG");
-    let usuari = usuaris.llista["cesc"];
-    console.table(usuari.inventori.objectes.AAAA);
+    let usuari = usuaris.get("cesc");
+    if (usuari) {
+        console.table(usuari.inventori.objectes.AAAA);
+    }
+    else {
+        console.log("undefined");
+    }
 }
 async function probaSep() {
     let separador = new Separador_1.Separador("bot!");
@@ -107,4 +116,13 @@ async function probaCom() {
     // command.on(["hola"],"aa");   // No es pot probar almenys que canviis unes coses del arxiu
     // Això es perque on fica "aa" tindria de haver una variable de type :Message de discord
 }
-probaCom();
+async function probaUsus_2() {
+    let usuaris = new Usuaris_1.Usuaris();
+    await usuaris.agafar();
+    let usuari = usuaris.get("Cesc");
+    if (usuari) {
+        usuari.sumarDiners(20);
+    }
+    await usuaris.guardar();
+}
+probaUsus_2();
