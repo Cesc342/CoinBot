@@ -2,11 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const BaseDades_1 = require("../database/BaseDades");
 const Usuari_1 = require("./Usuari");
+const Compilador_1 = require("../bot/compilador/Compilador");
 class Usuaris extends Map {
     constructor() {
         super(...arguments);
         this.dataUsuaris = new BaseDades_1.BaseDades("data");
         this.dataInventoris = new BaseDades_1.BaseDades("inventoris");
+        this.compilador = new Compilador_1.Compilador();
     }
     async agafar() {
         await this.dataUsuaris.agafar();
@@ -60,6 +62,19 @@ class Usuaris extends Map {
     }
     async forEachAsync(event) {
         this.forEach(event);
+    }
+    async getById(idBrut) {
+        console.log(idBrut);
+        let id = await this.compilador.treuraId(idBrut);
+        console.log(`idBrut: ${idBrut} >>>>> ${id}`);
+        let usuari;
+        if (id) {
+            usuari = this.get(id);
+        }
+        else {
+            usuari = this.get(idBrut);
+        }
+        return usuari;
     }
 }
 exports.Usuaris = Usuaris;

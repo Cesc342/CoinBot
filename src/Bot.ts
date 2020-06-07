@@ -15,7 +15,7 @@ export const bot: Bot = new Bot("bot!");
 
 
 bot.afegirEvent("message","hola", async (contingut: string[], msg: Message)=>{
-    msg.reply("HOLA");
+    msg.channel.send("HOLA");
 });
 
 
@@ -28,17 +28,17 @@ bot.afegirEvent("message","donarme", async (cont: string[], msg: Message)=>{
 
     if(usuari){
         usuari.sumarDiners(n);
-        msg.reply(`Diners Actuals: ${usuari.diners}`);
+        msg.channel.send(`Diners Actuals: ${usuari.diners}`);
         await usuaris.guardar();
     }else{
-        msg.reply(`Error en agafar usuari`)
+        msg.channel.send(`Error en agafar usuari`)
     }
 })
 
 
 bot.afegirEvent("message","nou", async (cont: string[], msg: Message)=>{
     await usuaris.agafar();
-    usuaris.nouUsuari(msg.author.id);
+    await usuaris.nouUsuari(msg.author.id);
 
     console.table(usuaris.get(msg.author.tag));
 
@@ -53,15 +53,15 @@ bot.afegirEvent("message","conta", async (cont: string[], msg: Message)=>{
     let usuari: Usuari | undefined;
 
     if(cont[0]){
-        usuari = usuaris.get(cont[0]);
+        usuari = await usuaris.getById(cont[0]);
     }else{
-        usuari = usuaris.get(msg.author.tag);
+        usuari = await usuaris.getById(msg.author.id);
     }
 
     if(usuari){
         msg.channel.send(`${usuari.tag}`, {tts:true});
     }else{
-        msg.channel.send(`El usuari`);
+        msg.channel.send(`Eror`);
     }
 })
 
@@ -76,4 +76,13 @@ bot.afegirEvent("message", "adeu", async(cont: string[], msg: Message)=>{
 bot.afegirEvent("message", "proba", async(cont: string[], msg: Message)=>{
     console.log(cont[0]);
     msg.channel.send(cont[0]);
+})
+
+bot.afegirEvent("message", "agafar-conta", async(cont: string[], msg: Message)=>{
+
+    if(cont[0]){
+        
+    }else{
+
+    }
 })

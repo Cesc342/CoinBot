@@ -1,12 +1,13 @@
 import { BaseDades } from "../database/BaseDades";
 import { Usuari, DadesUsuari } from "./Usuari";
 import { DadesInventari } from "./objectes/Inventori";
+import { Compilador } from "../bot/compilador/Compilador";
 
 
 export class Usuaris extends Map<string, Usuari>{
     private dataUsuaris: BaseDades = new BaseDades("data");
     private dataInventoris: BaseDades = new BaseDades("inventoris");
-
+    private compilador = new Compilador();
 
     public async agafar(): Promise<void>
     {
@@ -80,5 +81,19 @@ export class Usuaris extends Map<string, Usuari>{
     public async forEachAsync(event: (value: Usuari, id: string, map: Map<string, Usuari>)=>any): Promise<void>
     {
         this.forEach(event);
+    }
+
+    public async getById(idBrut: string): Promise<Usuari | undefined>
+    {
+        console.log(idBrut);
+        let id = await this.compilador.treuraId(idBrut);
+        console.log(`idBrut: ${idBrut} >>>>> ${id}`);
+        let usuari: Usuari | undefined;
+        if(id){
+            usuari = this.get(id);
+        }else{
+            usuari = this.get(idBrut);
+        }
+        return usuari;
     }
 }
