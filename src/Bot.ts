@@ -1,6 +1,9 @@
 import { Usuaris } from "./usuaris/Usuaris";
 const usuaris = new Usuaris();
 
+import { Tenda } from "./economia/Tenda";
+const tenda = new Tenda(usuaris);
+
 import { Bot } from "./bot/Bot";
 import { Message, Channel, Collector, MessageEmbed, DMChannel } from "discord.js";
 import { Usuari } from "./usuaris/Usuari";

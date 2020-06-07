@@ -9,6 +9,8 @@ import { Inventori } from "./usuaris/objectes/Inventori";
 import { Separador } from "./bot/compilador/Separador";
 import { Command } from "./bot/esdeveniments/Command";
 import { Message, Client } from "discord.js";
+import { Tenda } from "./economia/Tenda";
+import { Producta } from "./economia/Producta";
 
 
 
@@ -179,4 +181,43 @@ async function probaUsus_2()
 
     await usuaris.guardar();
 }
-probaUsus_2();
+
+async function probaTend()
+{
+    let usuaris: Usuaris = new Usuaris();
+    await usuaris.agafar();
+    let tenda: Tenda = new Tenda(usuaris);
+    await tenda.agafar();
+
+    let usuari = usuaris.get("Cesc");
+
+    let obj: Objecta = new Objecta("A", 2, "ningun");
+
+    if(usuari){
+        await tenda.nouProducta(obj, usuari, 10);
+        await tenda.guardar();
+    }
+}
+
+async function probaTend_2(){
+    let usuaris: Usuaris = new Usuaris();
+    await usuaris.agafar();
+    let tenda: Tenda = new Tenda(usuaris);
+    await tenda.agafar();
+
+    let usuari = usuaris.get("Cesc");
+    console.table(usuari);
+
+    let producta = tenda.get("A");
+
+    if(producta && usuari){
+        if(producta.comprar(usuari, 1)){
+            console.log("Comprat");
+        }
+        console.table(producta);
+        tenda.set(producta.nom, producta);
+        await tenda.guardar();
+    }
+}
+
+probaTend_2();

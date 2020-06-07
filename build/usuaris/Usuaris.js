@@ -25,9 +25,6 @@ class Usuaris extends Map {
             jsonUsu[id] = await usuari.agafarDadesUsuari();
             jsonInv[id] = await usuari.inventori.agafarInventori();
         });
-        console.table(jsonUsu);
-        console.table(jsonInv);
-        console.log("-----------------------------------------------");
         this.dataUsuaris.json = jsonUsu;
         this.dataInventoris.json = jsonInv;
         await this.dataUsuaris.guardar();

@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Usuaris_1 = require("./usuaris/Usuaris");
 const usuaris = new Usuaris_1.Usuaris();
+const Tenda_1 = require("./economia/Tenda");
+const tenda = new Tenda_1.Tenda(usuaris);
 const Bot_1 = require("./bot/Bot");
 exports.bot = new Bot_1.Bot("bot!");
 exports.bot.afegirEvent("message", "hola", async (contingut, msg) => {

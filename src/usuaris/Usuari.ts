@@ -16,9 +16,9 @@ export class Usuari implements DadesUsuari{
     public impostos: number = 0.1; //Quant treu el banc cada vegada que guardes els diners
 
 
-    constructor({tag: id, diners, banc}: DadesUsuari, dadesInv: DadesInventari)
+    constructor({tag, diners, banc}: DadesUsuari, dadesInv: DadesInventari)
     {
-        this.tag = id;
+        this.tag = tag;
         this.inventori = new Inventori(dadesInv);
 
         //Ho he fet aixi perque el valor diners no dongui negatiu

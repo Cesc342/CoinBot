@@ -1,8 +1,6 @@
 import { BaseDades } from "../database/BaseDades";
 import { Usuari, DadesUsuari } from "./Usuari";
 import { DadesInventari } from "./objectes/Inventori";
-import { throws } from "assert";
-import { callbackify } from "util";
 
 
 export class Usuaris extends Map<string, Usuari>{
@@ -34,11 +32,6 @@ export class Usuaris extends Map<string, Usuari>{
             jsonUsu[id] = await usuari.agafarDadesUsuari();
             jsonInv[id] = await usuari.inventori.agafarInventori();
         })
-
-        console.table(jsonUsu);
-        console.table(jsonInv);
-
-        console.log("-----------------------------------------------")
 
         this.dataUsuaris.json = jsonUsu;
         this.dataInventoris.json = jsonInv;

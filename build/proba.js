@@ -7,6 +7,7 @@ const Objecta_1 = require("./usuaris/objectes/Objecta");
 const Inventori_1 = require("./usuaris/objectes/Inventori");
 const Separador_1 = require("./bot/compilador/Separador");
 const Command_1 = require("./bot/esdeveniments/Command");
+const Tenda_1 = require("./economia/Tenda");
 async function probaBD() {
     const d = new BaseDades_1.BaseDades("proba");
     await d.agafar();
@@ -125,4 +126,33 @@ async function probaUsus_2() {
     }
     await usuaris.guardar();
 }
-probaUsus_2();
+async function probaTend() {
+    let usuaris = new Usuaris_1.Usuaris();
+    await usuaris.agafar();
+    let tenda = new Tenda_1.Tenda(usuaris);
+    await tenda.agafar();
+    let usuari = usuaris.get("Cesc");
+    let obj = new Objecta_1.Objecta("A", 2, "ningun");
+    if (usuari) {
+        await tenda.nouProducta(obj, usuari, 10);
+        await tenda.guardar();
+    }
+}
+async function probaTend_2() {
+    let usuaris = new Usuaris_1.Usuaris();
+    await usuaris.agafar();
+    let tenda = new Tenda_1.Tenda(usuaris);
+    await tenda.agafar();
+    let usuari = usuaris.get("Cesc");
+    console.table(usuari);
+    let producta = tenda.get("A");
+    if (producta && usuari) {
+        if (producta.comprar(usuari, 1)) {
+            console.log("Comprat");
+        }
+        console.table(producta);
+        tenda.set(producta.nom, producta);
+        await tenda.guardar();
+    }
+}
+probaTend_2();

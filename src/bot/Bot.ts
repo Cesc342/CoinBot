@@ -7,6 +7,7 @@ import { magenta, red, green } from "colors";
 import { Handler } from "./esdeveniments/Handler";
 import { bot } from "../Bot";
 import { Compilador } from "./compilador/Compilador";
+import { Tenda } from "../economia/Tenda";
 
 type EventDiscord = 'collect' | 'dispose' | 'end' | 'collect' | 'dispose' | 'remove' | 'spawn' | 'death' | 'disconnect' | 'ready' | 'reconnecting' | 'error' | 'message' | 'shardCreate' | 'close' | 'drain' | 'finish' | 'start' | 'debug' | 'error' | 'pipe' | 'unpipe' | 'speaking' | 'volumeChange' | 'end' | 'subscribe' | 'unsubscribe' | 'authenticated' | 'closing' | 'newSession' | 'ready' | 'reconnecting' | 'debug' | 'error' | 'failed' | 'disconnect' | 'speaking' | 'warn' | 'debug' | 'volumeChange' | 'ready' | 'resumed' | 'invalidSession' | 'close' | 'allReady';
 
