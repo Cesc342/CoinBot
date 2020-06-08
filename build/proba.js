@@ -7,6 +7,7 @@ const Objecta_1 = require("./usuaris/objectes/Objecta");
 const Inventori_1 = require("./usuaris/objectes/Inventori");
 const Separador_1 = require("./bot/compilador/Separador");
 const Command_1 = require("./bot/esdeveniments/Command");
+const discord_js_1 = require("discord.js");
 const Tenda_1 = require("./economia/Tenda");
 async function probaBD() {
     const d = new BaseDades_1.BaseDades("proba");
@@ -37,7 +38,7 @@ function probaInv() {
     let obj1 = new Objecta_1.Objecta("Nose", 100, "No ho se. Tu sabras.");
     let obj2 = new Objecta_1.Objecta("Nose Algo", 10, "Nose, potser aquest fa algo. Tiu, no ho se tot.");
     let inventori = new Inventori_1.Inventori({
-        tag: "Jugador2",
+        id: "Jugador2",
         objectes: {
             "Nose": obj1,
             "Nose Algo": obj2
@@ -56,18 +57,18 @@ async function probaUsu() {
     let obj1 = new Objecta_1.Objecta("Nose", 100, "No ho se. Tu sabras.");
     let obj2 = new Objecta_1.Objecta("Nose Algo", 10, "Nose, potser aquest fa algo. Tiu, no ho se tot.");
     let dataUsu = {
-        tag: "cesc",
+        id: "cesc",
         diners: 20,
         banc: 30
     };
     let dataInv = {
-        tag: "cesc",
+        id: "cesc",
         objectes: {
             Nose: obj1,
             "Nose Algo": obj2
         }
     };
-    let usuari = new Usuari_1.Usuari(dataUsu, dataInv);
+    let usuari = new Usuari_1.Usuari(new discord_js_1.User(new discord_js_1.Client(), {}), dataUsu, dataInv);
     let obj = usuari.inventori.objectes.Nose;
     console.table(obj.nom);
 }
@@ -82,20 +83,20 @@ async function sandbox1() {
     const usuaris = new Usuaris_1.Usuaris();
     await usuaris.agafar();
     let dataUsu = {
-        tag: "cesc",
+        id: "cesc",
         diners: 20,
         banc: 30
     };
     let dataInv = {
-        tag: "cesc",
+        id: "cesc",
         objectes: {
             "AAAA": obj1,
             "MES ALT": obj2
         }
     };
-    let nouUsuari = new Usuari_1.Usuari(dataUsu, dataInv);
+    let nouUsuari = new Usuari_1.Usuari(new discord_js_1.User(new discord_js_1.Client, {}), dataUsu, dataInv);
     console.table(nouUsuari);
-    await usuaris.nouUsuari("TAG");
+    await usuaris.nouUsuari("TAG", new discord_js_1.User(new discord_js_1.Client(), {}));
     let usuari = usuaris.get("cesc");
     if (usuari) {
         console.table(usuari.inventori.objectes.AAAA);

@@ -10,14 +10,29 @@ class Usuaris extends Map {
         this.dataInventoris = new BaseDades_1.BaseDades("inventoris");
         this.compilador = new Compilador_1.Compilador();
     }
-    async agafar() {
+    async agafar(bot) {
         await this.dataUsuaris.agafar();
         await this.dataInventoris.agafar();
         const dataUsu = this.dataUsuaris.json;
         const dataInv = this.dataInventoris.json;
-        for (let id in dataUsu) {
-            let usuari = new Usuari_1.Usuari(dataUsu[id], dataInv[id]);
-            this.set(usuari.tag, usuari);
+        if (bot) {
+            for (let id in dataUsu) {
+                let usuariDiscord = await bot.users.fetch(id);
+                let usuari = new Usuari_1.Usuari(usuariDiscord, dataUsu[id], dataInv[id]);
+                this.set(usuari.id, usuari);
+            }
+        }
+        else {
+            for (let id in dataUsu) {
+                let usuari = this.get(id);
+                if (usuari) {
+                    usuari.implentarDades(dataUsu[id], dataInv[id]);
+                    this.set(usuari.id, usuari);
+                }
+                else {
+                    console.error(`ERROR: no s'ha trobat l'usuari ${id}`);
+                }
+            }
         }
     }
     async guardar() {
@@ -32,18 +47,19 @@ class Usuaris extends Map {
         await this.dataUsuaris.guardar();
         await this.dataInventoris.guardar();
     }
-    async nouUsuari(tag) {
+    async nouUsuari(id, usuariDiscord) {
+        let idPros = await this.compilador.treuraId(id);
         const dadUsu = {
-            tag: tag,
+            id: idPros,
             diners: 10,
             banc: 0
         };
         const dadInv = {
-            tag: tag,
+            id: idPros,
             objectes: {}
         };
-        let usuari = new Usuari_1.Usuari(dadUsu, dadInv);
-        this.set(usuari.tag, usuari);
+        let usuari = new Usuari_1.Usuari(usuariDiscord, dadUsu, dadInv);
+        this.set(usuari.id, usuari);
         await this.guardar();
         return usuari;
     }
@@ -66,7 +82,9 @@ class Usuaris extends Map {
     async getById(idBrut) {
         console.log(idBrut);
         let id = await this.compilador.treuraId(idBrut);
-        console.log(`idBrut: ${idBrut} >>>>> ${id}`);
+        if (id) {
+            console.log(`idBrut: ${idBrut} >>>>> ${id}`);
+        }
         let usuari;
         if (id) {
             usuari = this.get(id);

@@ -2,11 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Objecta_1 = require("../usuaris/objectes/Objecta");
 const Usuari_1 = require("../usuaris/Usuari");
+const discord_js_1 = require("discord.js");
 class Producta extends Objecta_1.Objecta {
     constructor() {
         super(...arguments);
         this.cost = 0;
-        this.venedor = new Usuari_1.Usuari({ tag: "", diners: 0, banc: 0 }, { tag: "", objectes: {} });
+        this.venedor = new Usuari_1.Usuari(new discord_js_1.User(new discord_js_1.Client(), {}), { id: "", diners: 0, banc: 0 }, { id: "", objectes: {} });
     }
     async processarDades({ nom, detalls, num, cost, venedor }) {
         this.nom = nom;

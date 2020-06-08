@@ -1,5 +1,6 @@
 import { Objecta } from "../usuaris/objectes/Objecta";
 import { Usuari } from "../usuaris/Usuari";
+import { User, Client } from "discord.js";
 
 export interface DadesProducta {
     cost: number,
@@ -20,7 +21,7 @@ type DadesProductaJson = {
 export class Producta extends Objecta implements DadesProducta
 {
     public cost: number = 0;
-    public venedor: Usuari = new Usuari({tag: "", diners: 0, banc: 0}, {tag: "", objectes: {}});
+    public venedor: Usuari = new Usuari(new User(new Client(), {}), {id: "", diners: 0, banc: 0}, {id: "", objectes: {}});
 
 
     public async processarDades({nom, detalls, num, cost, venedor}: DadesProducta): Promise<void>

@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 
-export type Esdeveniment = ( contingut: string[], missatge: Message ) => Promise<void>;
+export type Esdeveniment = ( contingut: string[], missatge: Message ) => void;
 
 export class Command
 {

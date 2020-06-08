@@ -8,7 +8,7 @@ import { Inventori } from "./usuaris/objectes/Inventori";
 
 import { Separador } from "./bot/compilador/Separador";
 import { Command } from "./bot/esdeveniments/Command";
-import { Message, Client } from "discord.js";
+import { Message, Client, User } from "discord.js";
 import { Tenda } from "./economia/Tenda";
 import { Producta } from "./economia/Producta";
 
@@ -61,7 +61,7 @@ function probaInv(): void
     let obj2: Objecta = new Objecta("Nose Algo",10,"Nose, potser aquest fa algo. Tiu, no ho se tot.");
 
     let inventori: Inventori = new Inventori({
-        tag:"Jugador2",
+        id:"Jugador2",
         objectes: {
             "Nose": obj1,
             "Nose Algo": obj2
@@ -86,19 +86,19 @@ async function probaUsu()
     let obj2: Objecta = new Objecta("Nose Algo",10,"Nose, potser aquest fa algo. Tiu, no ho se tot.");
 
     let dataUsu = {
-        tag:"cesc",
+        id:"cesc",
         diners: 20,
         banc: 30
     };
     let dataInv = {
-        tag:"cesc",
+        id:"cesc",
         objectes:{
             Nose:obj1,
             "Nose Algo":obj2
         }
     }
 
-    let usuari: Usuari = new Usuari(dataUsu, dataInv);
+    let usuari: Usuari = new Usuari(new User(new Client(), {}), dataUsu, dataInv);
 
     let obj: Objecta = usuari.inventori.objectes.Nose;
 
@@ -122,22 +122,22 @@ async function sandbox1()
     await usuaris.agafar();
 
     let dataUsu = {
-        tag:"cesc",
+        id:"cesc",
         diners: 20,
         banc: 30
     };
     let dataInv = {
-        tag:"cesc",
+        id:"cesc",
         objectes:{
             "AAAA":obj1,
             "MES ALT":obj2
         }
     }
-    let nouUsuari: Usuari = new Usuari(dataUsu, dataInv);
+    let nouUsuari: Usuari = new Usuari(new User(new Client, {}), dataUsu, dataInv);
 
     console.table(nouUsuari);
 
-    await usuaris.nouUsuari("TAG");
+    await usuaris.nouUsuari("TAG", new User(new Client(), {}));
 
     let usuari: Usuari | undefined = usuaris.get("cesc");
 

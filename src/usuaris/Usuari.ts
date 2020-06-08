@@ -1,13 +1,14 @@
 import { Inventori, DadesInventari } from "./objectes/Inventori";
+import { User, Client } from "discord.js";
 
 export type DadesUsuari = {
-    tag: string,
+    id: string,
     diners: number,
     banc:number
 }
 
-export class Usuari implements DadesUsuari{
-    public tag: string;
+export class Usuari extends User implements DadesUsuari{
+    public id: string;
     public diners: number = 0;
     public banc: number = 0;
 
@@ -15,10 +16,20 @@ export class Usuari implements DadesUsuari{
 
     public impostos: number = 0.1; //Quant treu el banc cada vegada que guardes els diners
 
-
-    constructor({tag, diners, banc}: DadesUsuari, dadesInv: DadesInventari)
+    constructor(user: User, {id, diners, banc}: DadesUsuari, dadesInv: DadesInventari)
     {
-        this.tag = tag;
+        super(user.client, user);
+        this.id = id;
+        this.inventori = new Inventori(dadesInv);
+
+        //Ho he fet aixi perque el valor diners no dongui negatiu
+        this.sumarDiners(diners);
+        this.banc = banc;
+    }
+
+    public implentarDades({id, diners, banc}: DadesUsuari, dadesInv: DadesInventari): void
+    {
+        this.id = id;
         this.inventori = new Inventori(dadesInv);
 
         //Ho he fet aixi perque el valor diners no dongui negatiu
@@ -94,7 +105,7 @@ export class Usuari implements DadesUsuari{
     public async agafarDadesUsuari(): Promise<DadesUsuari>
     {
         const dadesUsuari: DadesUsuari = {
-            tag: this.tag,
+            id: this.id,
             diners: this.diners,
             banc: this.banc
         };

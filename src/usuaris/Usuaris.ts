@@ -2,6 +2,7 @@ import { BaseDades } from "../database/BaseDades";
 import { Usuari, DadesUsuari } from "./Usuari";
 import { DadesInventari } from "./objectes/Inventori";
 import { Compilador } from "../bot/compilador/Compilador";
+import { Client, User } from "discord.js";
 
 
 export class Usuaris extends Map<string, Usuari>{
@@ -9,7 +10,7 @@ export class Usuaris extends Map<string, Usuari>{
     private dataInventoris: BaseDades = new BaseDades("inventoris");
     private compilador = new Compilador();
 
-    public async agafar(): Promise<void>
+    public async agafar(bot?: Client): Promise<void>
     {
         await this.dataUsuaris.agafar();
         await this.dataInventoris.agafar();
@@ -17,9 +18,22 @@ export class Usuaris extends Map<string, Usuari>{
         const dataUsu: any = this.dataUsuaris.json;
         const dataInv: any = this.dataInventoris.json;
 
-        for(let id in dataUsu){
-            let usuari = new Usuari( dataUsu[id], dataInv[id]);
-            this.set(usuari.tag, usuari);
+        if(bot){
+            for(let id in dataUsu){
+                let usuariDiscord = await bot.users.fetch(id);
+                let usuari = new Usuari(usuariDiscord, dataUsu[id], dataInv[id]);
+                this.set(usuari.id, usuari);
+            }
+        }else{
+            for(let id in dataUsu){
+                let usuari = this.get(id);
+                if(usuari){
+                    usuari.implentarDades(dataUsu[id], dataInv[id]);
+                    this.set(usuari.id, usuari);
+                }else{
+                    console.error(`ERROR: no s'ha trobat l'usuari ${id}`);
+                }
+            }
         }
     }
 
@@ -42,20 +56,21 @@ export class Usuaris extends Map<string, Usuari>{
     }
 
 
-    public async nouUsuari(tag: string): Promise<Usuari>
+    public async nouUsuari(id: string, usuariDiscord: User): Promise<Usuari>
     {
+        let idPros: string = await this.compilador.treuraId(id);
         const dadUsu: DadesUsuari = {
-            tag: tag,
+            id: idPros,
             diners: 10,
             banc: 0
         }
         const dadInv: DadesInventari = {
-            tag: tag,
+            id: idPros,
             objectes: {}
         }
 
-        let usuari = new Usuari(dadUsu, dadInv);
-        this.set(usuari.tag, usuari);
+        let usuari = new Usuari(usuariDiscord, dadUsu, dadInv);
+        this.set(usuari.id, usuari);
         await this.guardar();
 
         return usuari;
@@ -87,7 +102,9 @@ export class Usuaris extends Map<string, Usuari>{
     {
         console.log(idBrut);
         let id = await this.compilador.treuraId(idBrut);
-        console.log(`idBrut: ${idBrut} >>>>> ${id}`);
+        if(id){
+            console.log(`idBrut: ${idBrut} >>>>> ${id}`);
+        }
         let usuari: Usuari | undefined;
         if(id){
             usuari = this.get(id);

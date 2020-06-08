@@ -11,6 +11,9 @@ class Compilador {
         else if (idBrut.includes("@")) {
             id = idBrut.split("@")[1].split(">")[0];
         }
+        else {
+            return idBrut;
+        }
         return id;
     }
     async treuraNom(nomBrut) {
