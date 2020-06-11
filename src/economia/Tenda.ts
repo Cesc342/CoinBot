@@ -3,8 +3,9 @@ import { Producta, DadesProducta } from "./objectes/Producta";
 import { Usuari } from "../usuaris/Usuari";
 import { Objecta } from "./objectes/Objecta";
 import { Usuaris } from "../usuaris/Usuaris";
+import { Llistes } from "../database/Llistes";
 
-export class Tenda extends Map<string, Producta>{
+export class Tenda extends Llistes<string, Producta>{
 
     private dataTenda: BaseDades = new BaseDades("tenda");
     public usuaris: Usuaris;

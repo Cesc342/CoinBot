@@ -9,6 +9,7 @@ const Separador_1 = require("./bot/compilador/Separador");
 const Command_1 = require("./bot/esdeveniments/Command");
 const discord_js_1 = require("discord.js");
 const Tenda_1 = require("./economia/Tenda");
+const Llistes_1 = require("./database/Llistes");
 async function probaBD() {
     const d = new BaseDades_1.BaseDades("proba");
     await d.agafar();
@@ -156,4 +157,45 @@ async function probaTend_2() {
         await tenda.guardar();
     }
 }
-probaTend_2();
+async function probaLlist() {
+    let llistes = new Llistes_1.Llistes();
+    let i = 1;
+    console.log(i);
+    i++;
+    await llistes.setAsync("hola", 126);
+    console.log(i);
+    i++;
+    await llistes.setAsync("hey", 425);
+    console.log(i);
+    i++;
+    await llistes.setAsync("adeu", 999);
+    console.log(i);
+    i++;
+    await llistes.setAsync("ALV", 777);
+    console.log(i);
+    i++;
+    let n = await llistes.getAsync("hola");
+    console.log(i);
+    i++;
+    let a = await llistes.getAsync("hey");
+    console.log(i);
+    i++;
+    let b = await llistes.getAsync("hey");
+    console.log(i);
+    i++;
+    let c = await llistes.getAsync("hey");
+    console.log(i);
+    i++;
+    if (n && a && b && c) {
+        console.log(n);
+        console.log(a);
+        console.log(b);
+        console.log(c);
+    }
+    console.log("........... FOR EACH .............");
+    await llistes.forEachAsync((n, k) => {
+        console.log(`${k} -> ${n}`);
+    });
+    console.log("ACABAT");
+}
+probaLlist();

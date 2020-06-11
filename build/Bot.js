@@ -27,4 +27,15 @@ exports.bot.afegirEvent("message", "crear", async (con, msg) => {
         usuaris.nouUsuari(usuari.id, usuari);
     }
     await usuaris.guardar();
+    await usuaris.agafar(exports.bot);
+});
+exports.bot.afegirEvent("message", "stats", async (cont, msg) => {
+    await usuaris.agafar();
+    let usuari = await usuaris.getById(msg.author.id);
+    msg.channel.send(``);
+});
+exports.bot.afegirEvent("message", "mirar", (cont, msg) => {
+    if (cont[0]) {
+        msg.channel.send(cont[0]);
+    }
 });

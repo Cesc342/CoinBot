@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const colors_1 = require("colors");
-class Handler extends Map {
+const Llistes_1 = require("../../database/Llistes");
+class Handler extends Llistes_1.Llistes {
     constructor() {
         super();
-        this.commands = new Map();
     }
     async afegirEsdeveniment(command) {
         this.set(command.command, command);

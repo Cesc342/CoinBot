@@ -11,6 +11,7 @@ import { Command } from "./bot/esdeveniments/Command";
 import { Message, Client, User } from "discord.js";
 import { Tenda } from "./economia/Tenda";
 import { Producta } from "./economia/objectes/Producta";
+import { Llistes } from "./database/Llistes";
 
 
 
@@ -220,4 +221,51 @@ async function probaTend_2(){
     }
 }
 
-probaTend_2();
+async function probaLlist() {
+    let llistes = new Llistes<string, number>();
+    let i = 1;
+
+    console.log(i);
+    i++;
+    await llistes.setAsync("hola", 126);
+    console.log(i);
+    i++;
+    await llistes.setAsync("hey", 425);
+    console.log(i);
+    i++;
+    await llistes.setAsync("adeu", 999);
+    console.log(i);
+    i++;
+    await llistes.setAsync("ALV", 777);
+
+    console.log(i);
+    i++;
+
+    let n = await llistes.getAsync("hola");
+    console.log(i);
+    i++;
+    let a = await llistes.getAsync("hey");
+    console.log(i);
+    i++;
+    let b = await llistes.getAsync("hey");
+    console.log(i);
+    i++;
+    let c = await llistes.getAsync("hey");
+    console.log(i);
+    i++;
+
+    if(n && a && b && c){
+        console.log(n);
+        console.log(a);
+        console.log(b);
+        console.log(c);
+    }
+
+    console.log("........... FOR EACH .............");
+    await llistes.forEachAsync((n, k)=>{
+        console.log(`${k} -> ${n}`);
+    });
+    console.log("ACABAT");
+}
+
+probaLlist();

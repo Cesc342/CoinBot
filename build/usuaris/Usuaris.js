@@ -3,7 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const BaseDades_1 = require("../database/BaseDades");
 const Usuari_1 = require("./Usuari");
 const Compilador_1 = require("../bot/compilador/Compilador");
-class Usuaris extends Map {
+const Llistes_1 = require("../database/Llistes");
+class Usuaris extends Llistes_1.Llistes {
     constructor() {
         super(...arguments);
         this.dataUsuaris = new BaseDades_1.BaseDades("data");
@@ -75,9 +76,6 @@ class Usuaris extends Map {
             i++;
         });
         return usuariRand;
-    }
-    async forEachAsync(event) {
-        this.forEach(event);
     }
     async getById(idBrut) {
         console.log(idBrut);

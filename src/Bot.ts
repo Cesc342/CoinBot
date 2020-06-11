@@ -34,4 +34,20 @@ bot.afegirEvent("message", "crear", async (con: string[], msg: Message)=>{
     }
 
     await usuaris.guardar();
+    await usuaris.agafar(bot);
 });
+
+
+bot.afegirEvent("message", "stats", async (cont: string[], msg: Message)=>{
+    await usuaris.agafar();
+
+    let usuari = await usuaris.getById(msg.author.id);
+
+    msg.channel.send(``)
+})
+
+bot.afegirEvent("message", "mirar", (cont:string[], msg: Message)=>{
+    if(cont[0]){
+        msg.channel.send(cont[0]);
+    }
+})

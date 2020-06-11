@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const BaseDades_1 = require("../database/BaseDades");
 const Producta_1 = require("./objectes/Producta");
-class Tenda extends Map {
+const Llistes_1 = require("../database/Llistes");
+class Tenda extends Llistes_1.Llistes {
     constructor(usuaris) {
         super();
         this.dataTenda = new BaseDades_1.BaseDades("tenda");

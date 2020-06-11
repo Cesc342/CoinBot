@@ -3,9 +3,10 @@ import { Usuari, DadesUsuari } from "./Usuari";
 import { DadesInventari } from "./Inventori";
 import { Compilador } from "../bot/compilador/Compilador";
 import { Client, User } from "discord.js";
+import { Llistes } from "../database/Llistes";
 
 
-export class Usuaris extends Map<string, Usuari>{
+export class Usuaris extends Llistes<string, Usuari>{
     private dataUsuaris: BaseDades = new BaseDades("data");
     private dataInventoris: BaseDades = new BaseDades("inventoris");
     private compilador = new Compilador();
@@ -91,11 +92,6 @@ export class Usuaris extends Map<string, Usuari>{
         })
 
         return usuariRand;
-    }
-
-    public async forEachAsync(event: (value: Usuari, id: string, map: Map<string, Usuari>)=>any): Promise<void>
-    {
-        this.forEach(event);
     }
 
     public async getById(idBrut: string): Promise<Usuari | undefined>

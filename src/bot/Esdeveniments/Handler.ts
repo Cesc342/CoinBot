@@ -2,10 +2,10 @@ import { Command } from "./Command";
 
 import { magenta } from "colors";
 import { Message } from "discord.js";
+import { Llistes } from "../../database/Llistes";
 
 
-export class Handler extends Map<string, Command> {
-    public commands: Map<string, Command> = new Map();
+export class Handler extends Llistes<string, Command> {
 
     constructor()
     {
