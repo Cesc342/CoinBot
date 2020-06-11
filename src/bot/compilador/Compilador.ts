@@ -9,14 +9,14 @@ export class Compilador {
 
     public async treuraId(idBrut:string): Promise<string>
     {
-        let id: string | undefined;
+        let id: string = idBrut;
 
-        if(idBrut.includes("!")){
-            id = idBrut.split("!")[1].split(">")[0];
-        }else if(idBrut.includes("@")){
-            id = idBrut.split("@")[1].split(">")[0];
-        }else{
-            return idBrut;
+        if(idBrut.includes("<")){
+            if(idBrut.includes("!")){
+                id = idBrut.split("!")[1].split(">")[0];
+            }else if(idBrut.includes("@")){
+                id = idBrut.split("@")[1].split(">")[0];
+            }
         }
 
         return id;

@@ -4,15 +4,14 @@ class Compilador {
     constructor() {
     }
     async treuraId(idBrut) {
-        let id;
-        if (idBrut.includes("!")) {
-            id = idBrut.split("!")[1].split(">")[0];
-        }
-        else if (idBrut.includes("@")) {
-            id = idBrut.split("@")[1].split(">")[0];
-        }
-        else {
-            return idBrut;
+        let id = idBrut;
+        if (idBrut.includes("<")) {
+            if (idBrut.includes("!")) {
+                id = idBrut.split("!")[1].split(">")[0];
+            }
+            else if (idBrut.includes("@")) {
+                id = idBrut.split("@")[1].split(">")[0];
+            }
         }
         return id;
     }

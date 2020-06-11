@@ -1,4 +1,4 @@
-import { Inventori, DadesInventari } from "./objectes/Inventori";
+import { Inventori, DadesInventari } from "./Inventori";
 import { User, Client } from "discord.js";
 
 export type DadesUsuari = {

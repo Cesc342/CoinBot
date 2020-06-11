@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Inventori_1 = require("./objectes/Inventori");
+const Inventori_1 = require("./Inventori");
 const discord_js_1 = require("discord.js");
 class Usuari extends discord_js_1.User {
     constructor(user, { id, diners, banc }, dadesInv) {

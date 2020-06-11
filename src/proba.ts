@@ -3,14 +3,14 @@ import { BaseDades } from "./database/BaseDades";
 import { Usuari } from "./usuaris/Usuari";
 import { Usuaris } from "./usuaris/Usuaris";
 
-import { Objecta } from "./usuaris/objectes/Objecta";
-import { Inventori } from "./usuaris/objectes/Inventori";
+import { Objecta } from "./economia/objectes/Objecta";
+import { Inventori } from "./usuaris/Inventori";
 
 import { Separador } from "./bot/compilador/Separador";
 import { Command } from "./bot/esdeveniments/Command";
 import { Message, Client, User } from "discord.js";
 import { Tenda } from "./economia/Tenda";
-import { Producta } from "./economia/Producta";
+import { Producta } from "./economia/objectes/Producta";
 
 
 

@@ -1,4 +1,4 @@
-import { Objecta, DataObjecta } from "./Objecta";
+import { Objecta, DataObjecta } from "../economia/objectes/Objecta";
 
 export type DadesInventari = {
     id: string,

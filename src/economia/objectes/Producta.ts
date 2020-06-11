@@ -1,5 +1,5 @@
-import { Objecta } from "../usuaris/objectes/Objecta";
-import { Usuari } from "../usuaris/Usuari";
+import { Objecta } from "./Objecta";
+import { Usuari } from "../../usuaris/Usuari";
 import { User, Client } from "discord.js";
 
 export interface DadesProducta {

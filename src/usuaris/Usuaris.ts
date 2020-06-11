@@ -1,6 +1,6 @@
 import { BaseDades } from "../database/BaseDades";
 import { Usuari, DadesUsuari } from "./Usuari";
-import { DadesInventari } from "./objectes/Inventori";
+import { DadesInventari } from "./Inventori";
 import { Compilador } from "../bot/compilador/Compilador";
 import { Client, User } from "discord.js";
 

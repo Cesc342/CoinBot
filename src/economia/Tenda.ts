@@ -1,7 +1,7 @@
 import { BaseDades } from "../database/BaseDades";
-import { Producta, DadesProducta } from "./Producta";
+import { Producta, DadesProducta } from "./objectes/Producta";
 import { Usuari } from "../usuaris/Usuari";
-import { Objecta } from "../usuaris/objectes/Objecta";
+import { Objecta } from "./objectes/Objecta";
 import { Usuaris } from "../usuaris/Usuaris";
 
 export class Tenda extends Map<string, Producta>{

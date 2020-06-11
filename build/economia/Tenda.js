@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const BaseDades_1 = require("../database/BaseDades");
-const Producta_1 = require("./Producta");
+const Producta_1 = require("./objectes/Producta");
 class Tenda extends Map {
     constructor(usuaris) {
         super();

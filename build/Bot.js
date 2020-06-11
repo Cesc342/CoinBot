@@ -3,39 +3,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Bot_1 = require("./bot/Bot");
 const Usuaris_1 = require("./usuaris/Usuaris");
 const Tenda_1 = require("./economia/Tenda");
+const Compilador_1 = require("./bot/compilador/Compilador");
 const usuaris = new Usuaris_1.Usuaris();
 const tenda = new Tenda_1.Tenda(usuaris);
+const compilador = new Compilador_1.Compilador();
 exports.bot = new Bot_1.Bot("bot!", () => {
     usuaris.agafar(exports.bot);
 });
-exports.bot.afegirEvent("message", "agafar", async (contingut, msg) => {
+exports.bot.afegirEvent("message", "crear", async (con, msg) => {
     await usuaris.agafar();
-    console.table(usuaris);
-    console.log(msg.author.id);
-    let usuari = await usuaris.getById(msg.author.id);
-    if (usuari) {
-        msg.channel.send(`El teu tag es ${usuari.tag}`);
+    if (con[0]) {
+        let id = await compilador.treuraId(con[0]);
+        let usuari = await exports.bot.users.fetch(id);
+        if (usuari) {
+            usuaris.nouUsuari(id, usuari);
+        }
+        else {
+            msg.channel.send(`No s'ha trobat l'usuari ${con[0]}`);
+        }
     }
     else {
-        msg.channel.send("No s'ha trobat");
+        let usuari = msg.author;
+        usuaris.nouUsuari(usuari.id, usuari);
     }
-});
-exports.bot.afegirEvent("message", "nou", async (cont, msg) => {
-    await usuaris.agafar();
-    let usuari = await exports.bot.users.fetch(msg.author.id);
-    usuari = await usuaris.nouUsuari(msg.author.id, usuari);
-    msg.channel.send(`S'ha creat la conta de ${usuari.username}`);
-    await usuaris.agafar(exports.bot);
-});
-exports.bot.afegirEvent("message", "potser", async (cont, msg) => {
-    let usuari = await exports.bot.users.fetch(msg.author.id);
-    console.log(msg.author.id);
-    msg.channel.send(`--> ${usuari.tag}`);
-});
-exports.bot.afegirEvent("message", "hola", async (cont, msg) => {
-    await usuaris.agafar();
-    let usuari = usuaris.get(msg.author.id);
-    if (usuari) {
-        usuari.send("Hola");
-    }
+    await usuaris.guardar();
 });
