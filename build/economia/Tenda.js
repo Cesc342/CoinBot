@@ -15,7 +15,10 @@ class Tenda extends Llistes_1.Llistes {
         const dataTend = this.dataTenda.json;
         for (let id in dataTend) {
             let prodJson = dataTend[id];
-            let venedor = this.usuaris.get(prodJson.venedor);
+            console.log(prodJson.venedor);
+            let venedor = await this.usuaris.getAsync(prodJson.venedor);
+            console.log(prodJson);
+            console.table(venedor);
             if (venedor) {
                 let data = {
                     cost: prodJson.cost,
@@ -26,7 +29,7 @@ class Tenda extends Llistes_1.Llistes {
                 };
                 let producta = new Producta_1.Producta(data.nom);
                 await producta.processarDades(data);
-                this.set(id, producta);
+                this.setAsync(id, producta);
             }
         }
     }
@@ -44,8 +47,13 @@ class Tenda extends Llistes_1.Llistes {
         this.set(producta.nom, producta);
         await this.guardar();
     }
-    async forEachAsync(event) {
-        this.forEach(event);
+    async outTenda() {
+        let txt = "---------------------- TENDA ---------------------- \n";
+        this.forEachAsync((producta, nom) => {
+            txt += `Nom: ${producta.nom}  Cost: ${producta.cost}  Venedor: ${producta.venedor.username} \n`;
+        });
+        txt += "------------------------------------------------------";
+        return txt;
     }
 }
 exports.Tenda = Tenda;

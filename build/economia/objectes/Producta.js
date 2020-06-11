@@ -32,7 +32,7 @@ class Producta extends Objecta_1.Objecta {
     agafarDades() {
         let dades = {
             cost: this.cost,
-            venedor: this.venedor.tag,
+            venedor: this.venedor.id,
             nom: this.nom,
             detalls: this.detalls,
             num: this.num

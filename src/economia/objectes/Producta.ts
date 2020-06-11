@@ -55,7 +55,7 @@ export class Producta extends Objecta implements DadesProducta
     {
         let dades: DadesProductaJson = {
             cost: this.cost,
-            venedor: this.venedor.tag,
+            venedor: this.venedor.id,
             nom: this.nom,
             detalls: this.detalls,
             num: this.num

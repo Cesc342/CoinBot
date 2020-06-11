@@ -198,4 +198,3 @@ async function probaLlist() {
     });
     console.log("ACABAT");
 }
-probaLlist();

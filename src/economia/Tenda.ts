@@ -25,7 +25,10 @@ export class Tenda extends Llistes<string, Producta>{
 
         for(let id in dataTend){
             let prodJson: any = dataTend[id];
-            let venedor = this.usuaris.get(prodJson.venedor);
+            console.log(prodJson.venedor);
+            let venedor = await this.usuaris.getAsync(prodJson.venedor);
+            console.log(prodJson);
+            console.table(venedor)
 
             if(venedor){
                 let data: DadesProducta = {
@@ -38,7 +41,7 @@ export class Tenda extends Llistes<string, Producta>{
 
                 let producta = new Producta(data.nom);
                 await producta.processarDades(data);
-                this.set(id, producta);
+                this.setAsync(id, producta);
             }
         }
     }
@@ -68,9 +71,14 @@ export class Tenda extends Llistes<string, Producta>{
         await this.guardar();
     }
 
-
-    public async forEachAsync(event: (value: Producta, id: string, map: Map<string, Producta>)=>any): Promise<void>
+    public async outTenda(): Promise<string>
     {
-        this.forEach(event);
+        let txt = "---------------------- TENDA ---------------------- \n";
+        this.forEachAsync((producta, nom)=>{
+            txt += `Nom: ${producta.nom}  Cost: ${producta.cost}  Venedor: ${producta.venedor.username} \n`;
+        })
+        txt += "------------------------------------------------------";
+
+        return txt;
     }
 }
