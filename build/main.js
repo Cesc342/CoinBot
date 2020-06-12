@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Bot_1 = require("./Bot");
+const bot_1 = require("./bot");
 async function __main() {
-    await Bot_1.bot.prepararBot("");
+    await bot_1.coinBot.prepararBot("");
 }
 __main();

@@ -13,7 +13,6 @@ class Inventori {
         let dadesObjectes = {};
         for (let nom in this.objectes) {
             let obj = this.objectes[nom];
-            console.table(obj);
             dadesObjectes[nom] = obj;
         }
         let data = {

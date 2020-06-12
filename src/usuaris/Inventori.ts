@@ -25,7 +25,6 @@ export class Inventori implements DadesInventari{
         let dadesObjectes: any = {};
         for(let nom in this.objectes){
             let obj: Objecta = this.objectes[nom];
-            console.table(obj);
             dadesObjectes[nom] = obj;
         }
 

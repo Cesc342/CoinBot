@@ -25,10 +25,7 @@ export class Tenda extends Llistes<string, Producta>{
 
         for(let id in dataTend){
             let prodJson: any = dataTend[id];
-            console.log(prodJson.venedor);
             let venedor = await this.usuaris.getAsync(prodJson.venedor);
-            console.log(prodJson);
-            console.table(venedor)
 
             if(venedor){
                 let data: DadesProducta = {
@@ -74,7 +71,7 @@ export class Tenda extends Llistes<string, Producta>{
     public async outTenda(): Promise<string>
     {
         let txt = "---------------------- TENDA ---------------------- \n";
-        this.forEachAsync((producta, nom)=>{
+        this.forEachAsync((producta)=>{
             txt += `Nom: ${producta.nom}  Cost: ${producta.cost}  Venedor: ${producta.venedor.username} \n`;
         })
         txt += "------------------------------------------------------";

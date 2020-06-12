@@ -1,24 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Bot_1 = require("./bot/Bot");
-const Usuaris_1 = require("./usuaris/Usuaris");
-const Tenda_1 = require("./economia/Tenda");
 const Compilador_1 = require("./bot/compilador/Compilador");
 const Objecta_1 = require("./economia/objectes/Objecta");
-const usuaris = new Usuaris_1.Usuaris();
-const tenda = new Tenda_1.Tenda(usuaris);
+const CoinBot_1 = require("./CoinBot");
 const compilador = new Compilador_1.Compilador();
-exports.bot = new Bot_1.Bot("bot!", async () => {
-    await usuaris.agafar(exports.bot);
-    await tenda.agafar();
+exports.coinBot = new CoinBot_1.CoinBot("bot!", async () => {
+    exports.coinBot.cargarTot(true);
 });
-exports.bot.afegirEvent("message", "crear", async (con, msg) => {
-    await usuaris.agafar();
+exports.coinBot.afegirEvent("message", "veura", async (con, msg) => {
+    console.log(msg.author.id);
+    let usuari = await exports.coinBot.users.fetch(msg.author.id);
+    if (usuari) {
+        msg.channel.send(usuari.username);
+    }
+});
+exports.coinBot.afegirEvent("message", "crear", async (con, msg) => {
+    await exports.coinBot.usuaris.agafar();
     if (con[0]) {
         let id = await compilador.treuraId(con[0]);
-        let usuari = await exports.bot.users.fetch(id);
+        let usuari = await exports.coinBot.users.fetch(id);
         if (usuari) {
-            usuaris.nouUsuari(id, usuari);
+            exports.coinBot.usuaris.nouUsuari(id, usuari);
         }
         else {
             msg.channel.send(`No s'ha trobat l'usuari ${con[0]}`);
@@ -26,14 +28,14 @@ exports.bot.afegirEvent("message", "crear", async (con, msg) => {
     }
     else {
         let usuari = msg.author;
-        usuaris.nouUsuari(usuari.id, usuari);
+        exports.coinBot.usuaris.nouUsuari(usuari.id, usuari);
     }
-    await usuaris.guardar();
-    await usuaris.agafar(exports.bot);
+    await exports.coinBot.usuaris.guardar();
+    await exports.coinBot.usuaris.agafar(exports.coinBot);
 });
-exports.bot.afegirEvent("message", "stats", async (cont, msg) => {
-    await usuaris.agafar();
-    let usuari = await usuaris.getById(msg.author.id);
+exports.coinBot.afegirEvent("message", "stats", async (cont, msg) => {
+    await exports.coinBot.usuaris.agafar();
+    let usuari = await exports.coinBot.usuaris.getById(msg.author.id);
     if (usuari) {
         msg.channel.send(`
         > Nom: ${usuari.username}
@@ -42,28 +44,26 @@ exports.bot.afegirEvent("message", "stats", async (cont, msg) => {
         > - Banc: ${usuari.banc}`);
     }
 });
-exports.bot.afegirEvent("message", "mirar", (cont, msg) => {
+exports.coinBot.afegirEvent("message", "mirar", (cont, msg) => {
     if (cont[0]) {
         msg.channel.send(cont[0]);
     }
 });
-exports.bot.afegirEvent("message", "tenda", async (cont, msg) => {
-    await tenda.agafar();
-    console.table(tenda);
-    let txt = await tenda.outTenda();
+exports.coinBot.afegirEvent("message", "tenda", async (cont, msg) => {
+    await exports.coinBot.tenda.agafar();
+    console.table(exports.coinBot.tenda);
+    let txt = await exports.coinBot.tenda.outTenda();
     msg.channel.send(txt);
 });
-exports.bot.afegirEvent("message", "nou", async (cont, msg) => {
-    await tenda.agafar();
-    await usuaris.agafar();
+exports.coinBot.afegirEvent("message", "nou", async (cont, msg) => {
+    await exports.coinBot.cargarTot();
     if (cont[0]) {
         let obj = new Objecta_1.Objecta("cosa", 2, "Cap");
-        let usuari = await usuaris.getAsync(msg.author.id);
+        let usuari = await exports.coinBot.usuaris.getAsync(msg.author.id);
         if (usuari) {
-            await tenda.nouProducta(obj, usuari, parseInt(cont[0]));
+            await exports.coinBot.tenda.nouProducta(obj, usuari, parseInt(cont[0]));
             msg.channel.send("S'ha creat el nou producta");
         }
     }
-    await tenda.guardar();
-    await usuaris.guardar();
+    await exports.coinBot.guardarTot();
 });
