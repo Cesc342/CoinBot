@@ -1,20 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Inventori {
+const Objecta_1 = require("../economia/objectes/Objecta");
+const Llistes_1 = require("../database/Llistes");
+class Inventori extends Llistes_1.Llistes {
     constructor({ id, objectes }) {
+        super();
         this.id = id;
-        let objectesDespres = {};
         for (let idObj in objectes) {
-            objectesDespres[idObj] = objectes[idObj];
+            let dataObj = objectes[idObj];
+            let obj = new Objecta_1.Objecta(dataObj.nom, dataObj.num, dataObj.detalls);
+            this.set(obj.nom, obj);
         }
-        this.objectes = objectesDespres;
     }
     async agafarInventori() {
         let dadesObjectes = {};
-        for (let nom in this.objectes) {
-            let obj = this.objectes[nom];
-            dadesObjectes[nom] = obj;
-        }
+        await this.forEachAsync(async (obj, nom) => {
+            dadesObjectes[nom] = await obj.agafarDades();
+        });
         let data = {
             id: this.id,
             objectes: dadesObjectes

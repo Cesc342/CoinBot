@@ -42,4 +42,15 @@ export class Objecta implements DataObjecta{
     {
         this.num += num;
     }
+
+    public async agafarDades(): Promise<DataObjecta>
+    {
+        let data: DataObjecta = {
+            nom: this.nom,
+            num: this.num,
+            detalls: this.detalls
+        }
+
+        return data;
+    }
 }

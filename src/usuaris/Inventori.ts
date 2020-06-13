@@ -1,32 +1,32 @@
 import { Objecta, DataObjecta } from "../economia/objectes/Objecta";
+import { Llistes } from "../database/Llistes";
 
 export type DadesInventari = {
     id: string,
     objectes: any;
 }
 
-export class Inventori implements DadesInventari{
-    public objectes: any;
+export class Inventori extends Llistes<string, Objecta> {
     public id: string;
-
 
     constructor({id, objectes}: DadesInventari)
     {
+        super();
         this.id = id;
-        let objectesDespres: any = {};
         for(let idObj in objectes){
-            objectesDespres[idObj] = objectes[idObj];
+            let dataObj = objectes[idObj];
+
+            let obj = new Objecta(dataObj.nom, dataObj.num, dataObj.detalls);
+            this.set(obj.nom, obj);
         }
-        this.objectes = objectesDespres;
     }
 
     public async agafarInventori(): Promise<DadesInventari>
     {
         let dadesObjectes: any = {};
-        for(let nom in this.objectes){
-            let obj: Objecta = this.objectes[nom];
-            dadesObjectes[nom] = obj;
-        }
+        await this.forEachAsync(async (obj, nom)=>{
+            dadesObjectes[nom] = await obj.agafarDades();
+        })
 
         let data: DadesInventari = {
             id: this.id,

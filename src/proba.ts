@@ -69,9 +69,9 @@ function probaInv(): void
         }
     })
 
-    console.table(inventori.objectes)
+    console.table(inventori);
 
-    let algo: any = inventori.objectes;
+    let algo: any = inventori;
     console.log(`Objecta:
     Nom: ${algo.nom},
     Numero en el inventori: ${algo.num},
@@ -101,9 +101,11 @@ async function probaUsu()
 
     let usuari: Usuari = new Usuari(new User(new Client(), {}), dataUsu, dataInv);
 
-    let obj: Objecta = usuari.inventori.objectes.Nose;
+    let obj: Objecta | undefined = usuari.inventori.get("Nose");
 
-    console.table(obj.nom);
+    if(obj){
+        console.table(obj.nom);
+    }
 }
 
 async function probaUsus()
@@ -143,7 +145,7 @@ async function sandbox1()
     let usuari: Usuari | undefined = usuaris.get("cesc");
 
     if(usuari){
-        console.table(usuari.inventori.objectes.AAAA);
+        console.table(usuari.inventori.get("AAAA"));
     }else{
         console.log("undefined");
     }
@@ -267,3 +269,6 @@ async function probaLlist() {
     });
     console.log("ACABAT");
 }
+
+
+sandbox1();

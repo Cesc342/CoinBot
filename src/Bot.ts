@@ -50,11 +50,21 @@ coinBot.afegirEvent("message", "stats", async (cont: string[], msg: Message)=>{
     let usuari = await coinBot.usuaris.getById(msg.author.id);
 
     if(usuari){
-        msg.channel.send(`
-        > Nom: ${usuari.username}
-        > Diners:
-        > - Metàlic: ${usuari.diners}
-        > - Banc: ${usuari.banc}`)
+        let txt: string[] = [];
+        txt[0] = `> Nom ${usuari.username};
+        > Diners: ;
+        > - Metàlic: ${usuari.diners}$;
+        > - Banc: ${usuari.banc}$;
+        > Inventori:`;
+
+        let i = 0;
+        usuari.inventori.forEach((obj, nom)=>{
+            txt[1+i] = `> \`Nom: ${obj.nom}  Num: ${obj.num}
+            > Detalls: ${obj.detalls} \``;
+            i++;
+        });
+
+        msg.channel.send(txt);
     }
 })
 
@@ -87,3 +97,19 @@ coinBot.afegirEvent("message", "nou", async (cont, msg)=>{
 
     await coinBot.guardarTot();
 });
+
+coinBot.afegirEvent("message", "aconseguir", async (cont, msg)=>{
+    await coinBot.cargarTot();
+
+    if(cont[0]){
+        let usuari = await coinBot.usuaris.getAsync(msg.author.id);
+        if(usuari){
+            let objecta = new Objecta(cont[0], parseInt(cont[1]), cont[2]);
+            await usuari.inventori.setAsync(objecta.nom, objecta);
+
+            msg.channel.send("S'ha afegit correctament");
+        }
+    }
+
+    await coinBot.guardarTot();
+})

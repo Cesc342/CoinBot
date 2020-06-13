@@ -25,5 +25,13 @@ class Objecta {
     obtenir(num) {
         this.num += num;
     }
+    async agafarDades() {
+        let data = {
+            nom: this.nom,
+            num: this.num,
+            detalls: this.detalls
+        };
+        return data;
+    }
 }
 exports.Objecta = Objecta;

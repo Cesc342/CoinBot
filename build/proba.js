@@ -45,8 +45,8 @@ function probaInv() {
             "Nose Algo": obj2
         }
     });
-    console.table(inventori.objectes);
-    let algo = inventori.objectes;
+    console.table(inventori);
+    let algo = inventori;
     console.log(`Objecta:
     Nom: ${algo.nom},
     Numero en el inventori: ${algo.num},
@@ -70,8 +70,10 @@ async function probaUsu() {
         }
     };
     let usuari = new Usuari_1.Usuari(new discord_js_1.User(new discord_js_1.Client(), {}), dataUsu, dataInv);
-    let obj = usuari.inventori.objectes.Nose;
-    console.table(obj.nom);
+    let obj = usuari.inventori.get("Nose");
+    if (obj) {
+        console.table(obj.nom);
+    }
 }
 async function probaUsus() {
     let usuaris = new Usuaris_1.Usuaris();
@@ -100,7 +102,7 @@ async function sandbox1() {
     await usuaris.nouUsuari("TAG", new discord_js_1.User(new discord_js_1.Client(), {}));
     let usuari = usuaris.get("cesc");
     if (usuari) {
-        console.table(usuari.inventori.objectes.AAAA);
+        console.table(usuari.inventori.get("AAAA"));
     }
     else {
         console.log("undefined");
@@ -198,3 +200,4 @@ async function probaLlist() {
     });
     console.log("ACABAT");
 }
+sandbox1();
