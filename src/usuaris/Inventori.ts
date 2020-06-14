@@ -1,5 +1,7 @@
 import { Objecta, DataObjecta } from "../economia/objectes/Objecta";
 import { Llistes } from "../database/Llistes";
+import { Usuari } from "./Usuari";
+import { AfectesListener, eventAfecta } from "../economia/objectes/afectes/AfectesListener";
 
 export type DadesInventari = {
     id: string,
@@ -8,16 +10,32 @@ export type DadesInventari = {
 
 export class Inventori extends Llistes<string, Objecta> {
     public id: string;
+    public usuari: Usuari;
+    public afectesListener: AfectesListener = new AfectesListener();
 
-    constructor({id, objectes}: DadesInventari)
+    constructor({id, objectes}: DadesInventari, usuari: Usuari)
     {
         super();
         this.id = id;
-        for(let idObj in objectes){
-            let dataObj = objectes[idObj];
+        this.afectesListener.cargar().then(()=>{
+            for(let idObj in objectes){
+                let dataObj = objectes[idObj];
+                let obj = new Objecta(usuari, dataObj.nom, dataObj.num, dataObj.detalls);
+                this.cargarAfectesObj(obj).then(()=>{
+                    this.set(obj.nom, obj);
+                })
+            }
+        })
 
-            let obj = new Objecta(dataObj.nom, dataObj.num, dataObj.detalls);
-            this.set(obj.nom, obj);
+        this.usuari = usuari;
+    }
+
+    private async cargarAfectesObj(objecta: Objecta)
+    {
+        let afectes = await this.afectesListener.agafarAfectes(objecta.nom);
+
+        if(afectes){
+            objecta.afectes = afectes;
         }
     }
 
@@ -25,6 +43,7 @@ export class Inventori extends Llistes<string, Objecta> {
     {
         let dadesObjectes: any = {};
         await this.forEachAsync(async (obj, nom)=>{
+            console.table();
             dadesObjectes[nom] = await obj.agafarDades();
         })
 

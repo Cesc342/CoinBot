@@ -24,7 +24,7 @@ class Tenda extends Llistes_1.Llistes {
                     detalls: prodJson.detalls,
                     num: parseInt(prodJson.num)
                 };
-                let producta = new Producta_1.Producta(data.nom);
+                let producta = new Producta_1.Producta(venedor, data.nom);
                 await producta.processarDades(data);
                 this.setAsync(id, producta);
             }
@@ -39,7 +39,7 @@ class Tenda extends Llistes_1.Llistes {
         await this.dataTenda.guardar();
     }
     async nouProducta(objecta, venedor, cost) {
-        let producta = new Producta_1.Producta(objecta.nom, objecta.num, objecta.detalls);
+        let producta = new Producta_1.Producta(venedor, objecta.nom, objecta.num, objecta.detalls);
         await producta.completarInfo(venedor, cost);
         this.set(producta.nom, producta);
         await this.guardar();

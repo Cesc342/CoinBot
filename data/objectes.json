@@ -1,0 +1,8 @@
+{
+    "xocolata":{
+        "PUJAR_IMPOSTOS": true,
+        "BAIXAR_IMPOSTOS": false,
+        "MES_POSSIBILITATS_ROBAR": true,
+        "MENYS_POSSIBILITATS_ROBAR": false
+    }
+}

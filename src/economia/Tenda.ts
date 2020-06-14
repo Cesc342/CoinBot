@@ -36,7 +36,7 @@ export class Tenda extends Llistes<string, Producta>{
                     num: parseInt(prodJson.num)
                 }
 
-                let producta = new Producta(data.nom);
+                let producta = new Producta(venedor ,data.nom);
                 await producta.processarDades(data);
                 this.setAsync(id, producta);
             }
@@ -60,7 +60,7 @@ export class Tenda extends Llistes<string, Producta>{
 
     public async nouProducta(objecta: Objecta, venedor: Usuari, cost: number): Promise<void>
     {
-        let producta = new Producta(objecta.nom, objecta.num, objecta.detalls);
+        let producta = new Producta(venedor, objecta.nom, objecta.num, objecta.detalls);
 
         await producta.completarInfo(venedor, cost);
 

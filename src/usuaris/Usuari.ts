@@ -1,10 +1,12 @@
 import { Inventori, DadesInventari } from "./Inventori";
 import { User, Client } from "discord.js";
+import { Temps } from "./temps/Temps";
 
 export type DadesUsuari = {
     id: string,
     diners: number,
-    banc:number
+    banc:number,
+    impostos: number
 }
 
 export class Usuari extends User implements DadesUsuari{
@@ -13,24 +15,28 @@ export class Usuari extends User implements DadesUsuari{
     public banc: number = 0;
 
     public inventori: Inventori;
+    public temps: Temps = new Temps();
 
-    public impostos: number = 0.1; //Quant treu el banc cada vegada que guardes els diners
+    public tempsTreballar: number = 0;
 
-    constructor(user: User, {id, diners, banc}: DadesUsuari, dadesInv: DadesInventari)
+    public impostos: number = 0.1; //Quant treu el banc cada vegada que guardes els diners 
+
+    constructor(user: User, {id, diners, banc, impostos}: DadesUsuari, dadesInv: DadesInventari)
     {
         super(user.client, user);
         this.id = id;
-        this.inventori = new Inventori(dadesInv);
+        this.inventori = new Inventori(dadesInv, this);
 
         //Ho he fet aixi perque el valor diners no dongui negatiu
         this.sumarDiners(diners);
         this.banc = banc;
+        this.impostos = impostos;
     }
 
     public implentarDades({id, diners, banc}: DadesUsuari, dadesInv: DadesInventari): void
     {
         this.id = id;
-        this.inventori = new Inventori(dadesInv);
+        this.inventori = new Inventori(dadesInv, this);
 
         //Ho he fet aixi perque el valor diners no dongui negatiu
         this.sumarDiners(diners);
@@ -107,7 +113,8 @@ export class Usuari extends User implements DadesUsuari{
         const dadesUsuari: DadesUsuari = {
             id: this.id,
             diners: this.diners,
-            banc: this.banc
+            banc: this.banc,
+            impostos: this.impostos
         };
 
         return dadesUsuari;

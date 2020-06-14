@@ -4,12 +4,14 @@ const BaseDades_1 = require("../database/BaseDades");
 const Usuari_1 = require("./Usuari");
 const Compilador_1 = require("../bot/compilador/Compilador");
 const Llistes_1 = require("../database/Llistes");
+const Temps_1 = require("./temps/Temps");
 class Usuaris extends Llistes_1.Llistes {
     constructor() {
         super(...arguments);
         this.dataUsuaris = new BaseDades_1.BaseDades("data");
         this.dataInventoris = new BaseDades_1.BaseDades("inventoris");
         this.compilador = new Compilador_1.Compilador();
+        this.temps = new Temps_1.Temps();
     }
     async agafar(bot) {
         await this.dataUsuaris.agafar();
@@ -53,7 +55,8 @@ class Usuaris extends Llistes_1.Llistes {
         const dadUsu = {
             id: idPros,
             diners: 10,
-            banc: 0
+            banc: 0,
+            impostos: 0.1
         };
         const dadInv = {
             id: idPros,

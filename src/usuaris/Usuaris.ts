@@ -4,12 +4,14 @@ import { DadesInventari } from "./Inventori";
 import { Compilador } from "../bot/compilador/Compilador";
 import { Client, User } from "discord.js";
 import { Llistes } from "../database/Llistes";
+import { Temps } from "./temps/Temps";
 
 
 export class Usuaris extends Llistes<string, Usuari>{
     private dataUsuaris: BaseDades = new BaseDades("data");
     private dataInventoris: BaseDades = new BaseDades("inventoris");
     private compilador = new Compilador();
+    private temps = new Temps();
 
     public async agafar(bot?: Client): Promise<void>
     {
@@ -63,7 +65,8 @@ export class Usuaris extends Llistes<string, Usuari>{
         const dadUsu: DadesUsuari = {
             id: idPros,
             diners: 10,
-            banc: 0
+            banc: 0,
+            impostos: 0.1
         }
         const dadInv: DadesInventari = {
             id: idPros,

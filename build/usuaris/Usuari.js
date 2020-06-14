@@ -2,21 +2,25 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Inventori_1 = require("./Inventori");
 const discord_js_1 = require("discord.js");
+const Temps_1 = require("./temps/Temps");
 class Usuari extends discord_js_1.User {
-    constructor(user, { id, diners, banc }, dadesInv) {
+    constructor(user, { id, diners, banc, impostos }, dadesInv) {
         super(user.client, user);
         this.diners = 0;
         this.banc = 0;
-        this.impostos = 0.1; //Quant treu el banc cada vegada que guardes els diners
+        this.temps = new Temps_1.Temps();
+        this.tempsTreballar = 0;
+        this.impostos = 0.1; //Quant treu el banc cada vegada que guardes els diners 
         this.id = id;
-        this.inventori = new Inventori_1.Inventori(dadesInv);
+        this.inventori = new Inventori_1.Inventori(dadesInv, this);
         //Ho he fet aixi perque el valor diners no dongui negatiu
         this.sumarDiners(diners);
         this.banc = banc;
+        this.impostos = impostos;
     }
     implentarDades({ id, diners, banc }, dadesInv) {
         this.id = id;
-        this.inventori = new Inventori_1.Inventori(dadesInv);
+        this.inventori = new Inventori_1.Inventori(dadesInv, this);
         //Ho he fet aixi perque el valor diners no dongui negatiu
         this.sumarDiners(diners);
         this.banc = banc;
@@ -74,7 +78,8 @@ class Usuari extends discord_js_1.User {
         const dadesUsuari = {
             id: this.id,
             diners: this.diners,
-            banc: this.banc
+            banc: this.banc,
+            impostos: this.impostos
         };
         return dadesUsuari;
     }

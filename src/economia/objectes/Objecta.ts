@@ -1,3 +1,7 @@
+import { Usuari } from "../../usuaris/Usuari";
+import { BaseDades } from "../../database/BaseDades";
+import { eventAfecta } from "./afectes/AfectesListener";
+
 export type DataObjecta = {
     nom: string,
     num: number,
@@ -7,11 +11,14 @@ export type DataObjecta = {
 export class Objecta implements DataObjecta{
     public nom: string;
     public num: number = 1;
-    public detalls: string = "";
+    public detalls: string = "No te descrupció";
+    public usuari: Usuari;
 
+    public afectes: eventAfecta[] | undefined = undefined;
 
-    constructor(nom: string, num?: number, detalls?: string)
+    constructor(usuari: Usuari, nom: string, num?: number, detalls?: string)
     {
+        this.usuari = usuari;
         this.nom = nom;
         if(num){
             this.num = num;
@@ -22,10 +29,21 @@ export class Objecta implements DataObjecta{
     }
 
 
-    public gastar(num: number): boolean
+    public gastar(num: number, usuari?:Usuari): boolean
     {
         if(this.hiHaSuficients(num)){
             this.num -= num;
+            if(usuari){
+                while(num > 0){
+                    this.afecta(usuari);
+                    num--;
+                }
+            }else{
+                while(num > 0){
+                    this.afecta(this.usuari);
+                    num--;
+                }
+            }
             return true;
         }
 
@@ -52,5 +70,15 @@ export class Objecta implements DataObjecta{
         }
 
         return data;
+    }
+
+    //------------------------------------------------------ AFECTES ------------------------------------------------------
+    public afecta(usuari: Usuari)
+    {
+        if(this.afectes){
+            this.afectes.forEach((afecta, index)=>{
+                afecta(usuari);
+            })
+        }
     }
 }

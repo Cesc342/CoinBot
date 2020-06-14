@@ -66,9 +66,9 @@ exports.coinBot.afegirEvent("message", "tenda", async (cont, msg) => {
 exports.coinBot.afegirEvent("message", "nou", async (cont, msg) => {
     await exports.coinBot.cargarTot();
     if (cont[0]) {
-        let obj = new Objecta_1.Objecta("cosa", 2, "Cap");
         let usuari = await exports.coinBot.usuaris.getAsync(msg.author.id);
         if (usuari) {
+            let obj = new Objecta_1.Objecta(usuari, "cosa", 2, "Cap");
             await exports.coinBot.tenda.nouProducta(obj, usuari, parseInt(cont[0]));
             msg.channel.send("S'ha creat el nou producta");
         }
@@ -80,9 +80,28 @@ exports.coinBot.afegirEvent("message", "aconseguir", async (cont, msg) => {
     if (cont[0]) {
         let usuari = await exports.coinBot.usuaris.getAsync(msg.author.id);
         if (usuari) {
-            let objecta = new Objecta_1.Objecta(cont[0], parseInt(cont[1]), cont[2]);
+            let objecta = new Objecta_1.Objecta(usuari, cont[0], parseInt(cont[1]), cont[2]);
             await usuari.inventori.setAsync(objecta.nom, objecta);
             msg.channel.send("S'ha afegit correctament");
+        }
+    }
+    await exports.coinBot.guardarTot();
+});
+exports.coinBot.afegirEvent("message", "gastar", async (cont, msg) => {
+    await exports.coinBot.cargarTot();
+    let usuari = await exports.coinBot.usuaris.getAsync(msg.author.id);
+    if (usuari) {
+        if (cont[0] && cont[1]) {
+            let obj = usuari.inventori.get(cont[0]);
+            if (obj) {
+                obj.gastar(parseInt(cont[1]));
+            }
+            else {
+                msg.channel.send(`No tens ${cont[0]}`);
+            }
+        }
+        else {
+            msg.channel.send(`No has ficat prouta informació`);
         }
     }
     await exports.coinBot.guardarTot();
