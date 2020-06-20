@@ -25,7 +25,9 @@ export class WareWolf extends Llistes<string, (Pobla | Bruixa | Cupido)>{
         let llob_1 = new Llob(llistaUsuaris[0]);
         let llob_2 = new Llob(llistaUsuaris[1]);
 
-        let cupido = new Cupido(llistaUsuaris[1]);
+        let cupido = new Cupido(llistaUsuaris[2]);
+
+        let bruixa = new Bruixa(llistaUsuaris[3]);
 
         for(let n = 4; n < llistaUsuaris.length; n++){
             poblat.push(new Pobla(llistaUsuaris[n]));

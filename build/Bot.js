@@ -128,10 +128,9 @@ exports.coinBot.afegirEvent("message", "començar", async (cont, msg) => {
         }
     }
     let ww = new WareWolf_1.WareWolf(llista);
+    console.table();
     exports.coinBot.warewolf = ww;
-    msg.channel.send("Adeu");
 });
 exports.coinBot.afegirEvent("message", "j", (cont, msg) => {
-    if (cont[0] == "h", cont[0] == "help") {
-    }
+    // Proces partida jugadors
 });

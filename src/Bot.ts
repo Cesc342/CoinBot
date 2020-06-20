@@ -160,15 +160,12 @@ coinBot.afegirEvent("message", "començar", async (cont, msg)=>{
 
     let ww = new WareWolf(llista);
 
-    coinBot.warewolf = ww;
+    console.table();
 
-    msg.channel.send("Adeu");
+    coinBot.warewolf = ww;
 })
 
 
 coinBot.afegirEvent("message", "j", (cont, msg)=>{
-    
-    if(cont[0] == "h", cont[0] == "help"){
-        
-    }
+    // Proces partida jugadors
 })

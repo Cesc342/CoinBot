@@ -1,4 +1,5 @@
 import { Usuari } from "../../usuaris/Usuari";
+import { MessageEmbed } from "discord.js";
 
 export class Personatge {
     public usuari: Usuari;
@@ -25,9 +26,17 @@ export class Personatge {
         return false;
     }
 
-    public help(): string
+    public help(): MessageEmbed
     {
-        return this.descripcio;
+        let msg: MessageEmbed = this.missatge(this.descripcio);
+        return msg;
+    }
+
+    private missatge(txt: string): MessageEmbed
+    {
+        let msg: MessageEmbed = new MessageEmbed();
+        msg.addField("Descripcio", this.descripcio);
+        return msg;
     }
 
     public matar(): void

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Llistes_1 = require("../database/Llistes");
 const Pobla_1 = require("./personatges/Pobla");
 const Compilador_1 = require("../bot/compilador/Compilador");
+const Bruixa_1 = require("./personatges/Bruixa");
 const Cupido_1 = require("./personatges/Cupido");
 const Llob_1 = require("./personatges/Llob");
 class WareWolf extends Llistes_1.Llistes {
@@ -15,7 +16,8 @@ class WareWolf extends Llistes_1.Llistes {
         let poblat = [];
         let llob_1 = new Llob_1.Llob(llistaUsuaris[0]);
         let llob_2 = new Llob_1.Llob(llistaUsuaris[1]);
-        let cupido = new Cupido_1.Cupido(llistaUsuaris[1]);
+        let cupido = new Cupido_1.Cupido(llistaUsuaris[2]);
+        let bruixa = new Bruixa_1.Bruixa(llistaUsuaris[3]);
         for (let n = 4; n < llistaUsuaris.length; n++) {
             poblat.push(new Pobla_1.Pobla(llistaUsuaris[n]));
         }

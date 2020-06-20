@@ -1,5 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Bruixa {
+const Personatge_1 = require("./Personatge");
+class Bruixa extends Personatge_1.Personatge {
+    constructor(usuari) {
+        super(usuari, "Bruixa AAAAAAAAAAAAAAAA");
+    }
 }
 exports.Bruixa = Bruixa;
