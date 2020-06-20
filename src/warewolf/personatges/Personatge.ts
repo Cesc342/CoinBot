@@ -9,18 +9,25 @@ export class Personatge {
     public usuari: Usuari;
     public warewolf: WareWolf;
 
-    public descripcio: string;
     public rol: string;
+    public puntsForts: string = "";
+    public puntsFebles: string = "";
+    public urlImatge: string = "";
 
     public votacio: number = 0;
 
-    public potVotar: boolean = false;
+    public potVotar: boolean = true;
     public potFerAccio: boolean = false;
     public enamorat: tipusPersonatges | undefined;
 
+    private mortB: boolean = false;
     public set mort(b: boolean)
     {
-        this.mort = b;
+        if(this.rol == "llob"){
+            this.warewolf.numRols.llob--;
+        }else{
+            this.warewolf.numRols.poblat--;
+        }
 
         if(this.enamorat){
             if(!this.enamorat.mort){
@@ -31,21 +38,22 @@ export class Personatge {
         if(b){
             this.warewolf.anunciarMort(this);
         }
+
+        this.mortB = b;
     }
 
     public get mort(): boolean
     {
-        return this.mort
+        return this.mortB;
     }
 
     public rolEvent: RolEvent | undefined;
 
-    constructor(usuari: Usuari, rol: string, descripcio: string, warewolf: WareWolf)
+    constructor(usuari: Usuari, rol: string, warewolf: WareWolf)
     {
         this.usuari = usuari;
         this.warewolf = warewolf;
         this.rol = rol;
-        this.descripcio = descripcio;
     }
 
 
@@ -61,14 +69,10 @@ export class Personatge {
 
     public help(): MessageEmbed
     {
-        let msg: MessageEmbed = this.missatge(this.descripcio);
-        return msg;
-    }
-
-    private missatge(txt: string): MessageEmbed
-    {
-        let msg: MessageEmbed = new MessageEmbed();
-        msg.addField("Descripcio", this.descripcio);
+        let msg: MessageEmbed = new MessageEmbed({title:`Descripcio de ${this.rol}`, description:"\~\~\~\~\~\~", color:"#ff0000"});
+        msg.addField("Punts forts:", this.puntsForts);
+        msg.addField("Punts febles: ", this.puntsFebles);
+        msg.setThumbnail(this.urlImatge);
         return msg;
     }
 
@@ -80,6 +84,8 @@ export class Personatge {
             if(error){
                 msg.author.send(`El teu rol es ${this.rol}`);
                 msg.author.send(`bot!help ${this.rol}`);
+            }else{
+                this.potFerAccio = false;
             }
         }else{
             msg.author.send(this.help());

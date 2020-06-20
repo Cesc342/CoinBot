@@ -8,11 +8,15 @@ import { CoinBot } from "./CoinBot";
 import { WareWolf } from "./warewolf/WareWolf";
 import { config } from "process";
 import { Usuari } from "./usuaris/Usuari";
+import { Pobla } from "./warewolf/personatges/Pobla";
+import { Llob } from "./warewolf/personatges/Llob";
+import { Bruixa } from "./warewolf/personatges/Bruixa";
+import { Cupido } from "./warewolf/personatges/Cupido";
 
 
 const compilador = new Compilador();
 
-export const coinBot: CoinBot = new CoinBot("bot!", async ()=>{
+export const coinBot: CoinBot = new CoinBot("w,", async ()=>{
     coinBot.cargarTot(true);
 });
 
@@ -163,8 +167,6 @@ coinBot.afegirEvent("message", "començar", async (cont, msg)=>{
 
     let ww = new WareWolf(llista, msg.channel);
 
-    console.table();
-
     coinBot.warewolf = ww;
 })
 
@@ -182,8 +184,30 @@ coinBot.afegirEvent("message", "votar", (cont, msg)=>{
     if(coinBot.warewolf){
         if(cont[0]){
             coinBot.warewolf.votar(msg.author.id, cont[0]);
+            console.log(`Votacio: ${msg.author.id} -> ${cont[0]}`);
         }else{
             msg.reply("Fica a qui vols votar");
+        }
+    }
+})
+
+coinBot.afegirEvent("message", "help", async (cont,msg) => {
+    let usuari = await coinBot.usuaris.getById(msg.author.id);
+    if(cont && usuari && coinBot.warewolf){
+        let dMCanal = await msg.author.createDM();
+        let personatge;
+        if(cont[0] == "pobla"){
+            personatge = new Pobla(usuari, coinBot.warewolf);
+        }else if(cont[0] == "llob"){
+            personatge = new Llob(usuari, coinBot.warewolf);
+        }else if(cont[0] == "bruixa"){
+            personatge = new Bruixa(usuari, coinBot.warewolf);
+        }else if(cont[0] == "cupido"){
+            personatge = new Cupido(usuari, coinBot.warewolf);
+        }
+
+        if(personatge){
+            dMCanal.send(personatge.help());
         }
     }
 })

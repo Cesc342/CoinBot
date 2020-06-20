@@ -4,8 +4,12 @@ const Compilador_1 = require("./bot/compilador/Compilador");
 const Objecta_1 = require("./economia/objectes/Objecta");
 const CoinBot_1 = require("./CoinBot");
 const WareWolf_1 = require("./warewolf/WareWolf");
+const Pobla_1 = require("./warewolf/personatges/Pobla");
+const Llob_1 = require("./warewolf/personatges/Llob");
+const Bruixa_1 = require("./warewolf/personatges/Bruixa");
+const Cupido_1 = require("./warewolf/personatges/Cupido");
 const compilador = new Compilador_1.Compilador();
-exports.coinBot = new CoinBot_1.CoinBot("bot!", async () => {
+exports.coinBot = new CoinBot_1.CoinBot("w,", async () => {
     exports.coinBot.cargarTot(true);
 });
 exports.coinBot.afegirEvent("message", "veura", async (con, msg) => {
@@ -130,7 +134,6 @@ exports.coinBot.afegirEvent("message", "començar", async (cont, msg) => {
         }
     }
     let ww = new WareWolf_1.WareWolf(llista, msg.channel);
-    console.table();
     exports.coinBot.warewolf = ww;
 });
 exports.coinBot.afegirEvent("message", "j", async (cont, msg) => {
@@ -145,9 +148,32 @@ exports.coinBot.afegirEvent("message", "votar", (cont, msg) => {
     if (exports.coinBot.warewolf) {
         if (cont[0]) {
             exports.coinBot.warewolf.votar(msg.author.id, cont[0]);
+            console.log(`Votacio: ${msg.author.id} -> ${cont[0]}`);
         }
         else {
             msg.reply("Fica a qui vols votar");
+        }
+    }
+});
+exports.coinBot.afegirEvent("message", "help", async (cont, msg) => {
+    let usuari = await exports.coinBot.usuaris.getById(msg.author.id);
+    if (cont && usuari && exports.coinBot.warewolf) {
+        let dMCanal = await msg.author.createDM();
+        let personatge;
+        if (cont[0] == "pobla") {
+            personatge = new Pobla_1.Pobla(usuari, exports.coinBot.warewolf);
+        }
+        else if (cont[0] == "llob") {
+            personatge = new Llob_1.Llob(usuari, exports.coinBot.warewolf);
+        }
+        else if (cont[0] == "bruixa") {
+            personatge = new Bruixa_1.Bruixa(usuari, exports.coinBot.warewolf);
+        }
+        else if (cont[0] == "cupido") {
+            personatge = new Cupido_1.Cupido(usuari, exports.coinBot.warewolf);
+        }
+        if (personatge) {
+            dMCanal.send(personatge.help());
         }
     }
 });
