@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
-class Personatge extends discord_js_1.User {
+class Personatge {
     constructor(usuari, rol, descripcio, warewolf) {
-        super(usuari.client, usuari);
         this.votacio = 0;
         this.potVotar = false;
         this.potFerAccio = false;
+        this.usuari = usuari;
         this.warewolf = warewolf;
         this.rol = rol;
         this.descripcio = descripcio;

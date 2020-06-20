@@ -1,6 +1,6 @@
 import { Personatge, RolEvent } from "./Personatge";
 import { Usuari } from "../../usuaris/Usuari";
-import { Message, MessageEmbed } from "discord.js";
+import { Message, MessageEmbed, User } from "discord.js";
 import { WareWolf } from "../WareWolf";
 
 export class Llob extends Personatge{

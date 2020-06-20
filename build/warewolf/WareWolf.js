@@ -16,6 +16,7 @@ class WareWolf extends Llistes_1.Llistes {
     }
     async cargar(llistaUsuaris) {
         let poblat = [];
+        console.table(llistaUsuaris);
         let llob_1 = new Llob_1.Llob(llistaUsuaris[0], this);
         let llob_2 = new Llob_1.Llob(llistaUsuaris[1], this);
         let cupido = new Cupido_1.Cupido(llistaUsuaris[2], this);
@@ -23,11 +24,11 @@ class WareWolf extends Llistes_1.Llistes {
         for (let n = 4; n < llistaUsuaris.length; n++) {
             poblat.push(new Pobla_1.Pobla(llistaUsuaris[n], this));
         }
-        this.set(llob_1.tag, llob_1);
-        this.set(llob_2.tag, llob_2);
-        this.set(cupido.tag, cupido);
+        this.set(llob_1.usuari.tag, llob_1);
+        this.set(llob_2.usuari.tag, llob_2);
+        this.set(cupido.usuari.tag, cupido);
         for (let pobla of poblat) {
-            this.set(pobla.tag, pobla);
+            this.set(pobla.usuari.tag, pobla);
         }
         if (llistaUsuaris.length >= 4) {
             console.log("Hi ha suficients");
@@ -80,8 +81,8 @@ class WareWolf extends Llistes_1.Llistes {
         });
         return guanyador;
     }
-    async anunciarMort(usuari) {
-        this.canal.send(`${usuari.username} s'ha mort`);
+    async anunciarMort(personatge) {
+        this.canal.send(`${personatge.usuari.username} s'ha mort`);
     }
 }
 exports.WareWolf = WareWolf;

@@ -7,6 +7,7 @@ import { Objecta } from "./economia/objectes/Objecta";
 import { CoinBot } from "./CoinBot";
 import { WareWolf } from "./warewolf/WareWolf";
 import { config } from "process";
+import { Usuari } from "./usuaris/Usuari";
 
 
 const compilador = new Compilador();
@@ -32,7 +33,8 @@ coinBot.afegirEvent("message", "crear", async (con: string[], msg: Message)=>{
         let id: string = await compilador.treuraId(con[0]);
         let usuari: User | undefined = await coinBot.users.fetch(id);
         if(usuari){
-            coinBot.usuaris.nouUsuari(id, usuari);
+            coinBot.usuaris.nouUsuari(usuari.id, usuari);
+            msg.channel.send("CREAT");
         }else{
             msg.channel.send(`No s'ha trobat l'usuari ${con[0]}`);
         }
@@ -139,10 +141,11 @@ coinBot.afegirEvent("message", "gastar", async (cont, msg)=>{
 
 coinBot.afegirEvent("message", "començar", async (cont, msg)=>{
     await coinBot.cargarTot();
-    let llista = [];
+    let llista: Usuari[] = [];
 
-    for(let id of cont){
+    for(let idBrut of cont){
         let r = Math.random();
+        let id = await compilador.treuraId(idBrut)
         let usuari = await coinBot.usuaris.getById(id);
 
         if(usuari){
@@ -167,17 +170,20 @@ coinBot.afegirEvent("message", "començar", async (cont, msg)=>{
 
 
 coinBot.afegirEvent("message", "j", async (cont, msg)=>{
-    let usuari = await coinBot.warewolf.getById(msg.author.id);
-    
-    if(usuari){
-        usuari.accio(cont, msg);
+    if(coinBot.warewolf){
+        let usuari = await coinBot.warewolf.getById(msg.author.id);
+        if(usuari){
+            usuari.accio(cont, msg);
+        }
     }
 })
 
 coinBot.afegirEvent("message", "votar", (cont, msg)=>{
-    if(cont[0]){
-        coinBot.warewolf.votar(msg.author.id, cont[0]);
-    }else{
-        msg.reply("Fica a qui vols votar");
+    if(coinBot.warewolf){
+        if(cont[0]){
+            coinBot.warewolf.votar(msg.author.id, cont[0]);
+        }else{
+            msg.reply("Fica a qui vols votar");
+        }
     }
 })

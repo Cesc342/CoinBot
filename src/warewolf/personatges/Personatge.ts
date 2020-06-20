@@ -1,11 +1,12 @@
 import { Usuari } from "../../usuaris/Usuari";
-import { MessageEmbed, User, Message } from "discord.js";
+import { MessageEmbed, User, Message, Client } from "discord.js";
 import { WareWolf, tipusPersonatges } from "../WareWolf";
 
 
 export type RolEvent = (cont: string[], msg: Message)=>Promise<boolean>;
 
-export class Personatge extends User {
+export class Personatge {
+    public usuari: Usuari;
     public warewolf: WareWolf;
 
     public descripcio: string;
@@ -41,8 +42,7 @@ export class Personatge extends User {
 
     constructor(usuari: Usuari, rol: string, descripcio: string, warewolf: WareWolf)
     {
-        super(usuari.client, usuari);
-
+        this.usuari = usuari;
         this.warewolf = warewolf;
         this.rol = rol;
         this.descripcio = descripcio;

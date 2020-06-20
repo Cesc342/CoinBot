@@ -3,6 +3,7 @@ import { Usuari } from "../../usuaris/Usuari";
 import { WareWolf } from "../WareWolf";
 import { random } from "colors";
 import { pseudoRandomBytes } from "crypto";
+import { User } from "discord.js";
 
 export class Cupido extends Personatge{
     public rol: string = "cupido";

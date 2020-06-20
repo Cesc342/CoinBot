@@ -8,14 +8,13 @@ import { WareWolf } from "./warewolf/WareWolf";
 export class CoinBot extends Bot {
     public usuaris: Usuaris;
     public tenda: Tenda;
-    public warewolf: WareWolf;
+    public warewolf: WareWolf | undefined;
 
 
     constructor(cridar: string, cargar?: ()=>void){
         super(cridar, cargar);
         this.usuaris = new Usuaris();
         this.tenda = new Tenda(this.usuaris);
-        this.warewolf = new WareWolf([], new DMChannel(this));
     }
 
 

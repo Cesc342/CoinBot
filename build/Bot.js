@@ -21,7 +21,8 @@ exports.coinBot.afegirEvent("message", "crear", async (con, msg) => {
         let id = await compilador.treuraId(con[0]);
         let usuari = await exports.coinBot.users.fetch(id);
         if (usuari) {
-            exports.coinBot.usuaris.nouUsuari(id, usuari);
+            exports.coinBot.usuaris.nouUsuari(usuari.id, usuari);
+            msg.channel.send("CREAT");
         }
         else {
             msg.channel.send(`No s'ha trobat l'usuari ${con[0]}`);
@@ -110,8 +111,9 @@ exports.coinBot.afegirEvent("message", "gastar", async (cont, msg) => {
 exports.coinBot.afegirEvent("message", "començar", async (cont, msg) => {
     await exports.coinBot.cargarTot();
     let llista = [];
-    for (let id of cont) {
+    for (let idBrut of cont) {
         let r = Math.random();
+        let id = await compilador.treuraId(idBrut);
         let usuari = await exports.coinBot.usuaris.getById(id);
         if (usuari) {
             if (r < 0.5) {
@@ -132,16 +134,20 @@ exports.coinBot.afegirEvent("message", "començar", async (cont, msg) => {
     exports.coinBot.warewolf = ww;
 });
 exports.coinBot.afegirEvent("message", "j", async (cont, msg) => {
-    let usuari = await exports.coinBot.warewolf.getById(msg.author.id);
-    if (usuari) {
-        usuari.accio(cont, msg);
+    if (exports.coinBot.warewolf) {
+        let usuari = await exports.coinBot.warewolf.getById(msg.author.id);
+        if (usuari) {
+            usuari.accio(cont, msg);
+        }
     }
 });
 exports.coinBot.afegirEvent("message", "votar", (cont, msg) => {
-    if (cont[0]) {
-        exports.coinBot.warewolf.votar(msg.author.id, cont[0]);
-    }
-    else {
-        msg.reply("Fica a qui vols votar");
+    if (exports.coinBot.warewolf) {
+        if (cont[0]) {
+            exports.coinBot.warewolf.votar(msg.author.id, cont[0]);
+        }
+        else {
+            msg.reply("Fica a qui vols votar");
+        }
     }
 });

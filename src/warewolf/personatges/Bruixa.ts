@@ -1,7 +1,7 @@
 import { Personatge, RolEvent } from "./Personatge";
 import { Usuari } from "../../usuaris/Usuari";
 import { WareWolf } from "../WareWolf";
-import { MessageEmbed } from "discord.js";
+import { MessageEmbed, User } from "discord.js";
 
 export class Bruixa extends Personatge{
     public rol: string = "bruixa";

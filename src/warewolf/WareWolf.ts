@@ -1,11 +1,11 @@
-import { Usuari } from "../usuaris/Usuari";
 import { Llistes } from "../database/Llistes";
 import { Pobla } from "./personatges/Pobla";
 import { Compilador } from "../bot/compilador/Compilador";
 import { Bruixa } from "./personatges/Bruixa";
 import { Cupido } from "./personatges/Cupido";
 import { Llob } from "./personatges/Llob";
-import { DMChannel, Message, TextChannel, NewsChannel, Channel } from "discord.js";
+import { DMChannel, Message, TextChannel, NewsChannel, Channel, User } from "discord.js";
+import { Usuari } from "../usuaris/Usuari";
 
 
 export type tipusPersonatges = Pobla | Bruixa | Cupido | Llob;
@@ -27,7 +27,7 @@ export class WareWolf extends Llistes<string, tipusPersonatges> {
     private async cargar(llistaUsuaris: Usuari[]): Promise<void>
     {
         let poblat: Pobla[] = [];
-
+        console.table(llistaUsuaris);
 
         let llob_1 = new Llob(llistaUsuaris[0], this);
         let llob_2 = new Llob(llistaUsuaris[1], this);
@@ -40,13 +40,13 @@ export class WareWolf extends Llistes<string, tipusPersonatges> {
             poblat.push(new Pobla(llistaUsuaris[n], this));
         }
 
-        this.set(llob_1.tag, llob_1);
-        this.set(llob_2.tag, llob_2);
+        this.set(llob_1.usuari.tag, llob_1);
+        this.set(llob_2.usuari.tag, llob_2);
 
-        this.set(cupido.tag, cupido);
+        this.set(cupido.usuari.tag, cupido);
 
         for(let pobla of poblat){
-            this.set(pobla.tag, pobla);
+            this.set(pobla.usuari.tag, pobla);
         }
 
 
@@ -114,8 +114,8 @@ export class WareWolf extends Llistes<string, tipusPersonatges> {
         return guanyador;
     }
 
-    public async anunciarMort(usuari: tipusPersonatges): Promise<void>
+    public async anunciarMort(personatge: tipusPersonatges): Promise<void>
     {
-        this.canal.send(`${usuari.username} s'ha mort`);
+        this.canal.send(`${personatge.usuari.username} s'ha mort`);
     }
 }
