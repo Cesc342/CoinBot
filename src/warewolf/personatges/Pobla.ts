@@ -1,11 +1,12 @@
-import { Personatge } from "./Personatge";
+import { Personatge, RolEvent } from "./Personatge";
 import { Usuari } from "../../usuaris/Usuari";
+import { WareWolf } from "../WareWolf";
 
 export class Pobla extends Personatge {
-    public votacions: number = 0;
+    public rol: string = "pobla";
 
-    constructor(usuari: Usuari)
+    constructor(usuari: Usuari, warewolf: WareWolf)
     {
-        super(usuari, "Descripcio");
+        super(usuari, "pobla", "Descripcio", warewolf);
     }
 }

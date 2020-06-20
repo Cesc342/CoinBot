@@ -127,10 +127,21 @@ exports.coinBot.afegirEvent("message", "començar", async (cont, msg) => {
             break;
         }
     }
-    let ww = new WareWolf_1.WareWolf(llista);
+    let ww = new WareWolf_1.WareWolf(llista, msg.channel);
     console.table();
     exports.coinBot.warewolf = ww;
 });
-exports.coinBot.afegirEvent("message", "j", (cont, msg) => {
-    // Proces partida jugadors
+exports.coinBot.afegirEvent("message", "j", async (cont, msg) => {
+    let usuari = await exports.coinBot.warewolf.getById(msg.author.id);
+    if (usuari) {
+        usuari.accio(cont, msg);
+    }
+});
+exports.coinBot.afegirEvent("message", "votar", (cont, msg) => {
+    if (cont[0]) {
+        exports.coinBot.warewolf.votar(msg.author.id, cont[0]);
+    }
+    else {
+        msg.reply("Fica a qui vols votar");
+    }
 });

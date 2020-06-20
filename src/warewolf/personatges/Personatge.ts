@@ -1,17 +1,50 @@
 import { Usuari } from "../../usuaris/Usuari";
-import { MessageEmbed } from "discord.js";
+import { MessageEmbed, User, Message } from "discord.js";
+import { WareWolf, tipusPersonatges } from "../WareWolf";
 
-export class Personatge {
-    public usuari: Usuari;
+
+export type RolEvent = (cont: string[], msg: Message)=>Promise<boolean>;
+
+export class Personatge extends User {
+    public warewolf: WareWolf;
+
     public descripcio: string;
+    public rol: string;
+
     public votacio: number = 0;
+
     public potVotar: boolean = false;
-    public mort: boolean = false;
+    public potFerAccio: boolean = false;
+    public enamorat: tipusPersonatges | undefined;
 
-
-    constructor(usuari: Usuari, descripcio: string)
+    public set mort(b: boolean)
     {
-        this.usuari = usuari;
+        this.mort = b;
+
+        if(this.enamorat){
+            if(!this.enamorat.mort){
+                this.enamorat.mort = b;
+            }
+        }
+
+        if(b){
+            this.warewolf.anunciarMort(this);
+        }
+    }
+
+    public get mort(): boolean
+    {
+        return this.mort
+    }
+
+    public rolEvent: RolEvent | undefined;
+
+    constructor(usuari: Usuari, rol: string, descripcio: string, warewolf: WareWolf)
+    {
+        super(usuari.client, usuari);
+
+        this.warewolf = warewolf;
+        this.rol = rol;
         this.descripcio = descripcio;
     }
 
@@ -39,8 +72,22 @@ export class Personatge {
         return msg;
     }
 
-    public matar(): void
+
+    public async accio(cont: string[], msg: Message): Promise<void>
     {
-        this.mort = true;
+        if(this.potFerAccio && this.rolEvent){
+            let error = await this.rolEvent(cont, msg);
+            if(error){
+                msg.author.send(`El teu rol es ${this.rol}`);
+                msg.author.send(`bot!help ${this.rol}`);
+            }
+        }else{
+            msg.author.send(this.help());
+        }
+    }
+
+    public async ficarEvent(rolEvent: RolEvent)
+    {
+        this.rolEvent = rolEvent;
     }
 }

@@ -1,10 +1,13 @@
-import { Personatge } from "./Personatge";
+import { Personatge, RolEvent } from "./Personatge";
 import { Usuari } from "../../usuaris/Usuari";
+import { Message, MessageEmbed } from "discord.js";
+import { WareWolf } from "../WareWolf";
 
 export class Llob extends Personatge{
+    public rol: string = "llob";
 
-    constructor(usuari: Usuari)
+    constructor(usuari: Usuari, warewolf: WareWolf)
     {
-        super(usuari, "Descripcio");
+        super(usuari, "llob","Descripcio", warewolf);
     }
 }

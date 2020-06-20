@@ -158,7 +158,7 @@ coinBot.afegirEvent("message", "començar", async (cont, msg)=>{
         }
     }
 
-    let ww = new WareWolf(llista);
+    let ww = new WareWolf(llista, msg.channel);
 
     console.table();
 
@@ -166,6 +166,18 @@ coinBot.afegirEvent("message", "començar", async (cont, msg)=>{
 })
 
 
-coinBot.afegirEvent("message", "j", (cont, msg)=>{
-    // Proces partida jugadors
+coinBot.afegirEvent("message", "j", async (cont, msg)=>{
+    let usuari = await coinBot.warewolf.getById(msg.author.id);
+    
+    if(usuari){
+        usuari.accio(cont, msg);
+    }
+})
+
+coinBot.afegirEvent("message", "votar", (cont, msg)=>{
+    if(cont[0]){
+        coinBot.warewolf.votar(msg.author.id, cont[0]);
+    }else{
+        msg.reply("Fica a qui vols votar");
+    }
 })

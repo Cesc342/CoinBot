@@ -1,9 +1,40 @@
-import { Personatge } from "./Personatge";
+import { Personatge, RolEvent } from "./Personatge";
 import { Usuari } from "../../usuaris/Usuari";
+import { WareWolf } from "../WareWolf";
+import { random } from "colors";
+import { pseudoRandomBytes } from "crypto";
 
 export class Cupido extends Personatge{
-    constructor(usuari: Usuari)
+    public rol: string = "cupido";
+    public jaTriat: boolean = false;
+
+    constructor(usuari: Usuari, warewolf: WareWolf)
     {
-        super(usuari, "Cupido");
+        super(usuari, "Cupido", "Cupido", warewolf);
+    }
+
+
+    public async accio(): Promise<void>
+    {
+        let event: RolEvent = async (cont, msg) => {
+            if(this.jaTriat){
+                if(cont[0] && cont[1] && !this.mort){
+                    this.jaTriat = false;
+
+                    let enamorat_1 = await this.warewolf.getById(cont[0]);
+                    let enamorat_2 = await this.warewolf.getById(cont[1]);
+
+                    if(enamorat_1 && enamorat_2){
+                        enamorat_1.enamorat = enamorat_2;
+                        enamorat_2.enamorat = enamorat_1;
+
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        this.ficarEvent(event);
     }
 }

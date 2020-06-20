@@ -1,7 +1,7 @@
 import { Bot } from "./bot/Bot";
 import { Usuaris } from "./usuaris/Usuaris";
 import { Tenda } from "./economia/Tenda";
-import { User } from "discord.js";
+import { User, Channel, Client, DMChannel } from "discord.js";
 import { WareWolf } from "./warewolf/WareWolf";
 
 
@@ -15,7 +15,7 @@ export class CoinBot extends Bot {
         super(cridar, cargar);
         this.usuaris = new Usuaris();
         this.tenda = new Tenda(this.usuaris);
-        this.warewolf = new WareWolf([]);
+        this.warewolf = new WareWolf([], new DMChannel(this));
     }
 
 

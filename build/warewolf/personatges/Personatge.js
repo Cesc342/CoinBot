@@ -1,13 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
-class Personatge {
-    constructor(usuari, descripcio) {
+class Personatge extends discord_js_1.User {
+    constructor(usuari, rol, descripcio, warewolf) {
+        super(usuari.client, usuari);
         this.votacio = 0;
         this.potVotar = false;
-        this.mort = false;
-        this.usuari = usuari;
+        this.potFerAccio = false;
+        this.warewolf = warewolf;
+        this.rol = rol;
         this.descripcio = descripcio;
+    }
+    set mort(b) {
+        this.mort = b;
+        if (this.enamorat) {
+            if (!this.enamorat.mort) {
+                this.enamorat.mort = b;
+            }
+        }
+        if (b) {
+            this.warewolf.anunciarMort(this);
+        }
+    }
+    get mort() {
+        return this.mort;
     }
     votar(usuari) {
         if (this.potVotar && !this.mort) {
@@ -26,8 +42,20 @@ class Personatge {
         msg.addField("Descripcio", this.descripcio);
         return msg;
     }
-    matar() {
-        this.mort = true;
+    async accio(cont, msg) {
+        if (this.potFerAccio && this.rolEvent) {
+            let error = await this.rolEvent(cont, msg);
+            if (error) {
+                msg.author.send(`El teu rol es ${this.rol}`);
+                msg.author.send(`bot!help ${this.rol}`);
+            }
+        }
+        else {
+            msg.author.send(this.help());
+        }
+    }
+    async ficarEvent(rolEvent) {
+        this.rolEvent = rolEvent;
     }
 }
 exports.Personatge = Personatge;
