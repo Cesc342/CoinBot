@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Compilador_1 = require("./bot/compilador/Compilador");
 const Objecta_1 = require("./economia/objectes/Objecta");
 const CoinBot_1 = require("./CoinBot");
+const WareWolf_1 = require("./warewolf/WareWolf");
 const compilador = new Compilador_1.Compilador();
 exports.coinBot = new CoinBot_1.CoinBot("bot!", async () => {
     exports.coinBot.cargarTot(true);
@@ -106,6 +107,31 @@ exports.coinBot.afegirEvent("message", "gastar", async (cont, msg) => {
     }
     await exports.coinBot.guardarTot();
 });
-exports.coinBot.afegirEvent("message", "hola", (cont, msg) => {
+exports.coinBot.afegirEvent("message", "començar", async (cont, msg) => {
+    await exports.coinBot.cargarTot();
+    let llista = [];
+    for (let id of cont) {
+        let r = Math.random();
+        let usuari = await exports.coinBot.usuaris.getById(id);
+        if (usuari) {
+            if (r < 0.5) {
+                llista.push(usuari);
+            }
+            else {
+                llista.unshift(usuari);
+            }
+        }
+        else {
+            console.log(`ERROR: Usuari ${id} no trobat`);
+            msg.channel.send(`ERROR: Usuari ${id} no trobat`);
+            break;
+        }
+    }
+    let ww = new WareWolf_1.WareWolf(llista);
+    exports.coinBot.warewolf = ww;
     msg.channel.send("Adeu");
+});
+exports.coinBot.afegirEvent("message", "j", (cont, msg) => {
+    if (cont[0] == "h", cont[0] == "help") {
+    }
 });
