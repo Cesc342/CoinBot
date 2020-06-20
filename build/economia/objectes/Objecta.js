@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const Afecta_1 = require("./afectes/Afecta");
 class Objecta {
     constructor(usuari, nom, num, detalls) {
         this.num = 1;
@@ -14,20 +15,12 @@ class Objecta {
             this.detalls = detalls;
         }
     }
-    gastar(num, usuari) {
+    gastar(num, altreUsuari) {
         if (this.hiHaSuficients(num)) {
             this.num -= num;
-            if (usuari) {
-                while (num > 0) {
-                    this.afecta(usuari);
-                    num--;
-                }
-            }
-            else {
-                while (num > 0) {
-                    this.afecta(this.usuari);
-                    num--;
-                }
+            while (num > 0) {
+                this.afecta(new Afecta_1.Afecta(this, this.usuari, altreUsuari));
+                num--;
             }
             return true;
         }
@@ -48,11 +41,9 @@ class Objecta {
         return data;
     }
     //------------------------------------------------------ AFECTES ------------------------------------------------------
-    afecta(usuari) {
+    afecta(afecta) {
         if (this.afectes) {
-            this.afectes.forEach((afecta, index) => {
-                afecta(usuari);
-            });
+            this.afectes.forEach((afectaFuncio) => afectaFuncio(afecta));
         }
     }
 }

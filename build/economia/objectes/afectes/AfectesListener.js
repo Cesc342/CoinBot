@@ -6,17 +6,20 @@ class AfectesListener extends Llistes_1.Llistes {
     constructor() {
         super();
         this.moldeFuncions = new Llistes_1.Llistes();
-        this.set("PUJAR_IMPOSTOS", (usuari) => {
-            console.log("---- Hola ----");
+        this.set("PUJAR_IMPOSTOS", ({ afector }) => {
+            afector.impostos = afector.impostos * 2;
         });
-        this.set("BAIXAR_IMPOSTOS", () => {
-            console.log("---- Adeu ----");
+        this.set("BAIXAR_IMPOSTOS", ({ afector }) => {
+            afector.impostos = afector.impostos / 2;
         });
-        this.set("MES_POSSIBILITATS_ROBAR", () => {
-            console.log(" ---- Si ----");
+        this.set("MES_POSSIBILITATS_ROBAR", ({ afector }) => {
+            afector.posRobar += 0.05;
         });
-        this.set("MENYS_POSSIBILITATS_ROBAR", () => {
-            console.log(" ---- No -----");
+        this.set("MENYS_POSSIBILITATS_ROBAR", ({ afector }) => {
+            afector.posRobar -= 0.05;
+        });
+        this.set("TORNAR_UTILITZAR", ({ objecta }) => {
+            objecta.num++;
         });
     }
     async cargar() {

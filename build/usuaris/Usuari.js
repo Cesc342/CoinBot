@@ -11,6 +11,7 @@ class Usuari extends discord_js_1.User {
         this.temps = new Temps_1.Temps();
         this.tempsTreballar = 0;
         this.impostos = 0.1; //Quant treu el banc cada vegada que guardes els diners 
+        this.posRobar = 0.2;
         this.id = id;
         this.inventori = new Inventori_1.Inventori(dadesInv, this);
         //Ho he fet aixi perque el valor diners no dongui negatiu
@@ -22,7 +23,7 @@ class Usuari extends discord_js_1.User {
         this.id = id;
         this.inventori = new Inventori_1.Inventori(dadesInv, this);
         //Ho he fet aixi perque el valor diners no dongui negatiu
-        this.sumarDiners(diners);
+        this.diners = diners;
         this.banc = banc;
     }
     //Es boolean perque comprova si s'ha pogut treure el diners o no
@@ -93,16 +94,15 @@ class Usuari extends discord_js_1.User {
         return diners;
     }
     async robar(usuari) {
-        let r = Math.random() * 900 - 300;
-        let diners = Math.round(r);
-        let possible = usuari.restarDiners(diners);
-        if (possible) {
-            if (diners >= 0) { // Determina si l'han agafat o no
-                return diners;
+        let robarB = Math.random();
+        if (robarB < this.posRobar) {
+            let r = Math.random() * 1000;
+            let diners = Math.round(r);
+            let possible = usuari.restarDiners(diners);
+            if (possible) {
+                this.sumarDiners(diners);
             }
-            else {
-                return 0;
-            }
+            return possible;
         }
     }
 }

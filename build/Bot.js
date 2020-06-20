@@ -106,3 +106,6 @@ exports.coinBot.afegirEvent("message", "gastar", async (cont, msg) => {
     }
     await exports.coinBot.guardarTot();
 });
+exports.coinBot.afegirEvent("message", "hola", (cont, msg) => {
+    msg.channel.send("Adeu");
+});

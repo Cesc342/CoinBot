@@ -1,6 +1,7 @@
 import { Usuari } from "../../usuaris/Usuari";
 import { BaseDades } from "../../database/BaseDades";
 import { eventAfecta } from "./afectes/AfectesListener";
+import { Afecta } from "./afectes/Afecta";
 
 export type DataObjecta = {
     nom: string,
@@ -29,20 +30,13 @@ export class Objecta implements DataObjecta{
     }
 
 
-    public gastar(num: number, usuari?:Usuari): boolean
+    public gastar(num: number, altreUsuari?: Usuari): boolean
     {
         if(this.hiHaSuficients(num)){
             this.num -= num;
-            if(usuari){
-                while(num > 0){
-                    this.afecta(usuari);
-                    num--;
-                }
-            }else{
-                while(num > 0){
-                    this.afecta(this.usuari);
-                    num--;
-                }
+            while(num > 0){
+                this.afecta(new Afecta(this, this.usuari, altreUsuari));
+                num--;
             }
             return true;
         }
@@ -73,12 +67,10 @@ export class Objecta implements DataObjecta{
     }
 
     //------------------------------------------------------ AFECTES ------------------------------------------------------
-    public afecta(usuari: Usuari)
+    public afecta(afecta: Afecta)
     {
         if(this.afectes){
-            this.afectes.forEach((afecta, index)=>{
-                afecta(usuari);
-            })
+            this.afectes.forEach((afectaFuncio) => afectaFuncio(afecta));
         }
     }
 }

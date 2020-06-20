@@ -1,11 +1,12 @@
 import { Bot } from "./bot/Bot";
 
-import { Message, Channel, Collector, MessageEmbed, DMChannel, Client, User } from "discord.js";
+import { Message, Channel, Collector, MessageEmbed, DMChannel, Client, User, DiscordAPIError } from "discord.js";
 import { red } from "colors";
 import { Compilador } from "./bot/compilador/Compilador";
 import { Objecta } from "./economia/objectes/Objecta";
 import { CoinBot } from "./CoinBot";
-import { count } from "console";
+import { WareWolf } from "./warewolf/WareWolf";
+import { config } from "process";
 
 
 const compilador = new Compilador();
@@ -133,4 +134,41 @@ coinBot.afegirEvent("message", "gastar", async (cont, msg)=>{
     }
 
     await coinBot.guardarTot();
+})
+
+
+coinBot.afegirEvent("message", "començar", async (cont, msg)=>{
+    await coinBot.cargarTot();
+    let llista = [];
+
+    for(let id of cont){
+        let r = Math.random();
+        let usuari = await coinBot.usuaris.getById(id);
+
+        if(usuari){
+            if(r < 0.5){
+                llista.push(usuari);
+            }else{
+                llista.unshift(usuari);
+            }
+        }else{
+            console.log(`ERROR: Usuari ${id} no trobat`);
+            msg.channel.send(`ERROR: Usuari ${id} no trobat`);
+            break;
+        }
+    }
+
+    let ww = new WareWolf(llista);
+
+    coinBot.warewolf = ww;
+
+    msg.channel.send("Adeu");
+})
+
+
+coinBot.afegirEvent("message", "j", (cont, msg)=>{
+    
+    if(cont[0] == "h", cont[0] == "help"){
+        
+    }
 })

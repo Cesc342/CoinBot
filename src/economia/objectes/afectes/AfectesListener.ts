@@ -1,28 +1,33 @@
 import { Llistes } from "../../../database/Llistes"
 import { Usuari } from "../../../usuaris/Usuari";
 import { BaseDades } from "../../../database/BaseDades";
+import { Afecta } from "./Afecta";
 
-export type eventAfecta = (usuari: Usuari)=>void;
+export type eventAfecta = (afecta: Afecta)=>void;
 
 export class AfectesListener extends Llistes<string, eventAfecta>{
     public moldeFuncions: Llistes<string,any> = new Llistes();
-    
+
     constructor(){
         super();
-        this.set("PUJAR_IMPOSTOS", (usuari)=>{
-            console.log("---- Hola ----");
+        this.set("PUJAR_IMPOSTOS", ({afector})=>{
+            afector.impostos = afector.impostos * 2;
         })
 
-        this.set("BAIXAR_IMPOSTOS", ()=>{
-            console.log("---- Adeu ----");
+        this.set("BAIXAR_IMPOSTOS", ({afector})=>{
+            afector.impostos = afector.impostos / 2;
         })
 
-        this.set("MES_POSSIBILITATS_ROBAR", ()=>{
-            console.log(" ---- Si ----");
+        this.set("MES_POSSIBILITATS_ROBAR", ({afector})=>{
+            afector.posRobar += 0.05
         })
 
-        this.set("MENYS_POSSIBILITATS_ROBAR", ()=>{
-            console.log(" ---- No -----");
+        this.set("MENYS_POSSIBILITATS_ROBAR", ({afector})=>{
+            afector.posRobar -= 0.05;
+        })
+
+        this.set("TORNAR_UTILITZAR", ({objecta}) => {
+            objecta.num++;
         })
     }
 

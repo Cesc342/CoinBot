@@ -20,6 +20,7 @@ export class Usuari extends User implements DadesUsuari{
     public tempsTreballar: number = 0;
 
     public impostos: number = 0.1; //Quant treu el banc cada vegada que guardes els diners 
+    public posRobar: number = 0.2;
 
     constructor(user: User, {id, diners, banc, impostos}: DadesUsuari, dadesInv: DadesInventari)
     {
@@ -39,7 +40,7 @@ export class Usuari extends User implements DadesUsuari{
         this.inventori = new Inventori(dadesInv, this);
 
         //Ho he fet aixi perque el valor diners no dongui negatiu
-        this.sumarDiners(diners);
+        this.diners = diners;
         this.banc = banc;
     }
 
@@ -137,18 +138,18 @@ export class Usuari extends User implements DadesUsuari{
     }
 
 
-    public async robar(usuari: Usuari): Promise<undefined | number>
+    public async robar(usuari: Usuari): Promise<boolean | undefined>
     {
-        let r: number = Math.random() * 900 - 300;
-        let diners: number = Math.round(r);
-        let possible: boolean = usuari.restarDiners(diners);
+        let robarB: number = Math.random();
+        if(robarB < this.posRobar){
+            let r = Math.random() * 1000;
+            let diners: number = Math.round(r);
+            let possible: boolean = usuari.restarDiners(diners);
 
-        if(possible){
-            if(diners >= 0){ // Determina si l'han agafat o no
-                return diners;
-            }else{
-                return 0;
+            if(possible){
+                this.sumarDiners(diners);
             }
+            return possible;
         }
     }
 
