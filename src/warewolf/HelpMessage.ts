@@ -17,7 +17,7 @@ export class HelpMessage {
 
     private cargarLlista(): void
     {
-        this.llistaRols.set("llob", {
+        this.llistaRols.set("llop", {
             puntsForts: "``Tria qui viu i qui mor durant el joc. Es desperta abans que la resta de jugadors.``",
             puntsFebles: "``Tothom vota per a eliminar a un usuari que creuen que és el llop, osigui que haureu d'anar amb cura de ser silenciosos``",
             urlImatge: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.oSem4zM0NqC9nTIJezJAeAHaF_%26pid%3DApi&f=1"

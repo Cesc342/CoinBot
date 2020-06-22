@@ -9,7 +9,7 @@ import { WareWolf } from "./warewolf/WareWolf";
 import { config } from "process";
 import { Usuari } from "./usuaris/Usuari";
 import { Pobla } from "./warewolf/personatges/Pobla";
-import { Llob } from "./warewolf/personatges/Llob";
+import { Llop } from "./warewolf/personatges/Llop";
 import { Bruixa } from "./warewolf/personatges/Bruixa";
 import { Cupido } from "./warewolf/personatges/Cupido";
 

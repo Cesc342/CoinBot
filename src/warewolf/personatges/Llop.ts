@@ -4,7 +4,7 @@ import { Message, MessageEmbed, User } from "discord.js";
 import { WareWolf } from "../WareWolf";
 import { Bruixa } from "./Bruixa";
 
-export class Llob extends Personatge{
+export class Llop extends Personatge{
     public rol: string = "llob";
 
     constructor(usuari: Usuari, warewolf: WareWolf, seguent: Bruixa)

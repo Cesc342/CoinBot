@@ -3,13 +3,13 @@ import { Pobla } from "./personatges/Pobla";
 import { Compilador } from "../bot/compilador/Compilador";
 import { Bruixa } from "./personatges/Bruixa";
 import { Cupido } from "./personatges/Cupido";
-import { Llob } from "./personatges/Llob";
+import { Llop } from "./personatges/Llop";
 import { DMChannel, Message, TextChannel, NewsChannel } from "discord.js";
 import { Usuari } from "../usuaris/Usuari";
 import { HelpMessage } from "./HelpMessage";
 
 
-export type tipusPersonatges = Pobla | Bruixa | Cupido | Llob;
+export type tipusPersonatges = Pobla | Bruixa | Cupido | Llop;
 type canalsDiscord = DMChannel | TextChannel | NewsChannel;
 
 export class WareWolf extends Llistes<string, tipusPersonatges> {
@@ -29,13 +29,13 @@ export class WareWolf extends Llistes<string, tipusPersonatges> {
     public set dia(b: boolean)
     {
         if(b){
-            this.forEach( (usuari)=>usuari.potVotar = true );
-            this.canal.send("Hes ɖa ɖie");
+            this.forEach( usuari => usuari.potVotar = true );
+            this.canal.send("És de dia");
             this.mirarMorts();
         }else{
             if(this.primerQueAcciona){
+                this.canal.send("És de nit");
                 this.primerQueAcciona.potFerAccio = true;
-                this.canal.send("Hes ɖa nïd");
             }else{
                 this.canal.send("ERROR: calambre cerebral");
             }
@@ -52,33 +52,34 @@ export class WareWolf extends Llistes<string, tipusPersonatges> {
     constructor(llistaUsuaris: Usuari[], canal: canalsDiscord)
     {
         super();
-        this.canal = canal;        this.primerQueAcciona; //Perque no em dongi error
+        this.canal = canal;
+        this.primerQueAcciona; //Perque no em dongi error
         this.cargar(llistaUsuaris);
     }
 
 
-    private async cargar(llistaUsuaris: Usuari[]): Promise<Llob>
+    private async cargar(llistaUsuaris: Usuari[]): Promise<Llop>
     {
         let poblat: Pobla[] = [];
         this.dia = true;
 
         let bruixa = new Bruixa(llistaUsuaris[2], this);
         await llistaUsuaris[2].createDM();
-        llistaUsuaris[2].dmChannel.send(`Tu vroyijá`);
+        llistaUsuaris[2].dmChannel.send(`Ets una bruixa`);
 
-        let llob_1 = new Llob(llistaUsuaris[0], this, bruixa);
+        let llob_1 = new Llop(llistaUsuaris[0], this, bruixa);
         await llistaUsuaris[0].createDM();
-        llistaUsuaris[0].dmChannel.send(`Tu yöv`);
+        llistaUsuaris[0].dmChannel.send(`Ets un llop`);
 
         let cupido = new Cupido(llistaUsuaris[1], this, llob_1);
         this.primerQueAcciona = cupido; // Pero aquest es el objecta que de veritat es el primer
         await llistaUsuaris[1].createDM();
-        llistaUsuaris[1].dmChannel.send(`Tu kùpýdò`);
+        llistaUsuaris[1].dmChannel.send(`Ets el cupido`);
 
         for(let n = 3; n < llistaUsuaris.length; n++){
             poblat.push(new Pobla(llistaUsuaris[n], this));
             await llistaUsuaris[n].createDM();
-            llistaUsuaris[n].dmChannel.send(`Tu pövlè`);
+            llistaUsuaris[n].dmChannel.send(`Ets un vilatà`);
         }
 
         this.set(llob_1.usuari.id, llob_1);

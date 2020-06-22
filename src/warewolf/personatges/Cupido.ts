@@ -1,13 +1,13 @@
 import { Personatge, RolEvent } from "./Personatge";
 import { Usuari } from "../../usuaris/Usuari";
 import { WareWolf, tipusPersonatges } from "../WareWolf";
-import { Llob } from "./Llob";
+import { Llop } from "./Llop";
 
 export class Cupido extends Personatge{
     public rol: string = "cupido";
     public noHaTriat: boolean = false;
 
-    constructor(usuari: Usuari, warewolf: WareWolf, seguent: Llob)
+    constructor(usuari: Usuari, warewolf: WareWolf, seguent: Llop)
     {
         super(usuari, "Cupido", warewolf);
         this.accio();
