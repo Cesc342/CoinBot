@@ -1,5 +1,5 @@
 import { Usuari } from "../../usuaris/Usuari";
-import { MessageEmbed, User, Message, Client } from "discord.js";
+import { MessageEmbed, User, Message, Client, DMChannel } from "discord.js";
 import { WareWolf, tipusPersonatges } from "../WareWolf";
 
 
@@ -8,6 +8,7 @@ export type RolEvent = (cont: string[], msg: Message)=>Promise<boolean>;
 export class Personatge {
     public usuari: Usuari;
     public warewolf: WareWolf;
+    public seguent: tipusPersonatges | undefined;
 
     public rol: string;
     public puntsForts: string = "";
@@ -17,18 +18,12 @@ export class Personatge {
     public votacio: number = 0;
 
     public potVotar: boolean = true;
-    public potFerAccio: boolean = false;
     public enamorat: tipusPersonatges | undefined;
 
     private mortB: boolean = false;
+    public potMorir: boolean = false;
     public set mort(b: boolean)
     {
-        if(this.rol == "llob"){
-            this.warewolf.numRols.llob--;
-        }else{
-            this.warewolf.numRols.poblat--;
-        }
-
         if(this.enamorat){
             if(!this.enamorat.mort){
                 this.enamorat.mort = b;
@@ -41,19 +36,36 @@ export class Personatge {
 
         this.mortB = b;
     }
-
     public get mort(): boolean
     {
         return this.mortB;
     }
 
+
+    private potFerAccioB: boolean = false;
+    public set potFerAccio(b: boolean)
+    {
+        if(b){
+            this.usuari.dmChannel.send("Utilitza bot!j per utilitzar el teu rol");
+        }
+
+        this.potFerAccioB = b;
+    }
+    public get porFerAccio()
+    {
+        return this.potFerAccioB;
+    }
+
+
     public rolEvent: RolEvent | undefined;
 
-    constructor(usuari: Usuari, rol: string, warewolf: WareWolf)
+    constructor(usuari: Usuari, rol: string, warewolf: WareWolf, seguent?: tipusPersonatges)
     {
         this.usuari = usuari;
+        this.usuari.createDM();
         this.warewolf = warewolf;
         this.rol = rol;
+        this.seguent = seguent;
     }
 
 
@@ -85,7 +97,7 @@ export class Personatge {
                 msg.author.send(`El teu rol es ${this.rol}`);
                 msg.author.send(`bot!help ${this.rol}`);
             }else{
-                this.potFerAccio = false;
+                this.next();
             }
         }else{
             msg.author.send(this.help());
@@ -95,5 +107,15 @@ export class Personatge {
     public async ficarEvent(rolEvent: RolEvent)
     {
         this.rolEvent = rolEvent;
+    }
+
+    public next()
+    {
+        this.potFerAccio = false;
+        if(this.seguent){
+            this.seguent.potFerAccio = true;
+        }else{
+            this.warewolf.dia = true; // Quant acaba de haver-hi un "seguent" per fer accio per la nit
+        }
     }
 }

@@ -16,9 +16,11 @@ export class WareWolf extends Llistes<string, tipusPersonatges> {
     public compilador: Compilador = new Compilador();
 
     public numRols = {
-        poblat: 9,
-        llob: 1
+        poblat: 4,
+        llop: 1
     }
+
+    public primerQueAcciona: Cupido | undefined;
 
     private diaB: boolean = true;
 
@@ -27,9 +29,14 @@ export class WareWolf extends Llistes<string, tipusPersonatges> {
         if(b){
             this.forEach( (usuari)=>usuari.potVotar = true );
             this.canal.send("Hes ɖa ɖie");
+            this.mirarMorts();
         }else{
-            this.forEach( (usuari)=>usuari.potFerAccio = true );
-            this.canal.send("Hes ɖa ɖïd");
+            if(this.primerQueAcciona){
+                this.primerQueAcciona.potFerAccio = true;
+                this.canal.send("Hes ɖa nïd");
+            }else{
+                this.canal.send("ERROR: calambre cerebral");
+            }
         }
         this.diaB = b;
     }
@@ -43,27 +50,28 @@ export class WareWolf extends Llistes<string, tipusPersonatges> {
     constructor(llistaUsuaris: Usuari[], canal: canalsDiscord)
     {
         super();
-        this.canal = canal;
+        this.canal = canal;        this.primerQueAcciona; //Perque no em dongi error
         this.cargar(llistaUsuaris);
     }
 
 
-    private async cargar(llistaUsuaris: Usuari[]): Promise<void>
+    private async cargar(llistaUsuaris: Usuari[]): Promise<Llob>
     {
         let poblat: Pobla[] = [];
         this.dia = true;
 
-        let llob_1 = new Llob(llistaUsuaris[0], this);
-        await llistaUsuaris[0].createDM();
-        llistaUsuaris[0].dmChannel.send(`Tu yöv`);
-
-        let cupido = new Cupido(llistaUsuaris[1], this);
-        await llistaUsuaris[1].createDM();
-        llistaUsuaris[1].dmChannel.send(`Tu kùpýdò`);
-
         let bruixa = new Bruixa(llistaUsuaris[2], this);
         await llistaUsuaris[2].createDM();
         llistaUsuaris[2].dmChannel.send(`Tu vroyijá`);
+
+        let llob_1 = new Llob(llistaUsuaris[0], this, bruixa);
+        await llistaUsuaris[0].createDM();
+        llistaUsuaris[0].dmChannel.send(`Tu yöv`);
+
+        let cupido = new Cupido(llistaUsuaris[1], this, llob_1);
+        this.primerQueAcciona = cupido; // Pero aquest es el objecta que de veritat es el primer
+        await llistaUsuaris[1].createDM();
+        llistaUsuaris[1].dmChannel.send(`Tu kùpýdò`);
 
         for(let n = 3; n < llistaUsuaris.length; n++){
             poblat.push(new Pobla(llistaUsuaris[n], this));
@@ -87,7 +95,10 @@ export class WareWolf extends Llistes<string, tipusPersonatges> {
         }else{
             console.log("NO");
         }
+
+        return llob_1;
     }
+
 
 
     public async getById(idBrut: string): Promise<tipusPersonatges | undefined>
@@ -102,13 +113,13 @@ export class WareWolf extends Llistes<string, tipusPersonatges> {
         setTimeout(funcio, ms);
     }
 
+
     public async votar(id: string, idVotat: string): Promise<void>
     {
         let votador = await this.getById(id);
         let votat = await this.getById(idVotat);
 
         console.log("WareWolf");
-        console.table(this);
 
         if(votador && votat){
             console.log("Pot votar: " + votador.potVotar);
@@ -153,10 +164,37 @@ export class WareWolf extends Llistes<string, tipusPersonatges> {
     public async anunciarMort(personatge: tipusPersonatges): Promise<void>
     {
         this.canal.send(`${personatge.usuari.username} s'ha mort`);
-        if(this.numRols.llob == 0){
+        this.canal.send(`Ell era... ${personatge.rol}`);
+
+        await this.contarMorts(personatge.rol);
+        this.guanyador();
+    }
+
+    private async contarMorts(rol: string): Promise<void>
+    {
+        if(rol == "llop"){
+            this.numRols.llop--;
+        }else{
+            this.numRols.poblat--;
+        }
+    }
+
+    private guanyador(): void
+    {
+        if(this.numRols.llop == 0){
             this.canal.send(`Han guanyat els llobs`);
         }else if(this.numRols.poblat == 0 || this.numRols.poblat > this.numRols.poblat){
             this.canal.send(`Heu matat a tots els llobs`);
         }
+    }
+
+    private mirarMorts(): void
+    {
+        this.forEach((jugador)=>{
+            if(jugador.potMorir && !jugador.mort){
+                jugador.mort = true;
+                jugador.potMorir = false;
+            }
+        })
     }
 }

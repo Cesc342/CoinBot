@@ -29,12 +29,12 @@ export class Bruixa extends Personatge{
 
                 if(triat){
                     if(cont[0] == "m" || cont[0] == "matar"){
-                        triat.mort = true;
+                        triat.potMorir = true;
                         this.matar = false;
 
                         return false;
                     }else if(cont[0] == "r" || cont[0] == "reviure"){
-                        triat.mort = false;
+                        triat.potMorir = false;
                         this.curar = false;
 
                         return false;
