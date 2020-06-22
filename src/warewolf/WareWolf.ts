@@ -6,6 +6,7 @@ import { Cupido } from "./personatges/Cupido";
 import { Llob } from "./personatges/Llob";
 import { DMChannel, Message, TextChannel, NewsChannel } from "discord.js";
 import { Usuari } from "../usuaris/Usuari";
+import { HelpMessage } from "./HelpMessage";
 
 
 export type tipusPersonatges = Pobla | Bruixa | Cupido | Llob;
@@ -14,6 +15,7 @@ type canalsDiscord = DMChannel | TextChannel | NewsChannel;
 export class WareWolf extends Llistes<string, tipusPersonatges> {
     public canal: canalsDiscord;
     public compilador: Compilador = new Compilador();
+    public helpMessage: HelpMessage = new HelpMessage();
 
     public numRols = {
         poblat: 4,

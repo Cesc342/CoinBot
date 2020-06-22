@@ -1,26 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const discord_js_1 = require("discord.js");
 class Personatge {
-    constructor(usuari, rol, warewolf) {
-        this.puntsForts = "";
-        this.puntsFebles = "";
-        this.urlImatge = "";
+    constructor(usuari, rol, warewolf, seguent) {
         this.votacio = 0;
         this.potVotar = true;
-        this.potFerAccio = false;
         this.mortB = false;
+        this.potMorir = false;
+        this.potFerAccioB = false;
         this.usuari = usuari;
+        this.usuari.createDM();
         this.warewolf = warewolf;
         this.rol = rol;
+        this.seguent = seguent;
     }
     set mort(b) {
-        if (this.rol == "llob") {
-            this.warewolf.numRols.llob--;
-        }
-        else {
-            this.warewolf.numRols.poblat--;
-        }
         if (this.enamorat) {
             if (!this.enamorat.mort) {
                 this.enamorat.mort = b;
@@ -34,6 +27,15 @@ class Personatge {
     get mort() {
         return this.mortB;
     }
+    set potFerAccio(b) {
+        if (b) {
+            this.usuari.dmChannel.send("Utilitza bot!j per utilitzar el teu rol");
+        }
+        this.potFerAccioB = b;
+    }
+    get porFerAccio() {
+        return this.potFerAccioB;
+    }
     votar(usuari) {
         if (this.potVotar && !this.mort) {
             usuari.votacio++;
@@ -41,13 +43,6 @@ class Personatge {
             return true;
         }
         return false;
-    }
-    help() {
-        let msg = new discord_js_1.MessageEmbed({ title: `Descripcio de ${this.rol}`, description: "\~\~\~\~\~\~", color: "#ff0000" });
-        msg.addField("Punts forts:", this.puntsForts);
-        msg.addField("Punts febles: ", this.puntsFebles);
-        msg.setThumbnail(this.urlImatge);
-        return msg;
     }
     async accio(cont, msg) {
         if (this.potFerAccio && this.rolEvent) {
@@ -57,15 +52,24 @@ class Personatge {
                 msg.author.send(`bot!help ${this.rol}`);
             }
             else {
-                this.potFerAccio = false;
+                this.next();
             }
         }
         else {
-            msg.author.send(this.help());
+            msg.author.send(this.warewolf.helpMessage.help(this.rol));
         }
     }
     async ficarEvent(rolEvent) {
         this.rolEvent = rolEvent;
+    }
+    next() {
+        this.potFerAccio = false;
+        if (this.seguent) {
+            this.seguent.potFerAccio = true;
+        }
+        else {
+            this.warewolf.dia = true; // Quant acaba de haver-hi un "seguent" per fer accio per la nit
+        }
     }
 }
 exports.Personatge = Personatge;

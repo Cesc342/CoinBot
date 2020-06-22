@@ -191,23 +191,14 @@ coinBot.afegirEvent("message", "votar", (cont, msg)=>{
     }
 })
 
-coinBot.afegirEvent("message", "help", async (cont,msg) => {
-    let usuari = await coinBot.usuaris.getById(msg.author.id);
-    if(cont && usuari && coinBot.warewolf){
-        let dMCanal = await msg.author.createDM();
-        let personatge;
-        if(cont[0] == "pobla"){
-            personatge = new Pobla(usuari, coinBot.warewolf);
-        }else if(cont[0] == "llob"){
-            personatge = new Llob(usuari, coinBot.warewolf);
-        }else if(cont[0] == "bruixa"){
-            personatge = new Bruixa(usuari, coinBot.warewolf);
-        }else if(cont[0] == "cupido"){
-            personatge = new Cupido(usuari, coinBot.warewolf);
-        }
-
-        if(personatge){
-            dMCanal.send(personatge.help());
+coinBot.afegirEvent("message", "help", async (cont, msg) => {
+    let canalDm = await msg.author.createDM();
+    if(cont[0] && coinBot.warewolf && canalDm){
+        let msgHelp: MessageEmbed | undefined = coinBot.warewolf.helpMessage.help(cont[0]);
+        if(msgHelp){
+            canalDm.send(msgHelp);
+        }else{
+            canalDm.send(`El rol de ${cont[0]} no existeix`);
         }
     }
 })

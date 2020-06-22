@@ -11,10 +11,6 @@ export class Cupido extends Personatge{
     {
         super(usuari, "Cupido", warewolf);
         this.accio();
-        this.puntsForts = "``Pot enamorar a dos usuaris fent que el que li passi a un li passa també a l'altre.``";
-        this.puntsFebles = "``Només ho pot fer un cop per partida i després es converteix en un usuari del poble.``";
-        this.urlImatge = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F47%2Fc4%2F7a%2F47c47af85bd55a5b31e1cec06fa33f5d.jpg&f=1&nofb=1";
-
         this.seguent = seguent;
     }
 

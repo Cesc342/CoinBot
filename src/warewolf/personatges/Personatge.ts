@@ -11,9 +11,6 @@ export class Personatge {
     public seguent: tipusPersonatges | undefined;
 
     public rol: string;
-    public puntsForts: string = "";
-    public puntsFebles: string = "";
-    public urlImatge: string = "";
 
     public votacio: number = 0;
 
@@ -79,16 +76,6 @@ export class Personatge {
         return false;
     }
 
-    public help(): MessageEmbed
-    {
-        let msg: MessageEmbed = new MessageEmbed({title:`Descripcio de ${this.rol}`, description:"\~\~\~\~\~\~", color:"#ff0000"});
-        msg.addField("Punts forts:", this.puntsForts);
-        msg.addField("Punts febles: ", this.puntsFebles);
-        msg.setThumbnail(this.urlImatge);
-        return msg;
-    }
-
-
     public async accio(cont: string[], msg: Message): Promise<void>
     {
         if(this.potFerAccio && this.rolEvent){
@@ -100,7 +87,7 @@ export class Personatge {
                 this.next();
             }
         }else{
-            msg.author.send(this.help());
+            msg.author.send(this.warewolf.helpMessage.help(this.rol));
         }
     }
 
