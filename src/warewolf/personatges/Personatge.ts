@@ -42,13 +42,17 @@ export class Personatge {
     private potFerAccioB: boolean = false;
     public set potFerAccio(b: boolean)
     {
-        if(b){
+        if(b && !this.mort){
             this.usuari.dmChannel.send("Utilitza bot!j per utilitzar el teu rol");
+        }
+
+        if(this.mort){
+            this.usuari.dmChannel.send("S'ha suposa que els morts no parlen");
         }
 
         this.potFerAccioB = b;
     }
-    public get porFerAccio()
+    public get potFerAccio()
     {
         return this.potFerAccioB;
     }

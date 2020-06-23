@@ -171,12 +171,14 @@ coinBot.afegirEvent("message", "començar", async (cont, msg)=>{
 })
 
 
-coinBot.afegirEvent("message", "j", async (cont, msg)=>{
-    if(coinBot.warewolf){
+coinBot.afegirEvent("message", "ww", async (cont, msg)=>{
+    if(coinBot.warewolf && cont[0]){
         let usuari = await coinBot.warewolf.getById(msg.author.id);
         if(usuari){
             usuari.accio(cont, msg);
         }
+    }else{
+        msg.channel.send(`Per veura el que fa el teu personatge envia ${coinBot.cridat}votar [rol]`);
     }
 })
 

@@ -132,12 +132,15 @@ exports.coinBot.afegirEvent("message", "començar", async (cont, msg) => {
     let ww = new WareWolf_1.WareWolf(llista, msg.channel);
     exports.coinBot.warewolf = ww;
 });
-exports.coinBot.afegirEvent("message", "j", async (cont, msg) => {
-    if (exports.coinBot.warewolf) {
+exports.coinBot.afegirEvent("message", "ww", async (cont, msg) => {
+    if (exports.coinBot.warewolf && cont[0]) {
         let usuari = await exports.coinBot.warewolf.getById(msg.author.id);
         if (usuari) {
             usuari.accio(cont, msg);
         }
+    }
+    else {
+        msg.channel.send(`Per veura el que fa el teu personatge envia ${exports.coinBot.cridat}votar [rol]`);
     }
 });
 exports.coinBot.afegirEvent("message", "votar", (cont, msg) => {

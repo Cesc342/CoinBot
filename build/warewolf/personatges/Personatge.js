@@ -28,12 +28,15 @@ class Personatge {
         return this.mortB;
     }
     set potFerAccio(b) {
-        if (b) {
+        if (b && !this.mort) {
             this.usuari.dmChannel.send("Utilitza bot!j per utilitzar el teu rol");
+        }
+        if (this.mort) {
+            this.usuari.dmChannel.send("S'ha suposa que els morts no parlen");
         }
         this.potFerAccioB = b;
     }
-    get porFerAccio() {
+    get potFerAccio() {
         return this.potFerAccioB;
     }
     votar(usuari) {
