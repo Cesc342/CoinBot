@@ -14,6 +14,8 @@ class Llop extends Personatge_1.Personatge {
                 let usuari = await this.warewolf.getById(cont[0]);
                 if (usuari) {
                     usuari.potMorir = true;
+                    console.log("MORT LLOP");
+                    console.log(`${usuari.usuari.username}`);
                     return false;
                 }
             }

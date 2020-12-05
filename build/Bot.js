@@ -4,8 +4,9 @@ const Compilador_1 = require("./bot/compilador/Compilador");
 const Objecta_1 = require("./economia/objectes/Objecta");
 const CoinBot_1 = require("./CoinBot");
 const WareWolf_1 = require("./warewolf/WareWolf");
+const HelpMessage_1 = require("./warewolf/HelpMessage");
 const compilador = new Compilador_1.Compilador();
-exports.coinBot = new CoinBot_1.CoinBot("w,", async () => {
+exports.coinBot = new CoinBot_1.CoinBot("bot!", async () => {
     exports.coinBot.cargarTot(true);
 });
 exports.coinBot.afegirEvent("message", "veura", async (con, msg) => {
@@ -108,7 +109,7 @@ exports.coinBot.afegirEvent("message", "gastar", async (cont, msg) => {
     }
     await exports.coinBot.guardarTot();
 });
-exports.coinBot.afegirEvent("message", "començar", async (cont, msg) => {
+exports.coinBot.afegirEvent("message", "començarww", async (cont, msg) => {
     await exports.coinBot.cargarTot();
     let llista = [];
     for (let idBrut of cont) {
@@ -136,7 +137,7 @@ exports.coinBot.afegirEvent("message", "ww", async (cont, msg) => {
     if (exports.coinBot.warewolf && cont[0]) {
         let usuari = await exports.coinBot.warewolf.getById(msg.author.id);
         if (usuari) {
-            usuari.accio(cont, msg);
+            await usuari.accio(cont, msg);
         }
     }
     else {
@@ -156,8 +157,9 @@ exports.coinBot.afegirEvent("message", "votar", (cont, msg) => {
 });
 exports.coinBot.afegirEvent("message", "help", async (cont, msg) => {
     let canalDm = await msg.author.createDM();
-    if (cont[0] && exports.coinBot.warewolf && canalDm) {
-        let msgHelp = exports.coinBot.warewolf.helpMessage.help(cont[0]);
+    if (cont[0] && canalDm) {
+        const hm = new HelpMessage_1.HelpMessage();
+        let msgHelp = hm.help(cont[0]);
         if (msgHelp) {
             canalDm.send(msgHelp);
         }

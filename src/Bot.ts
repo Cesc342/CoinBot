@@ -12,11 +12,12 @@ import { Pobla } from "./warewolf/personatges/Pobla";
 import { Llop } from "./warewolf/personatges/Llop";
 import { Bruixa } from "./warewolf/personatges/Bruixa";
 import { Cupido } from "./warewolf/personatges/Cupido";
+import { HelpMessage } from "./warewolf/HelpMessage";
 
 
 const compilador = new Compilador();
 
-export const coinBot: CoinBot = new CoinBot("w,", async ()=>{
+export const coinBot: CoinBot = new CoinBot("bot!", async ()=>{
     coinBot.cargarTot(true);
 });
 
@@ -143,7 +144,7 @@ coinBot.afegirEvent("message", "gastar", async (cont, msg)=>{
 })
 
 
-coinBot.afegirEvent("message", "començar", async (cont, msg)=>{
+coinBot.afegirEvent("message", "començarww", async (cont, msg)=>{
     await coinBot.cargarTot();
     let llista: Usuari[] = [];
 
@@ -175,7 +176,7 @@ coinBot.afegirEvent("message", "ww", async (cont, msg)=>{
     if(coinBot.warewolf && cont[0]){
         let usuari = await coinBot.warewolf.getById(msg.author.id);
         if(usuari){
-            usuari.accio(cont, msg);
+            await usuari.accio(cont, msg);
         }
     }else{
         msg.channel.send(`Per veura el que fa el teu personatge envia ${coinBot.cridat}votar [rol]`);
@@ -195,8 +196,9 @@ coinBot.afegirEvent("message", "votar", (cont, msg)=>{
 
 coinBot.afegirEvent("message", "help", async (cont, msg) => {
     let canalDm = await msg.author.createDM();
-    if(cont[0] && coinBot.warewolf && canalDm){
-        let msgHelp: MessageEmbed | undefined = coinBot.warewolf.helpMessage.help(cont[0]);
+    if(cont[0] && canalDm) {
+        const hm = new HelpMessage();
+        let msgHelp: MessageEmbed | undefined = hm.help(cont[0]);
         if(msgHelp){
             canalDm.send(msgHelp);
         }else{

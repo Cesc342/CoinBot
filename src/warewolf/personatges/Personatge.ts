@@ -1,5 +1,5 @@
 import { Usuari } from "../../usuaris/Usuari";
-import { MessageEmbed, User, Message, Client, DMChannel } from "discord.js";
+import { MessageEmbed, User, Message, Client, DMChannel, EmbedField } from "discord.js";
 import { WareWolf, tipusPersonatges } from "../WareWolf";
 
 
@@ -12,7 +12,7 @@ export class Personatge {
 
     public rol: string;
 
-    public votacio: number = 0;
+    public vots: number = 0;
 
     public potVotar: boolean = true;
     public enamorat: tipusPersonatges | undefined;
@@ -73,7 +73,7 @@ export class Personatge {
     public votar(usuari: Personatge): boolean
     {
         if(this.potVotar && !this.mort){
-            usuari.votacio++;
+            usuari.vots++;
             this.potVotar = false;
             return true;
         }
@@ -91,7 +91,10 @@ export class Personatge {
                 this.next();
             }
         }else{
-            msg.author.send(this.warewolf.helpMessage.help(this.rol));
+            let missatge = this.warewolf.helpMessage.help(this.rol);
+            if(missatge){
+                msg.author.send(missatge);
+            }
         }
     }
 

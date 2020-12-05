@@ -29,6 +29,10 @@ export class Cupido extends Personatge{
                         enamorat_1.enamorat = enamorat_2;
                         enamorat_2.enamorat = enamorat_1;
 
+                        console.log("ENAMORATS");
+                        console.log(`${enamorat_1.usuari.username}`);
+                        console.log(`${enamorat_2.usuari.username}`);
+
                         return false;
                     }
                 }

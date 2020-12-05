@@ -12,16 +12,21 @@ class WareWolf extends Llistes_1.Llistes {
         super();
         this.compilador = new Compilador_1.Compilador();
         this.helpMessage = new HelpMessage_1.HelpMessage();
+        this.partidaAcabada = false;
         this.numRols = {
             poblat: 4,
             llop: 1
         };
-        this.diaB = true;
+        this.diaB = false;
         this.canal = canal;
         this.primerQueAcciona; //Perque no em dongi error
         this.cargar(llistaUsuaris);
     }
     set dia(b) {
+        if (this.partidaAcabada) {
+            this.canal.send("Ja s'ha acabat la partida");
+            return;
+        }
         if (b) {
             this.forEach(usuari => usuari.potVotar = true);
             this.canal.send("És de dia");
@@ -82,20 +87,35 @@ class WareWolf extends Llistes_1.Llistes {
         setTimeout(funcio, ms);
     }
     async votar(id, idVotat) {
-        let votador = await this.getById(id);
-        let votat = await this.getById(idVotat);
-        console.log("WareWolf");
-        if (votador && votat) {
-            console.log("Pot votar: " + votador.potVotar);
-            if (votador.potVotar) {
-                votat.votacio++;
-                votador.potVotar = false;
+        if (!this.partidaAcabada) {
+            let votador = await this.getById(id);
+            let votat = await this.getById(idVotat);
+            console.log("WareWolf");
+            if (votador) {
+                this.canal.send(`Votador: ${votador.usuari.username}`);
             }
-        }
-        if (await this.tothomaAVotat()) {
-            this.dia = false;
-            let mort = await this.guanyadorVotacio();
-            this.canal.send("Tutöm a ɖòrmyr");
+            else {
+                this.canal.send("Votador: ups, no existeix");
+            }
+            if (votat) {
+                this.canal.send(`Votat: ${votat.usuari.username}`);
+            }
+            else {
+                this.canal.send("Votat: ups, s'ha mort");
+            }
+            if (votador && votat) {
+                console.log("Pot votar: " + votador.potVotar);
+                if (votador.potVotar) {
+                    votat.vots++;
+                    votador.potVotar = false;
+                }
+            }
+            if (await this.tothomaAVotat()) {
+                this.forEach(({ usuari, vots }) => this.canal.send(`${usuari.username}: ${vots}`));
+                this.dia = false;
+                let mort = await this.guanyadorVotacio();
+                this.canal.send("Tutöm a ɖòrmyr");
+            }
         }
     }
     async tothomaAVotat() {
@@ -112,7 +132,7 @@ class WareWolf extends Llistes_1.Llistes {
                 n = false;
             }
             else {
-                if (usuari.votacio > guanyador.votacio) {
+                if (usuari.vots > guanyador.votacio) {
                     guanyador = usuari;
                 }
             }
@@ -123,7 +143,9 @@ class WareWolf extends Llistes_1.Llistes {
         this.canal.send(`${personatge.usuari.username} s'ha mort`);
         this.canal.send(`Ell era... ${personatge.rol}`);
         await this.contarMorts(personatge.rol);
-        this.guanyador();
+        if (this.guanyador()) {
+            this.partidaAcabada = true;
+        }
     }
     async contarMorts(rol) {
         if (rol == "llop") {
@@ -136,10 +158,13 @@ class WareWolf extends Llistes_1.Llistes {
     guanyador() {
         if (this.numRols.llop == 0) {
             this.canal.send(`Han guanyat els llobs`);
+            return true;
         }
         else if (this.numRols.poblat == 0 || this.numRols.poblat > this.numRols.poblat) {
             this.canal.send(`Heu matat a tots els llobs`);
+            return true;
         }
+        return false;
     }
     mirarMorts() {
         this.forEach((jugador) => {

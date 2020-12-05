@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 class Personatge {
     constructor(usuari, rol, warewolf, seguent) {
-        this.votacio = 0;
+        this.vots = 0;
         this.potVotar = true;
         this.mortB = false;
         this.potMorir = false;
@@ -41,7 +41,7 @@ class Personatge {
     }
     votar(usuari) {
         if (this.potVotar && !this.mort) {
-            usuari.votacio++;
+            usuari.vots++;
             this.potVotar = false;
             return true;
         }
@@ -59,7 +59,10 @@ class Personatge {
             }
         }
         else {
-            msg.author.send(this.warewolf.helpMessage.help(this.rol));
+            let missatge = this.warewolf.helpMessage.help(this.rol);
+            if (missatge) {
+                msg.author.send(missatge);
+            }
         }
     }
     async ficarEvent(rolEvent) {

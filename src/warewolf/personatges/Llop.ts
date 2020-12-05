@@ -22,6 +22,9 @@ export class Llop extends Personatge{
 
                 if(usuari) {
                     usuari.potMorir = true;
+                    console.log("MORT LLOP");
+                    console.log(`${usuari.usuari.username}`);
+
                     return false;
                 }
             }
